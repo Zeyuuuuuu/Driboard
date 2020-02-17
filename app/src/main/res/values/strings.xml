@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Driboard</string>
+    <string name="login">Login With Dribbble</string>
 </resources>
