@@ -16,7 +16,6 @@ import com.sktbd.driboard.R
 import com.sktbd.driboard.databinding.ActivityLoginBinding
 import com.sktbd.driboard.ui.viewmodel.LoginViewModel
 
-
 class LoginActivity : AppCompatActivity() {
 
     private val CLIENT_ID: String = "49626b5423f2f8bffd1bf1dea659bbec21e4759bcf6433671e5085bc2903cd2e"
