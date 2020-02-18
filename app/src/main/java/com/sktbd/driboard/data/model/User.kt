@@ -1,7 +1,7 @@
 package com.sktbd.driboard.data.model
 
 import com.google.gson.annotations.SerializedName
-import com.sktbd.driboard.utils.Constants.EMPTY_STRING
+import java.io.Serializable
 
 data class User(val id: Int,
                 @SerializedName("login")
@@ -13,7 +13,10 @@ data class User(val id: Int,
                 val avatarUrl:String,
                 val location: String?,
                 val links:Links?,
+                val bio:String?,
                 @SerializedName("followers_count")
-                val followersCount:Int){
-    data class Links(val web:String?, val twitter:String?)
+                val followersCount:Int): Serializable{
+
+    data class Links(val web:String?,
+                     val twitter:String?): Serializable
 }

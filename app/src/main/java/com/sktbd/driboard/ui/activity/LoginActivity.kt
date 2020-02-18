@@ -3,6 +3,8 @@ package com.sktbd.driboard.ui.activity
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.sktbd.driboard.R
+import com.sktbd.driboard.data.model.User
+import com.sktbd.driboard.ui.fragment.UserFragment
 
 class LoginActivity : AppCompatActivity() {
 
