@@ -6,7 +6,7 @@
 
         <variable
             name="shot"
-            type="com.sktbd.driboard.data.models.Shot" />
+            type="com.sktbd.driboard.data.model.Shot" />
 
     </data>
 

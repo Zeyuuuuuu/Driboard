@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.sktbd.driboard.R
-import com.sktbd.driboard.data.models.Shot
+import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.databinding.ShotItemBinding
 import com.sktbd.driboard.ui.viewmodel.ShotViewModel
 

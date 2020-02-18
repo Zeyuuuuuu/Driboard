@@ -1,4 +1,4 @@
-package com.sktbd.driboard.data.models
+package com.sktbd.driboard.data.model
 
 
 import com.google.gson.annotations.SerializedName

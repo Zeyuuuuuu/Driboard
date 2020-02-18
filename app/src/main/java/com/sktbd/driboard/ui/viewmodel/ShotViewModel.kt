@@ -6,8 +6,8 @@ import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
-import com.sktbd.driboard.data.models.AuthToken
-import com.sktbd.driboard.data.models.Shot
+import com.sktbd.driboard.data.model.AuthToken
+import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.network.DribbbleService
 import retrofit2.Call
 import retrofit2.Callback
