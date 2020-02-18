@@ -38,7 +38,14 @@ class UserViewModel : ViewModel() {
         })
         driboardService.getUserShots(Constants.ACCESS_TOKEN).enqueue(object : Callback<List<Shot>> {
             override fun onResponse(call: Call<List<Shot>>,response: Response<List<Shot>>){
-                shotLinks.value = response.body()?.map{it.links.hidpi}
+                val links: List<String>? = response.body()?.map{it.links.hidpi}
+                if (links != null && links.size > 4){
+                    shotLinks.value = links.slice(0..3)
+                }
+                else{
+                    shotLinks.value = links
+                }
+
             }
             override fun onFailure(call: Call<List<Shot>>,t: Throwable){
                 Log.e("UserViewModelGetShots",t.toString())

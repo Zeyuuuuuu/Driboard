@@ -3,5 +3,5 @@ package com.sktbd.driboard.utils
 object Constants {
     const val BASE_URL = "https://api.dribbble.com/v2/"
     const val EMPTY_STRING = ""
-    const val ACCESS_TOKEN = "8dfa3eaa90a1ae04f6cb065a6fbe9fa580501323e995b6e0ce1c6cfc08c240ea"
+    const val ACCESS_TOKEN = "dbdbfcd5157073bfbe937a3f3fa1ac31a388ae8e3a70575af96573a5635c5dbd"
 }
