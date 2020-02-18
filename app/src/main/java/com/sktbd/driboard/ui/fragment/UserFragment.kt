@@ -5,14 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sktbd.driboard.R
-import com.sktbd.driboard.data.adapter.SmallShotsAdapter
-import com.sktbd.driboard.data.model.Shot
+import com.sktbd.driboard.ui.adapter.SmallShotsAdapter
 import com.sktbd.driboard.ui.viewmodel.UserViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.user_fragment.*
