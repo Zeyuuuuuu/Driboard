@@ -12,13 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         <activity
             android:name=".ui.activity.UserActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
 
-        <activity android:name=".ui.activity.LoginActivity">
+        <activity
+            android:name=".ui.activity.LoginActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -27,6 +31,10 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="driboard"/>
             </intent-filter>
+        </activity>
+
+        <activity android:name=".ui.activity.ShotsBoardActivity">
+
         </activity>
     </application>
 
