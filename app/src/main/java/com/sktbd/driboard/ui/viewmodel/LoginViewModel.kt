@@ -49,7 +49,6 @@ class LoginViewModel: ViewModel() {
             }
 
             override fun onResponse(call: Call<AuthToken>, response: Response<AuthToken>) {
-                print(response.body().toString())
                 Log.i("LoginViewModel", "onResponse")
                 accessToken.value = response.body()!!.accessToken
                 Log.i("LoginViewModel", response.body()!!.accessToken)

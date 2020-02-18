@@ -28,7 +28,6 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_login)
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_login)
 
@@ -44,26 +43,37 @@ class LoginActivity : AppCompatActivity() {
             }
         }
         accessToken = loadData()
-        if (!accessToken.equals("")) {
+        if (accessToken != "") {
             println("Already logged in")
+            println(accessToken)
             //TODO: navigate to main page
+            val intent = Intent(this, UserActivity::class.java)
+            Log.i("LoginActivity", "to user page")
+            startActivity(intent)
+        } else {
+            viewModel.accessToken.observe(this, Observer {token ->
+                val sharedPref: SharedPreferences.Editor = getSharedPreferences("auth", Context.MODE_PRIVATE).edit()
+                if (token != "") {
+                    sharedPref.putString("accessToken", token)
+                    Log.i("LoginActivity", "token changed $token")
+                    sharedPref.apply()
+                    val intent = Intent(this, UserActivity::class.java)
+                    Log.i("LoginActivity", "to user page")
+                    startActivity(intent)
+                }
+            })
         }
-        viewModel.accessToken.observe(this, Observer {token ->
-            val sharedPref: SharedPreferences.Editor = getSharedPreferences("auth", Context.MODE_PRIVATE).edit()
-            sharedPref.putString("accessToken", token)
-            Log.i("LoginActivity", token)
-            sharedPref.apply();
-        })
+
     }
 
     override fun onResume() {
         super.onResume()
 
         val data: Uri? = intent.data
-        println(data)
-        if (accessToken.equals("") && !TextUtils.isEmpty(data?.scheme)) {
+        println(accessToken)
+        if (accessToken == "" && !TextUtils.isEmpty(data?.scheme)) {
+            println("no accessToken, fetch a new one")
             val code: String? = data?.getQueryParameter("code")
-            println(code)
             if (code != null && !TextUtils.isEmpty((code))) {
                 Toast.makeText(this, R.string.login, Toast.LENGTH_LONG).show()
                 CODE = code
@@ -74,8 +84,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun loadData(): String {
         val sharedPref = getSharedPreferences("auth", Context.MODE_PRIVATE)
-        var token: String =  sharedPref!!.getString("accessToken", "")!!
-        println("token=$token")
+        val token: String =  sharedPref!!.getString("accessToken", "")!!
         return token
     }
 
