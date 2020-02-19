@@ -1,14 +1,15 @@
 package com.sktbd.driboard.ui.viewmodel
 
+
 import android.util.Log
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.bumptech.glide.Glide
-import com.sktbd.driboard.data.model.AuthToken
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.network.DribbbleService
+import com.sktbd.driboard.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -29,7 +30,7 @@ class ShotViewModel : ViewModel() {
 
         val service:DribbbleService = retrofit.create(DribbbleService::class.java)
 
-        service.getShots(AuthToken.AccessToken).enqueue(object : Callback<List<Shot>> {
+        service.getShots(Constants.ACCESS_TOKEN).enqueue(object : Callback<List<Shot>> {
             override fun onResponse(call: Call<List<Shot>>, response: Response<List<Shot>>) {
                 alMutableLiveData.value = response.body()
             }

@@ -1,6 +1,5 @@
 package com.sktbd.driboard.data.model
 
-
 import com.google.gson.annotations.SerializedName
 
 data class Shot(
