@@ -4,11 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
-import com.sktbd.driboard.R
-
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sktbd.driboard.R
 import com.sktbd.driboard.databinding.ActivityMainBinding
-import com.sktbd.driboard.ui.adapters.RcAdapter
+import com.sktbd.driboard.ui.adapter.RcAdapter
 import com.sktbd.driboard.ui.viewmodel.ShotViewModel
 
 
@@ -30,7 +29,10 @@ class ShotsBoardActivity : AppCompatActivity() {
             getApiData()
             alMutableLiveData.observe(this@ShotsBoardActivity,androidx.lifecycle.Observer { list ->
                 if(list!==null){
-                    rvAdapter= RcAdapter(list,rcViewModel!!)
+                    rvAdapter= RcAdapter(
+                        list,
+                        rcViewModel!!
+                    )
                     binding!!.rv.layoutManager=LinearLayoutManager(this@ShotsBoardActivity)
                     binding!!.rv.adapter=rvAdapter
                 }
