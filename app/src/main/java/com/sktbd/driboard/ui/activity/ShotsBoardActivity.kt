@@ -6,21 +6,21 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sktbd.driboard.R
-import com.sktbd.driboard.databinding.ActivityMainBinding
+import com.sktbd.driboard.databinding.ActivityShotsBoardBinding
 import com.sktbd.driboard.ui.adapter.RcAdapter
 import com.sktbd.driboard.ui.viewmodel.ShotViewModel
 
 
 class ShotsBoardActivity : AppCompatActivity() {
-    var binding: ActivityMainBinding?=null
+    var binding: ActivityShotsBoardBinding?=null
     var rvAdapter: RcAdapter?=null
     var rcViewModel:ShotViewModel?=null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_shots_board)
 
-        binding= DataBindingUtil.setContentView(this,R.layout.activity_main)
+        binding= DataBindingUtil.setContentView(this,R.layout.activity_shots_board)
         binding!!.lifecycleOwner
 
         rcViewModel= ViewModelProvider(this@ShotsBoardActivity).get(ShotViewModel::class.java)
