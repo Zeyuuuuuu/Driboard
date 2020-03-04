@@ -14,14 +14,8 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity
-            android:name=".ui.activity.UserActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.activity.LoginActivity"
-            android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,6 +29,9 @@
                 <data android:scheme="driboard" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.activity.UserActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".ui.activity.ShotsBoardActivity" />
     </application>
 
