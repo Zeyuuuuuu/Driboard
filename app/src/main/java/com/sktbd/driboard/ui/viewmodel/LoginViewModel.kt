@@ -15,9 +15,10 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LoginViewModel: ViewModel() {
 
     private val BASE_URL = "https://dribbble.com/oauth/"
-    private val CLIENT_ID: String = "49626b5423f2f8bffd1bf1dea659bbec21e4759bcf6433671e5085bc2903cd2e"
-    private val CLIENT_SECRET: String = "a4dfa992bf7abd67c382f6f1699f265d601131e481bae5a14a0da8ea0ac32c99"
+    private val CLIENT_ID: String = "332c4e1351a08f89683bffedcb5242571e807fcdc2030f4ae93d5d08e4955a8e"
+    private val CLIENT_SECRET: String = "249382c882989c95b940f716591ee11c05080a62527240a56b34afd8254bf85a"
     private val REDIRECT_URI: String = "driboard://callback"
+
     private val retrofit: Retrofit
     private val authService: AuthService
     val accessToken: MutableLiveData<String> by lazy {
@@ -54,8 +55,5 @@ class LoginViewModel: ViewModel() {
                 Log.i("LoginViewModel", response.body()!!.accessToken)
             }
         })
-
     }
-
-
 }
