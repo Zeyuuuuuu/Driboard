@@ -73,7 +73,7 @@ class LoginFragment : Fragment() {
                     Log.i("LoginActivity", "token changed $token")
                     sharedPref.apply()
                     // TODO: navigate to userFragment
-                    this.findNavController().navigate(R.id.action_loginFragment_to_userFragment)
+                    this.findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToUserFragment(token))
 //                    val intent = Intent(this, UserActivity::class.java)
 //                    Log.i("LoginActivity", "to user page")
 //                    startActivity(intent)

@@ -35,5 +35,9 @@
         android:id="@+id/userFragment"
         android:name="com.sktbd.driboard.ui.fragment.UserFragment"
         android:label="UserFragment"
-        tools:layout="@layout/user_fragment"/>
+        tools:layout="@layout/user_fragment">
+        <argument
+            android:name="accessToken"
+            app:argType="string" />
+    </fragment>
 </navigation>
