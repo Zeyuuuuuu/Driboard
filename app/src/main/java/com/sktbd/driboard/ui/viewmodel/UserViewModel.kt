@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.model.User
 import com.sktbd.driboard.data.network.DriboardService
+import com.sktbd.driboard.ui.fragment.UserFragment
+import com.sktbd.driboard.ui.fragment.UserFragmentArgs
 import com.sktbd.driboard.utils.Constants
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,11 +16,13 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class UserViewModel : ViewModel() {
+class UserViewModel(accessToken: String) : ViewModel() {
     var userInfo = MutableLiveData<User>()
     val shotLinks = MutableLiveData<List<String>>()
-    fun init(){
-        userInfo.value = null
+    var token = ""
+    init {
+        token = accessToken
+        Log.i("UserViewModel", token)
     }
     fun getUser(){
         val retrofit = Retrofit.Builder()
@@ -26,17 +30,19 @@ class UserViewModel : ViewModel() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val driboardService:DriboardService  = retrofit.create(DriboardService::class.java)
-        driboardService.getUser(Constants.ACCESS_TOKEN).enqueue(object : Callback<User> {
+
+        driboardService.getUser(token).enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>,response: Response<User>){
+                Log.i("UserViewModel", response.body().toString())
                 userInfo.value = (response.body() as User)
             }
             override fun onFailure(call: Call<User>,t: Throwable){
                 Log.e("UserViewModelGetUser",t.toString())
 
             }
-
         })
-        driboardService.getUserShots(Constants.ACCESS_TOKEN).enqueue(object : Callback<List<Shot>> {
+
+        driboardService.getUserShots(token).enqueue(object : Callback<List<Shot>> {
             override fun onResponse(call: Call<List<Shot>>,response: Response<List<Shot>>){
                 val links: List<String>? = response.body()?.map{it.images.normal}
                 if (links != null && links.size > 4){

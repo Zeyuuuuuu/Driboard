@@ -1,13 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.fragment.ShotEditFragment">
 
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hello" />
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvTitleLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/TitleMaterialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="8dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/title_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_8"
+                    android:layout_marginEnd="@dimen/padding_8"
+                    android:layout_marginBottom="@dimen/padding_8"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="50">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/title_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="Add a title"
+                        android:imeOptions="actionDone"
+                        android:singleLine="true"
+                        android:textSize="16sp"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvDescriptionLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/DescriptionMaterialCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="8dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/description_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/padding_8"
+                    android:layout_marginEnd="@dimen/padding_8"
+                    android:layout_marginBottom="@dimen/padding_8"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="140">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/description_edit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="Add a description"
+                        android:inputType="textMultiLine"
+                        android:textSize="16sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <TextView
+                android:id="@+id/tvTagsLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tags" />
+
+            <HorizontalScrollView
+                android:id="@+id/chipGroupHorizontalView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroup"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tags_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/padding_8"
+                android:layout_marginEnd="@dimen/padding_8"
+                android:layout_marginBottom="@dimen/padding_8"
+                android:gravity="center"
+                android:imeOptions="actionDone"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tags_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="Add a Tag"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btPublish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="60dp"
+                    android:text="Publish" />
+
+                <Button
+                    android:id="@+id/btSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Save" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
 
 </FrameLayout>
