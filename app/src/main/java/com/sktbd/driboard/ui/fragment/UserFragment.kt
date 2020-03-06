@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sktbd.driboard.R
 import com.sktbd.driboard.ui.adapter.SmallShotsAdapter
+import com.sktbd.driboard.ui.factory.UserViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.UserViewModel
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.user_fragment.*
@@ -23,6 +24,7 @@ class UserFragment : Fragment() {
     }
 
     private lateinit var viewModel: UserViewModel
+    private lateinit var viewModelFactory: UserViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,7 +35,9 @@ class UserFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(UserViewModel::class.java)
+        var args = UserFragmentArgs.fromBundle(arguments!!)
+        viewModelFactory = UserViewModelFactory(args.accessToken)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(UserViewModel::class.java)
 
         viewModel.getUser()
         viewModel.userInfo.observe(

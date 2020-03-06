@@ -1,4 +1,4 @@
-package com.sktbd.driboard.ui.adapters
+package com.sktbd.driboard.ui.adapter
 
 import android.view.LayoutInflater
 import android.view.View

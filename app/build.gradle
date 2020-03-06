@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
+apply plugin: 'androidx.navigation.safeargs'
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -30,6 +32,13 @@ android {
 
     dataBinding {
         enabled true
+    }
+// To inline the bytecode built with JVM target 1.8 into
+// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
+
+
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
 }
 
@@ -58,4 +67,5 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-rc02"
     implementation "androidx.navigation:navigation-ui-ktx:2.2.0-rc02"
+    implementation "androidx.room:room-runtime:2.2.4"
 }
