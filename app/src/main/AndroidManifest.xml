@@ -11,38 +11,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MaterialComponents">
-<!--        <activity android:name=".ui.activity.ShotEditActivity">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
         <activity
             android:name=".ui.activity.MainActivity"
             android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="driboard" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activity.UserActivity"
             android:theme="@style/AppTheme.NoActionBar" />
-<!--        <activity-->
-<!--            android:name=".ui.activity.UserActivity"-->
-<!--            android:theme="@style/AppTheme.NoActionBar" />-->
-<!--        <activity-->
-<!--            android:name=".ui.activity.LoginActivity"-->
-<!--            android:label="@string/title_activity_main"-->
-<!--            android:theme="@style/AppTheme.NoActionBar">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-
-<!--                <action android:name="android.intent.action.VIEW" />-->
-
-<!--                <category android:name="android.intent.category.DEFAULT" />-->
-<!--                <category android:name="android.intent.category.BROWSABLE" />-->
-
-<!--                <data android:scheme="driboard" />-->
-<!--            </intent-filter>-->
-<!--        </activity>-->
-<!--        <activity android:name=".ui.activity.ShotsBoardActivity" />-->
+        <activity android:name=".ui.activity.ShotsBoardActivity" />
     </application>
 
 </manifest>
