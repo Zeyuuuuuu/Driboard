@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sktbd.driboard.R
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.databinding.ShotItemBinding
-import com.sktbd.driboard.ui.viewmodel.ShotViewModel
+import com.sktbd.driboard.ui.viewmodel.Shot_RV_ViewModel
 
 
-class RcAdapter(var shotList:List<Shot>, var viewModel: ShotViewModel) : RecyclerView.Adapter<RcAdapter.VHolder>() {
+class RcAdapter(var shotList:List<Shot>, var viewModel: Shot_RV_ViewModel) : RecyclerView.Adapter<RcAdapter.VHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VHolder {
@@ -28,7 +28,7 @@ class RcAdapter(var shotList:List<Shot>, var viewModel: ShotViewModel) : Recycle
         holder.bindView(shot)
     }
 
-    inner class VHolder(itemView:View,var viewModel:ShotViewModel):RecyclerView.ViewHolder(itemView) {
+    inner class VHolder(itemView:View,var viewModel:Shot_RV_ViewModel):RecyclerView.ViewHolder(itemView) {
 
         var lbinding: ShotItemBinding?=null
         init{
