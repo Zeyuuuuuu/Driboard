@@ -15,6 +15,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.lang.Thread.sleep
 
 
 class Shot_RV_ViewModel : ViewModel() {
@@ -30,15 +31,21 @@ class Shot_RV_ViewModel : ViewModel() {
 
         val service:DribbbleService = retrofit.create(DribbbleService::class.java)
 
-        service.getShots("5623d0d6fad789725d3031ebb479c05b2c18443f601531bce9623e6b848ec401").enqueue(object : Callback<List<Shot>> {
+        service.getShots("81f5cdf500bd8cf7ff934cea2200cf904b8c6dc2205829969fc602c2c76cb644").enqueue(object : Callback<List<Shot>> {
             override fun onResponse(call: Call<List<Shot>>, response: Response<List<Shot>>) {
                 alMutableLiveData.value = response.body()
+//                srViewModel.isLoading.set(false)
                 Log.d("DATA","got")
             }
             override fun onFailure(call: Call<List<Shot>>, t: Throwable) {
                 Log.d("DATA","failed")
             }
         })
+    }
+
+    fun clear() {
+        alMutableLiveData.value = null
+        Log.d("DATA","clear")
     }
 
     companion object {

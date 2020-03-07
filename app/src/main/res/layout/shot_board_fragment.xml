@@ -3,7 +3,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.sktbd.driboard.ui.viewmodel.Shot_RV_ViewModel" />
+            type="com.sktbd.driboard.ui.viewmodel.Shot_SR_ViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

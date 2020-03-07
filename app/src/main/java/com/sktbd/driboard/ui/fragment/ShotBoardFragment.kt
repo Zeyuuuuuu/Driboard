@@ -9,12 +9,16 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.sktbd.driboard.R
 import com.sktbd.driboard.databinding.ShotBoardFragmentBinding
 import com.sktbd.driboard.ui.adapter.RcAdapter
 import com.sktbd.driboard.ui.viewmodel.Shot_RV_ViewModel
 import com.sktbd.driboard.ui.viewmodel.Shot_SR_ViewModel
-class ShotBoardFragment : Fragment() {
+import kotlinx.coroutines.delay
+import java.lang.Thread.sleep
+
+class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
     private lateinit var binding: ShotBoardFragmentBinding
     private lateinit var rvAdapter: RcAdapter
     private lateinit var rcViewModel: Shot_RV_ViewModel
@@ -39,7 +43,15 @@ class ShotBoardFragment : Fragment() {
                 }
             })
         }
+
+        binding.swipeContainer.setOnRefreshListener(this)
         return binding.root
+    }
+
+    override fun onRefresh() {
+        rcViewModel.clear()
+        rcViewModel.getApiData()
+        binding.swipeContainer.isRefreshing = false
     }
 
 }
