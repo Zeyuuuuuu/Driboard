@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/shotBoardFragment2">
+    app:startDestination="@id/shotDetailFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.sktbd.driboard.ui.fragment.MainFragment"
@@ -41,7 +41,13 @@
             app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/shotBoardFragment2"
-        android:name="com.sktbd.driboard.ui.fragment.ShotBoardFragment"
-        android:label="ShotBoardFragment" />
+        android:id="@+id/shotDetailFragment"
+        android:name="com.sktbd.driboard.ui.fragment.ShotDetailFragment"
+        android:label="fragment_shot_detail"
+        tools:layout="@layout/fragment_shot_detail" />
+    <fragment
+        android:id="@+id/shotEditFragment"
+        android:name="com.sktbd.driboard.ui.fragment.ShotEditFragment"
+        android:label="shot_edit_fragment"
+        tools:layout="@layout/shot_edit_fragment" />
 </navigation>
