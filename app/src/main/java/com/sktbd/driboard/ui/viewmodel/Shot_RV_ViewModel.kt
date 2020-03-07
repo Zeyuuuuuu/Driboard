@@ -44,7 +44,7 @@ class Shot_RV_ViewModel : ViewModel() {
     }
 
     fun clear() {
-        alMutableLiveData.value = null
+        alMutableLiveData.value = emptyList()
         Log.d("DATA","clear")
     }
 
