@@ -14,4 +14,13 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- shot edit -->
+    <string name="select_ur_image">Select ur image</string>
+
+    <string name="image_is_required">Image is required</string>
+    <string name="title_is_required">Title is required</string>
+
+    <string name="error_message">Error</string>
 </resources>

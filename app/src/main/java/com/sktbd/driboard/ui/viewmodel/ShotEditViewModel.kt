@@ -1,21 +1,37 @@
 package com.sktbd.driboard.ui.viewmodel
 
+import android.app.Activity
+import android.content.Context
 import android.net.Uri
+import android.util.Log
+import androidx.core.net.toFile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.network.DriboardService
 import com.sktbd.driboard.utils.Constants
+import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.util.ArrayList
 import java.util.HashMap
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
+
 
 class ShotEditViewModel : ViewModel() {
-    var title = MutableLiveData<String>()
+    val title = MutableLiveData<String>()
     val description = MutableLiveData<String>()
     val tags = MutableLiveData<ArrayList<String>>()
+    var id = ""
 
     fun onTitleChanged(newTitle:String?){
         title.value = newTitle
@@ -41,33 +57,67 @@ class ShotEditViewModel : ViewModel() {
         }
         return tags.value?.contains(tag)
     }
-    fun publish(){
+    fun publish(context: Context?, currentImgUri:String?){
+
+        val reSizefile = resizeImage(context,currentImgUri)
+        val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), reSizefile)
+
+        val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("title",title.value)
+            .addFormDataPart("image",reSizefile.name,requestBody)
+        if (description.value != null){
+            requestBodyBuilder.addFormDataPart("description",description.value)
+        }
+        if (tags.value != null){
+            val tagsList:ArrayList<String>? = tags.value
+            Log.i("taglist",tagsList.toString().substring(1,tagsList.toString().length-1))
+            requestBodyBuilder.addFormDataPart("tags",
+                tagsList.toString().substring(1,tagsList.toString().length-1))
+        }
+        Log.i("uri",currentImgUri)
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val driboardService: DriboardService = retrofit.create(DriboardService::class.java)
-//        val body = HttpUtils.createShotFilPart(
-//            context,
-//            draft.croppedImgDimen!!,
-//            Uri.parse(draft.imageUri),
-//            draft.imageFormat,
-//            "image")
-//        //add to HashMap key and RequestBody
-//        val map = HashMap<String, RequestBody>()
-//        driboardService.publishShot(map,body,title.value,description.value,tags.value).subscribe(
-//            { response ->
-//                when (response.code()) {
-//                    Constants.ACCEPTED -> { onPublishSucceed(draft) }
-//                    else ->
-//                        onPublishFailed("Post failed: " + response.code() +": "+ response.message(), null)
-//                }
-//            },
-//            {t -> onPublishFailed(t.toString(), t)}
+        driboardService.publishShot(Constants.ACCESS_TOKEN,requestBodyBuilder.build())
+            .enqueue(object: Callback<Response<Void>>{
+                override fun onResponse(
+                    call: Call<Response<Void>>,
+                    response: Response<Response<Void>>
+                ) {
+                    Log.i("eror",response.errorBody()?.string())
+
+                    Log.i("CODE", response.code().toString())
+                }
+
+                override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                    Log.i("Throwable", t.toString())
+                }
+            }
+        )
+
     }
 
     fun save(){
         println(tags.value)
 
+    }
+    fun resizeImage(context:Context?,currentImgUri: String?):File{
+        val f = File(context?.cacheDir,Uri.parse(currentImgUri).lastPathSegment)
+        f.createNewFile()
+        val bmOptions = BitmapFactory.Options()
+        bmOptions.inJustDecodeBounds = false
+        val bitmap = Bitmap.createScaledBitmap(
+            BitmapFactory.decodeFile(currentImgUri!!, bmOptions), 400, 300, true)
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos)
+        val bitmapdata = bos.toByteArray()
+        val fos =  FileOutputStream(f)
+        fos.write(bitmapdata)
+        fos.flush()
+        fos.close()
+        bitmap.recycle()
+        return f
     }
 }

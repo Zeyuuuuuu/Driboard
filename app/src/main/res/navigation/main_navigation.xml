@@ -3,12 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/shotEditFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.sktbd.driboard.ui.fragment.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main"
+        app:startDestination="@id/action_mainFragment_to_userFragment">
         <action
             android:id="@+id/action_mainFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -40,4 +41,9 @@
             android:name="accessToken"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/shotEditFragment"
+        android:name="com.sktbd.driboard.ui.fragment.ShotEditFragment"
+        android:label="shot_edit_fragment"
+        tools:layout="@layout/shot_edit_fragment" />
 </navigation>
