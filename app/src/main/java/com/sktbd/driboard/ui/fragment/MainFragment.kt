@@ -2,6 +2,7 @@ package com.sktbd.driboard.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class MainFragment : Fragment() {
             inflater, R.layout.fragment_main, container, false)
 
         accessToken = loadData()
+        println(accessToken)
         if (accessToken == "") {
             this.findNavController().navigate(MainFragmentDirections.actionMainFragmentToLoginFragment())
         } else {
