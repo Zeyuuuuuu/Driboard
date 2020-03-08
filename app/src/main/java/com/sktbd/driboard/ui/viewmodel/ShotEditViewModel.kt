@@ -1,31 +1,21 @@
 package com.sktbd.driboard.ui.viewmodel
 
-import android.app.Activity
 import android.content.Context
 import android.net.Uri
 import android.util.Log
-import androidx.core.net.toFile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.sktbd.driboard.data.model.Shot
-import com.sktbd.driboard.data.network.DriboardService
-import com.sktbd.driboard.utils.Constants
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.ArrayList
-import java.util.HashMap
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.lifecycle.LiveData
 import com.sktbd.driboard.data.model.Draft
-import com.sktbd.driboard.data.model.User
 import com.sktbd.driboard.data.network.RetrofitAPIManager
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
@@ -36,8 +26,8 @@ class ShotEditViewModel : ViewModel() {
     var isNew = false
     var isPending = MutableLiveData<Boolean>()
     var id = "10657904"
-    val retrofitAPIManager = RetrofitAPIManager(null)
-    val driboardService  = retrofitAPIManager.getDriboardService()
+    private val retrofitAPIManager = RetrofitAPIManager(null)
+    private val driboardService  = retrofitAPIManager.getDriboardService()
 
 
 //    val title = MutableLiveData<String>()
@@ -81,10 +71,10 @@ class ShotEditViewModel : ViewModel() {
         val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), reSizefile)
 
         val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
-            .addFormDataPart("title",draft.value?.title)
+            .addFormDataPart("title",draft.value?.title!!)
             .addFormDataPart("image",reSizefile.name,requestBody)
         if (draft.value?.description != null){
-            requestBodyBuilder.addFormDataPart("description",draft.value?.description)
+            requestBodyBuilder.addFormDataPart("description",draft.value?.description!!)
         }
         if (draft.value?.tags != null){
             val tagsList:ArrayList<String>? = draft.value?.tags
@@ -120,7 +110,7 @@ class ShotEditViewModel : ViewModel() {
 
         val tagsList:ArrayList<String>? = draft.value?.tags
 
-        driboardService.updateShot(draft.value?.id!!,draft.value!!.title!!,draft.value!!.description,tagsList.toString().substring(1,tagsList.toString().length-1))
+        driboardService.updateShot(draft.value?.id!!,draft.value!!.title,draft.value!!.description,tagsList.toString().substring(1,tagsList.toString().length-1))
             .enqueue(object: Callback<Response<Void>>{
                 override fun onResponse(
                     call: Call<Response<Void>>,
@@ -144,8 +134,8 @@ class ShotEditViewModel : ViewModel() {
     fun save(){
         println(draft.value!!.tags)
     }
-    fun resizeImage(context:Context?,currentImgUri: String?):File{
-        val f = File(context?.cacheDir,Uri.parse(currentImgUri).lastPathSegment)
+    private fun resizeImage(context:Context?, currentImgUri: String?):File{
+        val f = File(context?.cacheDir,Uri.parse(currentImgUri).lastPathSegment!!)
         f.createNewFile()
         val bmOptions = BitmapFactory.Options()
         bmOptions.inJustDecodeBounds = false

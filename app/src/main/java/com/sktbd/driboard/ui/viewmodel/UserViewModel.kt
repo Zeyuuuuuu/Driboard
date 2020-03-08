@@ -5,13 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.model.User
-import com.sktbd.driboard.data.network.DriboardService
 import com.sktbd.driboard.data.network.RetrofitAPIManager
-import com.sktbd.driboard.ui.fragment.UserFragment
-import com.sktbd.driboard.ui.fragment.UserFragmentArgs
-import com.sktbd.driboard.utils.Constants
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,13 +14,11 @@ import retrofit2.Response
 class UserViewModel(accessToken: String) : ViewModel() {
     var userInfo = MutableLiveData<User>()
     val shotLinks = MutableLiveData<List<String>>()
-    var token = ""
-    val retrofitAPIManager = RetrofitAPIManager(accessToken)
-    val driboardService  = retrofitAPIManager.getDriboardService()
+    private val retrofitAPIManager = RetrofitAPIManager(accessToken)
+    private val driboardService  = retrofitAPIManager.getDriboardService()
 
     init {
-        token = accessToken
-        Log.i("UserViewModel", token)
+        Log.i("UserViewModel", accessToken)
     }
     fun getUser(){
 
