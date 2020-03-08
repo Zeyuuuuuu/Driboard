@@ -52,6 +52,9 @@
         <action
             android:id="@+id/action_shotDetailFragment_to_shotEditFragment"
             app:destination="@id/shotEditFragment" />
+        <argument
+            android:name="shotId"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/shotEditFragment"
