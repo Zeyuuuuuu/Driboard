@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-    <FrameLayout
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ui.fragment.UserFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/ivAvatar"
@@ -18,31 +23,22 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="40dp"
                 android:layout_marginBottom="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/lyInfo"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 tools:src="@tools:sample/avatars[3]" />
 
             <LinearLayout
                 android:id="@+id/lyInfo"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/lyLink"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ivAvatar">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
-                    android:text="AAA"
+                    android:text="None"
                     android:textAlignment="center"
                     android:textSize="24sp" />
 
@@ -51,7 +47,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
-                    android:text="LA, CA"
                     android:textAlignment="center"
                     android:textSize="14sp" />
 
@@ -60,7 +55,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
-                    android:text="aaa"
                     android:textAlignment="center"
                     android:textSize="14sp" />
 
@@ -72,11 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/lyBio"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lyInfo">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/lyShots"
@@ -127,8 +117,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_16"
-                        android:text="http://twitter.com/tianlunli" />
+                        android:paddingLeft="@dimen/padding_16" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -152,8 +141,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_16"
-                        android:text="TextView" />
+                        android:paddingLeft="@dimen/padding_16" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -178,7 +166,7 @@
                         android:layout_weight="1"
                         android:gravity="center_vertical"
                         android:paddingLeft="@dimen/padding_16"
-                        android:text="http://tianlunli.com111" />
+                        android:text="" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -189,11 +177,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="100dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lyLink">
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/tvBioLabel"
@@ -209,10 +193,9 @@
                     android:layout_height="213dp"
                     android:paddingLeft="@dimen/padding_16"
                     android:paddingTop="@dimen/padding_8"
-                    android:text="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" />
+                    android:text="" />
             </LinearLayout>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </FrameLayout>
-</layout>
+</FrameLayout>
