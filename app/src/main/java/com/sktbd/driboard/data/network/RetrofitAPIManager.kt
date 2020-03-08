@@ -10,7 +10,12 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
 
-class RetrofitAPIManager {
+class RetrofitAPIManager(accessToken:String?) {
+    var token = Constants.ACCESS_TOKEN
+    init{
+        if (accessToken!=null)
+            token = accessToken
+    }
     fun getDriboardService():DriboardService{
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
@@ -34,7 +39,7 @@ class RetrofitAPIManager {
             .addInterceptor{chain ->
                     val request: Request = chain.request()
                         .newBuilder()
-                        .addHeader("Authorization", Constants.ACCESS_TOKEN)
+                        .addHeader("Authorization", token)
                         .build()
                     chain.proceed(request)
                 }

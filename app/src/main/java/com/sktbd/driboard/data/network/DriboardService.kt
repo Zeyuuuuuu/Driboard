@@ -11,28 +11,25 @@ import retrofit2.http.*
 import java.io.File
 interface DriboardService {
     @GET("user/")
-    fun getUser(@Query("access_token") access_token:String): Call<User>
+    fun getUser(): Call<User>
 
     @GET("user/shots")
-    fun getUserShots(@Query("access_token") access_token:String): Call<List<Shot>>
+    fun getUserShots(): Call<List<Shot>>
 
     @GET("shots/{id}")
     fun getShot(
-        @Header("Authorization") authorization:String,
         @Path(value = "id", encoded = true) id: String
     ): Call<Draft>
 
 
     @POST("shots/")
     fun publishShot(
-        @Header("Authorization") authorization:String,
         @Body body: RequestBody
         ): Call<Response<Void>>
 
     @FormUrlEncoded
     @PUT("shots/{id}")
     fun updateShot(
-        @Header("Authorization") authorization:String,
         @Path(value = "id", encoded = true) id: String,
         @Field("title") title: String,
         @Field("description") description: String?,

@@ -36,7 +36,7 @@ class ShotEditViewModel : ViewModel() {
     var isNew = false
     var isPending = MutableLiveData<Boolean>()
     var id = "10657904"
-    val retrofitAPIManager = RetrofitAPIManager()
+    val retrofitAPIManager = RetrofitAPIManager(null)
     val driboardService  = retrofitAPIManager.getDriboardService()
 
 
@@ -45,7 +45,7 @@ class ShotEditViewModel : ViewModel() {
 //    val tags = MutableLiveData<ArrayList<String>>()
 
     fun getShot(){
-        driboardService.getShot(Constants.ACCESS_TOKEN,id).enqueue(object : Callback<Draft> {
+        driboardService.getShot(id).enqueue(object : Callback<Draft> {
             override fun onResponse(call: Call<Draft>, response: Response<Draft>){
                 Log.i("ShotEditViewModel getShotSuccess", response.body().toString())
                 draft.value = (response.body() as Draft)
@@ -94,7 +94,7 @@ class ShotEditViewModel : ViewModel() {
         }
         Log.i("uri",currentImgUri!!)
 
-        driboardService.publishShot(Constants.ACCESS_TOKEN,requestBodyBuilder.build())
+        driboardService.publishShot(requestBodyBuilder.build())
             .enqueue(object: Callback<Response<Void>>{
                 override fun onResponse(
                     call: Call<Response<Void>>,
@@ -120,7 +120,7 @@ class ShotEditViewModel : ViewModel() {
 
         val tagsList:ArrayList<String>? = draft.value?.tags
 
-        driboardService.updateShot(Constants.ACCESS_TOKEN,draft.value?.id!!,draft.value!!.title!!,draft.value!!.description,tagsList.toString().substring(1,tagsList.toString().length-1))
+        driboardService.updateShot(draft.value?.id!!,draft.value!!.title!!,draft.value!!.description,tagsList.toString().substring(1,tagsList.toString().length-1))
             .enqueue(object: Callback<Response<Void>>{
                 override fun onResponse(
                     call: Call<Response<Void>>,
