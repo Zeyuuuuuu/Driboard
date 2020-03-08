@@ -31,10 +31,11 @@ class Shot_RV_ViewModel : ViewModel() {
 
         val service:DribbbleService = retrofit.create(DribbbleService::class.java)
 
-        service.getShots("81f5cdf500bd8cf7ff934cea2200cf904b8c6dc2205829969fc602c2c76cb644").enqueue(object : Callback<List<Shot>> {
+
+        service.getShots("5926ce05b97926551804f82426e846678ea96303bcdc1204a206863781dff7c5").enqueue(object : Callback<List<Shot>> {
             override fun onResponse(call: Call<List<Shot>>, response: Response<List<Shot>>) {
                 alMutableLiveData.value = response.body()
-//                srViewModel.isLoading.set(false)
+                Log.i("Shot_RV_ViewModel", response.body().toString())
                 Log.d("DATA","got")
             }
             override fun onFailure(call: Call<List<Shot>>, t: Throwable) {
