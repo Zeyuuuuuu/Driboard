@@ -35,7 +35,7 @@ class ShotDetailViewModel(): ViewModel() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val dribbbleService: DribbbleService = retrofit.create(DribbbleService::class.java)
-        var call: Call<Shot> = dribbbleService.getShotById(10654771, Constants.ACCESS_TOKEN);
+        var call: Call<Shot> = dribbbleService.getShotById(10664235, Constants.ACCESS_TOKEN);
         call.enqueue(object: Callback<Shot> {
             override fun onFailure(call: Call<Shot>, t: Throwable) {
                 Log.e("ShotsDetailViewModelGetUser",t.toString())
