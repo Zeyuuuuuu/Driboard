@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-
         <variable
             name="shot"
             type="com.sktbd.driboard.data.model.Shot" />
@@ -13,15 +13,18 @@
 
     <androidx.cardview.widget.CardView
 
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/cv"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:elevation="10dp"
         app:cardBackgroundColor="#FFFFFF"
-        app:cardCornerRadius="1dp">
-
+        app:cardCornerRadius="4dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:stateListAnimator="@drawable/lift_on_touch"
+        app:cardElevation="20dp"
+        >
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -32,29 +35,30 @@
                 android:layout_height="195dp">
 
                 <ImageView
-                    app:imageUrl="@{shot.images.normal}"
                     android:id="@+id/imageView"
-                    android:background="#FFFFFF"
                     android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#FFFFFF"
                     android:scaleType="matrix"
-                    android:layout_height="195dp"
-                    />
+                    app:imageUrl="@{shot.images.normal}"
+                    tools:srcCompat="@tools:sample/backgrounds/scenic" />
             </RelativeLayout>
 
 
-            <RelativeLayout
-                android:padding="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+<!--            <RelativeLayout-->
+<!--                android:padding="10dp"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content">-->
 
-                <TextView
-                    android:id="@+id/textViewTitle"
-                    android:textSize="18sp"
-                    android:textColor="#1A1A1A"
-                    android:text="@{shot.title}"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </RelativeLayout>
+<!--                <TextView-->
+<!--                    android:id="@+id/textViewTitle"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:text="@{shot.title}"-->
+<!--                    android:textColor="#1A1A1A"-->
+<!--                    android:textSize="18sp"-->
+<!--                    tools:text="@tools:sample/cities" />-->
+<!--            </RelativeLayout>-->
 
         </LinearLayout>
 
