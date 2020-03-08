@@ -1,5 +1,6 @@
 package com.sktbd.driboard.data.network
 
+import android.util.Log
 import com.sktbd.driboard.utils.Constants
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -32,11 +33,12 @@ class RetrofitAPIManager(accessToken:String?) {
     }
 
     private fun genericClient(): OkHttpClient {
+        Log.i("token",token)
         return OkHttpClient.Builder()
             .addInterceptor{chain ->
                     val request: Request = chain.request()
                         .newBuilder()
-                        .addHeader("Authorization", token)
+                        .addHeader("Authorization", "Bearer $token")
                         .build()
                     chain.proceed(request)
                 }

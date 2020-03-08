@@ -22,7 +22,6 @@ class UserViewModel(accessToken: String) : ViewModel() {
     }
     fun getUser(){
 
-
         driboardService.getUser().enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>,response: Response<User>){
                 Log.i("UserViewModel", response.body().toString())
