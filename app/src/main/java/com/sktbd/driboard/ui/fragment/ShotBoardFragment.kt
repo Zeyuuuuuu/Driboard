@@ -55,7 +55,7 @@ class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
                     rvAdapter.setOnItemClickListener(object : OnItemClickListener {
                         override fun onclick(v: View, position: Int) {
                             Log.i("CLICK", list[position].id.toString())
-                            this@ShotBoardFragment.findNavController().navigate(ShotBoardFragmentDirections.actionShotBoardFragmentToShotDetailFragment(list[position].id.toLong()))
+                            this@ShotBoardFragment.findNavController().navigate(ShotBoardFragmentDirections.actionShotBoardFragmentToShotDetailFragment(list[position].id))
                         }
                     })
                     binding.rvShotBoard.layoutManager= GridLayoutManager(activity, 2)
