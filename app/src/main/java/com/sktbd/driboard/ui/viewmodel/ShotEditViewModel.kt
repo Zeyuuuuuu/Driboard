@@ -1,73 +1,164 @@
 package com.sktbd.driboard.ui.viewmodel
 
+import android.app.Activity
+import android.content.Context
 import android.net.Uri
+import android.util.Log
+import androidx.core.net.toFile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.network.DriboardService
 import com.sktbd.driboard.utils.Constants
+import okhttp3.MediaType
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
 import java.util.ArrayList
 import java.util.HashMap
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import androidx.lifecycle.LiveData
+import com.sktbd.driboard.data.model.Draft
+import com.sktbd.driboard.data.model.User
+import com.sktbd.driboard.data.network.RetrofitAPIManager
+import java.io.ByteArrayOutputStream
+import java.io.FileOutputStream
+
 
 class ShotEditViewModel : ViewModel() {
-    var title = MutableLiveData<String>()
-    val description = MutableLiveData<String>()
-    val tags = MutableLiveData<ArrayList<String>>()
+    val draft = MutableLiveData<Draft>()
+    var isNew = false
+    var isPending = MutableLiveData<Boolean>()
+    var id = "10657904"
+    val retrofitAPIManager = RetrofitAPIManager(null)
+    val driboardService  = retrofitAPIManager.getDriboardService()
 
-    fun onTitleChanged(newTitle:String?){
-        title.value = newTitle
+
+//    val title = MutableLiveData<String>()
+//    val description = MutableLiveData<String>()
+//    val tags = MutableLiveData<ArrayList<String>>()
+
+    fun getShot(){
+        driboardService.getShot(id).enqueue(object : Callback<Draft> {
+            override fun onResponse(call: Call<Draft>, response: Response<Draft>){
+                Log.i("ShotEditViewModel getShotSuccess", response.body().toString())
+                draft.value = (response.body() as Draft)
+            }
+            override fun onFailure(call: Call<Draft>, t: Throwable){
+                Log.e("ShotEditViewModel getShotFail",t.toString())
+
+            }
+        })
     }
 
-    fun onDescriptionChanged(newDescription:String?){
-        description.value = newDescription
+    fun onTitleChanged(newTitle:String){
+        draft.value!!.title = newTitle
+    }
+
+    fun onDescriptionChanged(newDescription:String){
+        draft.value!!.description = newDescription
     }
 
     fun onTagsChanged(tag:String?){
-        if (tags.value == null){
-            tags.value = ArrayList()
-        }
-        tags.value?.add(tag!!)
+        draft.value!!.tags!!.add(tag!!)
     }
     fun onTagsRemove(tag:String?){
-        tags.value?.remove(tag)
+        draft.value!!.tags!!.remove(tag)
     }
 
     fun hasTag(tag:String?):Boolean?{
-        if (tags.value == null){
-            return false
-        }
-        return tags.value?.contains(tag)
+        return draft.value!!.tags!!.contains(tag)
     }
-    fun publish(){
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val driboardService: DriboardService = retrofit.create(DriboardService::class.java)
-//        val body = HttpUtils.createShotFilPart(
-//            context,
-//            draft.croppedImgDimen!!,
-//            Uri.parse(draft.imageUri),
-//            draft.imageFormat,
-//            "image")
-//        //add to HashMap key and RequestBody
-//        val map = HashMap<String, RequestBody>()
-//        driboardService.publishShot(map,body,title.value,description.value,tags.value).subscribe(
-//            { response ->
-//                when (response.code()) {
-//                    Constants.ACCEPTED -> { onPublishSucceed(draft) }
-//                    else ->
-//                        onPublishFailed("Post failed: " + response.code() +": "+ response.message(), null)
-//                }
-//            },
-//            {t -> onPublishFailed(t.toString(), t)}
+    fun publish(context: Context?, currentImgUri:String?){
+        isPending.value = true
+        val reSizefile = resizeImage(context,currentImgUri)
+        val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), reSizefile)
+
+        val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
+            .addFormDataPart("title",draft.value?.title)
+            .addFormDataPart("image",reSizefile.name,requestBody)
+        if (draft.value?.description != null){
+            requestBodyBuilder.addFormDataPart("description",draft.value?.description)
+        }
+        if (draft.value?.tags != null){
+            val tagsList:ArrayList<String>? = draft.value?.tags
+            Log.i("taglist",tagsList.toString().substring(1,tagsList.toString().length-1))
+            requestBodyBuilder.addFormDataPart("tags",
+                tagsList.toString().substring(1,tagsList.toString().length-1))
+        }
+        Log.i("uri",currentImgUri!!)
+
+        driboardService.publishShot(requestBodyBuilder.build())
+            .enqueue(object: Callback<Response<Void>>{
+                override fun onResponse(
+                    call: Call<Response<Void>>,
+                    response: Response<Response<Void>>
+                ) {
+
+                    Log.i("CODE", response.code().toString())
+                    isPending.value = false
+
+                }
+
+                override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                    Log.i("Throwable", t.toString())
+                    isPending.value = false
+
+                }
+            }
+        )
+
+    }
+    fun update(){
+        isPending.value = true
+
+        val tagsList:ArrayList<String>? = draft.value?.tags
+
+        driboardService.updateShot(draft.value?.id!!,draft.value!!.title!!,draft.value!!.description,tagsList.toString().substring(1,tagsList.toString().length-1))
+            .enqueue(object: Callback<Response<Void>>{
+                override fun onResponse(
+                    call: Call<Response<Void>>,
+                    response: Response<Response<Void>>
+                ) {
+                    Log.i("CODE", response.toString())
+                    isPending.value = false
+
+                }
+
+                override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
+                    Log.i("Throwable", t.toString())
+                    isPending.value = false
+
+                }
+            }
+            )
+
     }
 
     fun save(){
-        println(tags.value)
-
+        println(draft.value!!.tags)
+    }
+    fun resizeImage(context:Context?,currentImgUri: String?):File{
+        val f = File(context?.cacheDir,Uri.parse(currentImgUri).lastPathSegment)
+        f.createNewFile()
+        val bmOptions = BitmapFactory.Options()
+        bmOptions.inJustDecodeBounds = false
+        val bitmap = Bitmap.createScaledBitmap(
+            BitmapFactory.decodeFile(currentImgUri!!, bmOptions), 400, 300, true)
+        val bos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos)
+        val bitmapdata = bos.toByteArray()
+        val fos =  FileOutputStream(f)
+        fos.write(bitmapdata)
+        fos.flush()
+        fos.close()
+        bitmap.recycle()
+        return f
     }
 }

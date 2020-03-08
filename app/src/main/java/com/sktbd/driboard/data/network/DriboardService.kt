@@ -1,5 +1,6 @@
 package com.sktbd.driboard.data.network
 
+import com.sktbd.driboard.data.model.Draft
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.model.User
 import okhttp3.MultipartBody
@@ -7,34 +8,37 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
-import java.util.ArrayList
-
+import java.io.File
 interface DriboardService {
     @GET("user/")
-    fun getUser(@Query("access_token") access_token:String): Call<User>
-    @GET("user/shots")
-    fun getUserShots(@Query("access_token") access_token:String): Call<List<Shot>>
+    fun getUser(): Call<User>
 
+    @GET("user/shots")
+    fun getUserShots(): Call<List<Shot>>
+
+    @GET("shots/{id}")
+    fun getShot(
+        @Path(value = "id", encoded = true) id: String
+    ): Call<Draft>
+
+
+    @POST("shots/")
+    fun publishShot(
+        @Body body: RequestBody
+        ): Call<Response<Void>>
 
     @FormUrlEncoded
     @PUT("shots/{id}")
-    fun editShot(
-        @Path(value = "id", encoded = true) id: String?,
-        @Field("title") title: String?,
-        @Field("description") description: String,
-        @Field("tags[]") tags: ArrayList<String>,
-        @Field("low_profile") isLowProfile: Boolean
-        //@Field("scheduled_for") Date publishDate,
-        //@Field("teamID") int teamID
+    fun updateShot(
+        @Path(value = "id", encoded = true) id: String,
+        @Field("title") title: String,
+        @Field("description") description: String?,
+        @Field("tags") tags: String?
     ): Call<Response<Void>>
 
-    @Multipart
-    @POST("shots/")
-    fun publishShot(
-        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>, //See : https://stackoverflow.com/a/40873297
-        @Part file: MultipartBody.Part,
-        @Part("title") title: String?,
-        @Part("description") description: String?,
-        @Part("tags[]") tags: List<String>?
-    ): Call<Response<Void>>
+    @GET ("shots/{id}")
+    fun getShotById(@Path("id") id: Int): Call<Shot>
+
+    @GET ("user/shots")
+    fun getShots(): Call<List<Shot>>
 }
