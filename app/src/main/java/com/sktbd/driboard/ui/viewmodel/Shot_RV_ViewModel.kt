@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.sktbd.driboard.data.model.AuthToken
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.network.DribbbleService
+import com.sktbd.driboard.data.network.RetrofitAPIManager
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,21 +19,15 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Thread.sleep
 
 
-class Shot_RV_ViewModel : ViewModel() {
+class Shot_RV_ViewModel(accessToken: String) : ViewModel() {
 
     var BASE_URL = "https://api.dribbble.com/v2/"
     var alMutableLiveData = MutableLiveData<List<Shot>>()
+    private val retrofitAPIManager = RetrofitAPIManager(accessToken)
+    private val driboardService = retrofitAPIManager.getDriboardService()
 
     fun getApiData()  {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service:DribbbleService = retrofit.create(DribbbleService::class.java)
-
-
-        service.getShots("5926ce05b97926551804f82426e846678ea96303bcdc1204a206863781dff7c5").enqueue(object : Callback<List<Shot>> {
+        driboardService.getShots().enqueue(object : Callback<List<Shot>> {
             override fun onResponse(call: Call<List<Shot>>, response: Response<List<Shot>>) {
                 alMutableLiveData.value = response.body()
                 Log.i("Shot_RV_ViewModel", response.body().toString())

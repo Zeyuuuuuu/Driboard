@@ -20,17 +20,13 @@ import retrofit2.Response
 class UserViewModel(accessToken: String) : ViewModel() {
     var userInfo = MutableLiveData<User>()
     val shotLinks = MutableLiveData<List<String>>()
-    var token = ""
     val retrofitAPIManager = RetrofitAPIManager(accessToken)
     val driboardService  = retrofitAPIManager.getDriboardService()
 
     init {
-        token = accessToken
-        Log.i("UserViewModel", token)
+        Log.i("UserViewModel", accessToken)
     }
     fun getUser(){
-
-
         driboardService.getUser().enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>,response: Response<User>){
                 Log.i("UserViewModel", response.body().toString())
@@ -38,7 +34,6 @@ class UserViewModel(accessToken: String) : ViewModel() {
             }
             override fun onFailure(call: Call<User>,t: Throwable){
                 Log.e("UserViewModelGetUser",t.toString())
-
             }
         })
 

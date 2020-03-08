@@ -5,11 +5,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sktbd.driboard.R
+import com.sktbd.driboard.databinding.UserFragmentBinding
 import com.sktbd.driboard.ui.adapter.SmallShotsAdapter
 import com.sktbd.driboard.ui.factory.UserViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.UserViewModel
@@ -23,6 +26,7 @@ class UserFragment : Fragment() {
         fun newInstance() = UserFragment()
     }
 
+    private lateinit var binding: UserFragmentBinding
     private lateinit var viewModel: UserViewModel
     private lateinit var viewModelFactory: UserViewModelFactory
 
@@ -30,7 +34,21 @@ class UserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.user_fragment, container, false)
+        binding = DataBindingUtil.inflate(
+            inflater,
+            R.layout.user_fragment,
+            container,
+            false
+        )
+
+        binding.lyShots.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_userFragment_to_shotBoardFragment)
+        )
+        binding.rvShots.setOnClickListener(
+            Navigation.createNavigateOnClickListener(R.id.action_userFragment_to_shotBoardFragment)
+        )
+
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
