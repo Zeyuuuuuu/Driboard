@@ -17,7 +17,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.*
+import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
@@ -94,11 +95,18 @@ class ShotEditFragment : Fragment() {
         viewModel.isPending.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
-                if (it == true)
-                    progressBar?.visibility = View.VISIBLE
-                else
-                    progressBar?.visibility = View.GONE
-
+                if (it == true) {
+                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
+                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                    progressBar?.layoutParams = params
+//                    progressBar?.visibility = View.VISIBLE
+                }
+                else {
+                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
+                    params.height = 0
+                    progressBar?.layoutParams = params
+//                    progressBar?.visibility = View.GONE
+                }
             }
         )
 
