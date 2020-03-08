@@ -53,7 +53,7 @@ class LoginFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         binding.loginBtn.setOnClickListener {
             val intent = Intent(Intent.ACTION_VIEW)
-            intent.data = Uri.parse("https://dribbble.com/oauth/authorize?client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI")
+            intent.data = Uri.parse("https://dribbble.com/oauth/authorize?client_id=$CLIENT_ID&redirect_uri=$REDIRECT_URI&scope=public+upload")
             activity?.startActivity(intent)
         }
         accessToken = loadData()

@@ -7,6 +7,7 @@ import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
+import java.io.File
 import java.util.ArrayList
 
 interface DriboardService {
@@ -28,13 +29,11 @@ interface DriboardService {
         //@Field("teamID") int teamID
     ): Call<Response<Void>>
 
-    @Multipart
+
+
     @POST("shots/")
     fun publishShot(
-        @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>, //See : https://stackoverflow.com/a/40873297
-        @Part file: MultipartBody.Part,
-        @Part("title") title: String?,
-        @Part("description") description: String?,
-        @Part("tags[]") tags: List<String>?
-    ): Call<Response<Void>>
+        @Header("Authorization") authorization:String?,
+        @Body body: RequestBody
+        ): Call<Response<Void>>
 }
