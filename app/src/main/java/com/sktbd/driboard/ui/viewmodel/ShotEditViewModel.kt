@@ -26,6 +26,7 @@ import android.graphics.BitmapFactory
 import androidx.lifecycle.LiveData
 import com.sktbd.driboard.data.model.Draft
 import com.sktbd.driboard.data.model.User
+import com.sktbd.driboard.data.network.RetrofitAPIManager
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 
@@ -35,6 +36,8 @@ class ShotEditViewModel : ViewModel() {
     var isNew = false
     var isPending = MutableLiveData<Boolean>()
     var id = "10657904"
+    val retrofitAPIManager = RetrofitAPIManager()
+    val driboardService  = retrofitAPIManager.getDriboardService()
 
 
 //    val title = MutableLiveData<String>()
@@ -42,11 +45,6 @@ class ShotEditViewModel : ViewModel() {
 //    val tags = MutableLiveData<ArrayList<String>>()
 
     fun getShot(){
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val driboardService:DriboardService  = retrofit.create(DriboardService::class.java)
         driboardService.getShot(Constants.ACCESS_TOKEN,id).enqueue(object : Callback<Draft> {
             override fun onResponse(call: Call<Draft>, response: Response<Draft>){
                 Log.i("ShotEditViewModel getShotSuccess", response.body().toString())
@@ -95,11 +93,7 @@ class ShotEditViewModel : ViewModel() {
                 tagsList.toString().substring(1,tagsList.toString().length-1))
         }
         Log.i("uri",currentImgUri!!)
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val driboardService: DriboardService = retrofit.create(DriboardService::class.java)
+
         driboardService.publishShot(Constants.ACCESS_TOKEN,requestBodyBuilder.build())
             .enqueue(object: Callback<Response<Void>>{
                 override fun onResponse(
@@ -123,11 +117,7 @@ class ShotEditViewModel : ViewModel() {
     }
     fun update(){
         isPending.value = true
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val driboardService: DriboardService = retrofit.create(DriboardService::class.java)
+
         val tagsList:ArrayList<String>? = draft.value?.tags
 
         driboardService.updateShot(Constants.ACCESS_TOKEN,draft.value?.id!!,draft.value!!.title!!,draft.value!!.description,tagsList.toString().substring(1,tagsList.toString().length-1))
