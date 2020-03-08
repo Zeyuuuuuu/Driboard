@@ -3,5 +3,9 @@ package com.sktbd.driboard.utils
 object Constants {
     const val BASE_URL = "https://api.dribbble.com/v2/"
     const val EMPTY_STRING = ""
-    const val ACCESS_TOKEN = "5926ce05b97926551804f82426e846678ea96303bcdc1204a206863781dff7c5"
+    const val ACCESS_TOKEN = "Bearer e615df148ee00bb0ca37daefe53dc3d68e948c4cd29ba2076a333a6eae959338"
+    const val REQUEST_CAMERA_PHOTO = 0
+    const val REQUEST_GALLERY_PHOTO = 1
+    const val REUQEST_PUBLISH_PERMISSION = 0
+    const val IMAGE_DIRECTORY = "Image Upload"
 }
