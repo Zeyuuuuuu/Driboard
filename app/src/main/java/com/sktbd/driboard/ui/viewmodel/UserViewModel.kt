@@ -16,12 +16,10 @@ class UserViewModel(accessToken: String) : ViewModel() {
     val shotLinks = MutableLiveData<List<String>>()
     private val retrofitAPIManager = RetrofitAPIManager(accessToken)
     private val driboardService  = retrofitAPIManager.getDriboardService()
-
     init {
         Log.i("UserViewModel", accessToken)
     }
     fun getUser(){
-
         driboardService.getUser().enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>,response: Response<User>){
                 Log.i("UserViewModel", response.body().toString())
@@ -29,7 +27,6 @@ class UserViewModel(accessToken: String) : ViewModel() {
             }
             override fun onFailure(call: Call<User>,t: Throwable){
                 Log.e("UserViewModelGetUser",t.toString())
-
             }
         })
 

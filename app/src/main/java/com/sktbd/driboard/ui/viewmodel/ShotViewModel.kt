@@ -22,24 +22,24 @@ class ShotViewModel : ViewModel() {
     var BASE_URL = "https://api.dribbble.com/v2/"
     var alMutableLiveData = MutableLiveData<List<Shot>>()
 
-    fun getApiData() : MutableLiveData<List<Shot>> {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-
-        val service:DribbbleService = retrofit.create(DribbbleService::class.java)
-
-        service.getShots(Constants.ACCESS_TOKEN).enqueue(object : Callback<List<Shot>> {
-            override fun onResponse(call: Call<List<Shot>>, response: Response<List<Shot>>) {
-                alMutableLiveData.value = response.body()
-            }
-            override fun onFailure(call: Call<List<Shot>>, t: Throwable) {
-                Log.d("DATA","failed")
-            }
-        })
-        return alMutableLiveData
-    }
+//    fun getApiData() : MutableLiveData<List<Shot>> {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//
+//        val service:DribbbleService = retrofit.create(DribbbleService::class.java)
+//
+//        service.getShots(Constants.ACCESS_TOKEN).enqueue(object : Callback<List<Shot>> {
+//            override fun onResponse(call: Call<List<Shot>>, response: Response<List<Shot>>) {
+//                alMutableLiveData.value = response.body()
+//            }
+//            override fun onFailure(call: Call<List<Shot>>, t: Throwable) {
+//                Log.d("DATA","failed")
+//            }
+//        })
+//        return alMutableLiveData
+//    }
     companion object {
         @BindingAdapter("app:imageUrl")
         @JvmStatic

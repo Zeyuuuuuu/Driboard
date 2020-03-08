@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sktbd.driboard.data.model.Shot
 import com.sktbd.driboard.data.network.DribbbleService
+import com.sktbd.driboard.data.network.RetrofitAPIManager
 import com.sktbd.driboard.utils.Constants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.user_fragment.*
@@ -19,23 +20,19 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class ShotDetailViewModel(): ViewModel() {
-//    private val id: Int = shot_id
-//    private val token : String = accessToken
+class ShotDetailViewModel(shotId: Int, accessToken: String): ViewModel() {
+    private val id: Int = shotId
     private val _shotInfo = MutableLiveData<Shot>()
     val shotInfo: LiveData<Shot>
         get() = _shotInfo
-    private val _imageUrl = MutableLiveData<String>()
-    val imageUrl: LiveData<String>
-        get() = _imageUrl
+//    private val _imageUrl = MutableLiveData<String>()
+//    val imageUrl: LiveData<String>
+//        get() = _imageUrl
+    private val retrofitAPIManager = RetrofitAPIManager(accessToken)
+    private val driboardService  = retrofitAPIManager.getDriboardService()
 
     fun getShotDetail() {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val dribbbleService: DribbbleService = retrofit.create(DribbbleService::class.java)
-        var call: Call<Shot> = dribbbleService.getShotById(10654771, Constants.ACCESS_TOKEN);
+        var call: Call<Shot> = driboardService.getShotById(id);
         call.enqueue(object: Callback<Shot> {
             override fun onFailure(call: Call<Shot>, t: Throwable) {
                 Log.e("ShotsDetailViewModelGetUser",t.toString())
@@ -43,8 +40,6 @@ class ShotDetailViewModel(): ViewModel() {
 
             override fun onResponse(call: Call<Shot>, response: Response<Shot>) {
                 _shotInfo.value = response.body() as Shot
-                _imageUrl.value = _shotInfo.value!!.images.normal
-
             }
         })
     }

@@ -11,6 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitAPIManager(accessToken:String?) {
     private var token = Constants.ACCESS_TOKEN
     init{
+        Log.i("RetrofitAPIManager", accessToken)
         if (accessToken!=null)
             token = accessToken
     }
@@ -24,11 +25,11 @@ class RetrofitAPIManager(accessToken:String?) {
     }
 
     fun getAuthService():AuthService{
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.OAUTH_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(genericClient())
-            .build()
+            val retrofit = Retrofit.Builder()
+                .baseUrl(Constants.OAUTH_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(genericClient())
+                .build()
         return retrofit.create(AuthService::class.java)
     }
 

@@ -48,7 +48,14 @@
         android:id="@+id/shotDetailFragment"
         android:name="com.sktbd.driboard.ui.fragment.ShotDetailFragment"
         android:label="fragment_shot_detail"
-        tools:layout="@layout/fragment_shot_detail" />
+        tools:layout="@layout/fragment_shot_detail" >
+        <action
+            android:id="@+id/action_shotDetailFragment_to_shotEditFragment"
+            app:destination="@id/shotEditFragment" />
+        <argument
+            android:name="shotId"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/shotEditFragment"
         android:name="com.sktbd.driboard.ui.fragment.ShotEditFragment"
@@ -63,16 +70,11 @@
             app:nullable="true" />
     </fragment>
 
-    <activity
-        android:id="@+id/shotBoardActivity"
-        android:name="com.sktbd.driboard.ui.activity.ShotBoardActivity"
-        android:label="shot_board_activity"
-        tools:layout="@layout/shot_board_activity" />
-
     <fragment
         android:id="@+id/shotBoardFragment"
         android:name="com.sktbd.driboard.ui.fragment.ShotBoardFragment"
-        android:label="ShotBoardFragment" >
+        android:label="ShotBoardFragment"
+        tools:layout="@layout/shot_board_fragment">
         <action
             android:id="@+id/action_shotBoardFragment_to_shotDetailFragment"
             app:destination="@id/shotDetailFragment" />

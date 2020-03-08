@@ -35,4 +35,10 @@ interface DriboardService {
         @Field("description") description: String?,
         @Field("tags") tags: String?
     ): Call<Response<Void>>
+
+    @GET ("shots/{id}")
+    fun getShotById(@Path("id") id: Int): Call<Shot>
+
+    @GET ("user/shots")
+    fun getShots(): Call<List<Shot>>
 }
