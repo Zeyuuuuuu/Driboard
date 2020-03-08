@@ -45,5 +45,13 @@
         android:id="@+id/shotEditFragment"
         android:name="com.sktbd.driboard.ui.fragment.ShotEditFragment"
         android:label="shot_edit_fragment"
-        tools:layout="@layout/shot_edit_fragment" />
+        tools:layout="@layout/shot_edit_fragment" >
+        <argument
+            android:name="isNew"
+            app:argType="boolean" />
+        <argument
+            android:name="shotId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

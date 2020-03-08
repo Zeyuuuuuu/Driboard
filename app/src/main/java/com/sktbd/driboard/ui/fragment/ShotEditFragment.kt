@@ -12,17 +12,14 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.*
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
@@ -34,20 +31,26 @@ import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
+import com.sktbd.driboard.data.model.Draft
 import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import com.sktbd.driboard.utils.Constants
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.shot_edit_fragment.*
+import kotlinx.android.synthetic.main.user_fragment.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.logging.Logger
+import kotlin.collections.ArrayList
 
 
 class ShotEditFragment : Fragment() {
 
     private var mImageFileLocation = ""
     var progressBar:ProgressBar? = null
+
+
     companion object {
         fun newInstance() = ShotEditFragment()
     }
@@ -66,10 +69,45 @@ class ShotEditFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)
-        progressBar = activity?.findViewById<ProgressBar>(R.id.progressbar)
+        if(viewModel.isNew){
+            viewModel.draft.value = Draft(id="",title = "",description = "",tags = java.util.ArrayList(),images = Draft.ImageUrl(""))
+        }
+        else{
+            viewModel.getShot()
+        }
+        viewModel.draft.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                title_edit?.text = Editable.Factory.getInstance().newEditable(it.title)
+                if (it.description != null) {
+                    description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!.substring(3,it.description!!.length-4))
+                }
+                if (it.tags != null){
+                    var tagList = it.tags!!
+                    for (tag in tagList){
+                        addChip(tag,false)
+                    }
+                }
+                if (it.images?.normal!="")
+                    currentImgPath = it.images?.normal
+                    Picasso.get().load(it.images?.normal ).into(ivPreview)
+            }
+        )
 
-        val title = view?.findViewById<TextInputEditText>(R.id.title_edit)
-        title?.addTextChangedListener(object : TextWatcher {
+        progressBar = activity?.findViewById(R.id.progressbar)
+        viewModel.isPending.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it == true)
+                    progressBar?.visibility = View.VISIBLE
+                else
+                    progressBar?.visibility = View.GONE
+
+            }
+        )
+
+
+        title_edit?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
 
@@ -80,9 +118,7 @@ class ShotEditFragment : Fragment() {
                 viewModel.onTitleChanged(p0.toString())
             }
         })
-
-        val description = view?.findViewById<TextInputEditText>(R.id.description_edit)
-        description?.addTextChangedListener(object : TextWatcher {
+        description_edit?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
 
@@ -93,39 +129,26 @@ class ShotEditFragment : Fragment() {
                 viewModel.onDescriptionChanged(p0.toString())
             }
         })
-
-
-        val tags = view?.findViewById<TextInputEditText>(R.id.tags_edit)
-        val tagsInput = view?.findViewById<TextInputLayout>(R.id.tags_input)
-        val chipGroup = view?.findViewById<ChipGroup>(R.id.chipGroup)
-        tags?.setOnEditorActionListener(object:TextView.OnEditorActionListener{
+        tags_edit?.setOnEditorActionListener(object:TextView.OnEditorActionListener{
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                tagsInput?.error = null
+                tags_input?.error = null
 
                 if(actionId == EditorInfo.IME_ACTION_DONE) {
-                    val tagText = tags.editableText.toString()
+                    val tagText = tags_edit!!.editableText.toString()
 
                     if (chipGroup?.childCount == 12){
-                        tagsInput?.error = "Limited to a maximum of 12 tags."
+                        tags_input?.error = "Limited to a maximum of 12 tags."
                     }
                     else if(viewModel.hasTag(tagText)!!){
-                        tagsInput?.error = "Tag exists."
+                        tags_input?.error = "Tag exists."
 
                     }
                     else if (tagText == ""){
-                        tagsInput?.error = "Tag cannot be empty."
+                        tags_input?.error = "Tag cannot be empty."
                     }
                     else{
-                        val chip = Chip(context)
-                        chip.text = tagText
-                        viewModel.onTagsChanged(tagText)
-                        chipGroup?.addView(chip as View)
-                        chip.isCloseIconVisible = true
-                        chip.setOnCloseIconClickListener{
-                            viewModel.onTagsRemove(tagText)
-                            chipGroup?.removeView(chip as View)
-                        }
-                        tags.text = null
+                        addChip(tagText,true)
+                        tags_edit!!.text = null
                     }
 
                     return true
@@ -134,10 +157,8 @@ class ShotEditFragment : Fragment() {
                 return false
             }
         })
-        tags?.onFocusChangeListener =
-            View.OnFocusChangeListener { _, _ -> tagsInput?.error = null }
-
-        tags?.addTextChangedListener(object : TextWatcher {
+        tags_edit?.onFocusChangeListener = View.OnFocusChangeListener { _, _ -> tags_input?.error = null }
+        tags_edit?.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
 
@@ -145,11 +166,12 @@ class ShotEditFragment : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                tagsInput?.error = null
+                tags_input?.error = null
             }
         })
-
-        val btPublish = view?.findViewById<Button>(R.id.btPublish)
+        if(!viewModel.isNew){
+            btPublish!!.text = "Update"
+        }
         btPublish?.setOnClickListener{
             if (currentImgPath == null || currentImgPath.toString() == ""){
                 MaterialDialog(context!!).show {
@@ -157,27 +179,24 @@ class ShotEditFragment : Fragment() {
                     message(R.string.image_is_required)
                 }
             }
-            else if(title?.text.toString() == ""){
+            else if(title_edit?.text.toString() == ""){
                 MaterialDialog(context!!).show {
                     title(R.string.error_message)
                     message(R.string.title_is_required)
                 }
             }
-            else{
-                showProgressBar()
-
+            else if (viewModel.isNew){
                 viewModel.publish(context,currentImgPath)
 
             }
+            else if (!viewModel.isNew){
+                viewModel.update()
+            }
 
         }
-
-        val btSave = view?.findViewById<Button>(R.id.btSave)
         btSave?.setOnClickListener{
             viewModel.save()
         }
-
-        val ivPreview = view?.findViewById<ImageView>(R.id.ivPreview)
         ivPreview?.setOnClickListener{
             MaterialDialog(context!!).show{
                 title(R.string.select_ur_image)
@@ -202,9 +221,35 @@ class ShotEditFragment : Fragment() {
                 }
             }
         }
+        ivPreview?.isEnabled = false
 
+        if (ContextCompat.checkSelfPermission(context!!, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ),
+                Constants.REUQEST_PUBLISH_PERMISSION
+            )
+
+        } else {
+            if (viewModel.isNew)
+                ivPreview?.isEnabled = true
+        }
     }
-
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if(requestCode == Constants.REUQEST_PUBLISH_PERMISSION){
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                if (viewModel.isNew)
+                    ivPreview?.isEnabled = true
+            }
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -225,8 +270,8 @@ class ShotEditFragment : Fragment() {
 //                            ivPreview.setImageURI(imgUri)
 //                            currentImgUri = imgUri
                             imgPath = cursor.getString(columnIndex)
-                            title_edit.text = Editable.Factory.getInstance().newEditable(File(imgPath).name)
-                            ivPreview.setImageBitmap(BitmapFactory.decodeFile(imgPath));
+                            title_edit?.text = Editable.Factory.getInstance().newEditable(File(imgPath).name)
+                            ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath));
                             currentImgPath = imgPath
                             cursor.close()
 
@@ -234,7 +279,7 @@ class ShotEditFragment : Fragment() {
                     }
                 }
                 Constants.REQUEST_CAMERA_PHOTO -> {
-                    Glide.with(this).load(mImageFileLocation).into(ivPreview)
+                    Glide.with(this).load(mImageFileLocation).into(ivPreview!!)
                     currentImgPath = mImageFileLocation
                 }
             }
@@ -317,6 +362,18 @@ class ShotEditFragment : Fragment() {
     fun hideProgressBar(){
         if(progressBar?.visibility == View.VISIBLE){
             progressBar?.visibility = View.GONE
+        }
+    }
+    fun addChip(tagText:String?,triggerChange:Boolean){
+        val chip = Chip(context)
+        chip.text = tagText
+        if(triggerChange)
+            viewModel.onTagsChanged(tagText)
+        chipGroup?.addView(chip as View)
+        chip.isCloseIconVisible = true
+        chip.setOnCloseIconClickListener{
+            viewModel.onTagsRemove(tagText)
+            chipGroup?.removeView(chip as View)
         }
     }
 }
