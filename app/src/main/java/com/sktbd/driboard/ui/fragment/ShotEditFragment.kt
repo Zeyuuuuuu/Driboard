@@ -66,15 +66,14 @@ class ShotEditFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         var args =  ShotEditFragmentArgs.fromBundle(arguments!!)
         val accessToken = args.accessToken
-        val isNew = args.isNew
+        val state = args.state
         val shotId = args.shotId
-        viewModelFactory = ShotEditViewModelFactory(accessToken, isNew, shotId)
+        viewModelFactory = ShotEditViewModelFactory(accessToken, state, shotId)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ShotEditViewModel::class.java)
-        if(viewModel.isNew){
-            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""))
+        if(viewModel.state == Constants.NEW_SHOT_STATE){
+            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""), imageUri = "")
         }
         else{
             Log.i("ShotEditFragment", "getting shots")
@@ -100,19 +99,19 @@ class ShotEditFragment : Fragment() {
             }
         )
 
-        progressBar = activity?.findViewById(R.id.progressbar)
-        progressBar?.bringToFront()
-        viewModel.isPending.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer {
-                if (it == true) {
-                    progressBar?.visibility = View.VISIBLE
-                }
-                else {
-                    progressBar?.visibility = View.GONE
-                }
-            }
-        )
+//        progressBar = activity?.findViewById(R.id.progressbar)
+//        progressBar?.bringToFront()
+//        viewModel.isPending.observe(
+//            viewLifecycleOwner,
+//            androidx.lifecycle.Observer {
+//                if (it == true) {
+//                    progressBar?.visibility = View.VISIBLE
+//                }
+//                else {
+//                    progressBar?.visibility = View.GONE
+//                }
+//            }
+//        )
 
 
         title_edit?.addTextChangedListener(object : TextWatcher {

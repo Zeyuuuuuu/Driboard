@@ -22,25 +22,27 @@ import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 
 
-class ShotEditViewModel(accessToken: String, isNew: Boolean, id : String?) : ViewModel() {
+class ShotEditViewModel(accessToken: String, state: Int, id : String?) : ViewModel() {
     val draft = MutableLiveData<Draft>()
-    var state = Constants.NEW_SHOT_STATE
-    var isNew = isNew
+    var state = state
     var isPending = MutableLiveData<Boolean>()
     var id = id
     private val retrofitAPIManager = RetrofitAPIManager(accessToken)
     private val driboardService  = retrofitAPIManager.getDriboardService()
 
-
-//    val title = MutableLiveData<String>()
-//    val description = MutableLiveData<String>()
-//    val tags = MutableLiveData<ArrayList<String>>()
-
     fun getShot(){
 
-        when (state){
+        when (state) {
             Constants.NEW_SHOT_STATE -> {
-                draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""),imageUri = "")
+                draft.value = Draft(
+                    id = "",
+                    title = "",
+                    description = "",
+                    tags = ArrayList(),
+                    images = Draft.ImageUrl(""),
+                    imageUri = ""
+                )
+            }
             Constants.UPDATE_SHOT_STATE -> {
                 driboardService.getShot(id!!).enqueue(object : Callback<Draft> {
                     override fun onResponse(call: Call<Draft>, response: Response<Draft>){

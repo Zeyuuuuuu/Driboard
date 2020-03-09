@@ -6,12 +6,12 @@ import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import java.lang.IllegalArgumentException
 
 class ShotEditViewModelFactory(private val accessToken: String,
-                               private val isNew: Boolean,
+                               private val state: Int,
                                private val shotId: String?) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ShotEditViewModel::class.java)) {
-            return ShotEditViewModel(accessToken, isNew, shotId) as T
+            return ShotEditViewModel(accessToken, state, shotId) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

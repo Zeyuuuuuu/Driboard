@@ -18,6 +18,7 @@ import com.sktbd.driboard.databinding.FragmentShotDetailBinding
 import com.sktbd.driboard.ui.activity.MainActivity
 import com.sktbd.driboard.ui.factory.ShotDetailViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotDetailViewModel
+import com.sktbd.driboard.utils.Constants
 import kotlinx.android.synthetic.main.fragment_shot_detail.*
 
 
@@ -63,13 +64,8 @@ class ShotDetailFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.shotEditFragment -> {
-//                bundle.putString("accessToken", accessToken)
-//                bundle.putBoolean("isNew", true)
-//                bundle.putInt("shotId", shotId)
-//                findNavController().navigate(R.id.action_shotDetailFragment_to_shotEditFragment, bundle)
-                findNavController().navigate(ShotDetailFragmentDirections.actionShotDetailFragmentToShotEditFragment(false, shotId, accessToken))
+                findNavController().navigate(ShotDetailFragmentDirections.actionShotDetailFragmentToShotEditFragment(Constants.UPDATE_SHOT_STATE, shotId, accessToken))
                 return true
-//                NavigationUI.onNavDestinationSelected(item!!, view!!.findNavController())
             }
             R.id.delete -> {
                 val dialog = deleteDialog()
