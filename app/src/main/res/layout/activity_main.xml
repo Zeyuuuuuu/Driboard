@@ -16,7 +16,7 @@
         android:indeterminate="true"
         android:indeterminateTint="#BB86FC"
         android:max="100"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <fragment
         android:id="@+id/main_navigation"

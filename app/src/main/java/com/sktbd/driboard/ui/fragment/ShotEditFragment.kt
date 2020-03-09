@@ -67,7 +67,7 @@ class ShotEditFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)
         if(viewModel.isNew){
-            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""))
+            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""),imageUri = "")
         }
         else{
             viewModel.getShot()
@@ -96,16 +96,16 @@ class ShotEditFragment : Fragment() {
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
                 if (it == true) {
-                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
-                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-                    progressBar?.layoutParams = params
-//                    progressBar?.visibility = View.VISIBLE
+//                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
+//                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT
+//                    progressBar?.layoutParams = params
+                    progressBar?.visibility = View.VISIBLE
                 }
                 else {
-                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
-                    params.height = 0
-                    progressBar?.layoutParams = params
-//                    progressBar?.visibility = View.GONE
+//                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
+//                    params.height = 0
+//                    progressBar?.layoutParams = params
+                    progressBar?.visibility = View.GONE
                 }
             }
         )
@@ -192,7 +192,7 @@ class ShotEditFragment : Fragment() {
                 }
             }
             else if (viewModel.isNew){
-                viewModel.publish(context,currentImgPath)
+                viewModel.publish(context)
 
             }
             else if (!viewModel.isNew){
@@ -276,6 +276,7 @@ class ShotEditFragment : Fragment() {
 //                            ivPreview.setImageURI(imgUri)
 //                            currentImgUri = imgUri
                             imgPath = cursor.getString(columnIndex)
+                            viewModel.onPicUpload(imgPath!!)
                             title_edit?.text = Editable.Factory.getInstance().newEditable(File(imgPath!!).name)
                             ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath))
                             currentImgPath = imgPath

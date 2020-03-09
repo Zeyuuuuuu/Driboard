@@ -65,9 +65,14 @@ class ShotEditViewModel : ViewModel() {
     fun hasTag(tag:String?):Boolean?{
         return draft.value!!.tags!!.contains(tag)
     }
-    fun publish(context: Context?, currentImgUri:String?){
+
+    fun onPicUpload(currentImgUri:String){
+        draft.value!!.imageUri = currentImgUri
+    }
+
+    fun publish(context: Context?){
         isPending.value = true
-        val reSizefile = resizeImage(context,currentImgUri)
+        val reSizefile = resizeImage(context,draft.value!!.imageUri)
         val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), reSizefile)
 
         val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -82,7 +87,7 @@ class ShotEditViewModel : ViewModel() {
             requestBodyBuilder.addFormDataPart("tags",
                 tagsList.toString().substring(1,tagsList.toString().length-1))
         }
-        Log.i("uri",currentImgUri!!)
+        Log.i("uri",draft.value!!.imageUri!!)
 
         driboardService.publishShot(requestBodyBuilder.build())
             .enqueue(object: Callback<Response<Void>>{
