@@ -276,6 +276,7 @@ class ShotEditFragment : Fragment() {
                 Constants.REQUEST_CAMERA_PHOTO -> {
                     Glide.with(this).load(mImageFileLocation).into(ivPreview!!)
                     title_edit?.text = Editable.Factory.getInstance().newEditable(File(mImageFileLocation!!).name)
+                    viewModel.onPicUpload(mImageFileLocation!!)
                     currentImgPath = mImageFileLocation
 
                 }

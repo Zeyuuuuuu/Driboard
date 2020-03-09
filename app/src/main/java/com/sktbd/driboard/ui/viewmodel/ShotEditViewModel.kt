@@ -87,7 +87,7 @@ class ShotEditViewModel : ViewModel() {
 
     fun publish(context: Context?){
         isPending.value = true
-        val reSizefile = resizeImage(context,draft.value!!.imageUri)
+        val reSizefile = resizeImage(context)
         val requestBody: RequestBody = RequestBody.create(MediaType.parse("image/png"), reSizefile)
 
         val requestBodyBuilder = MultipartBody.Builder().setType(MultipartBody.FORM)
@@ -155,13 +155,13 @@ class ShotEditViewModel : ViewModel() {
     fun save(){
         println(draft.value!!.tags)
     }
-    private fun resizeImage(context:Context?, currentImgUri: String?):File{
-        val f = File(context?.cacheDir,Uri.parse(currentImgUri).lastPathSegment!!)
+    private fun resizeImage(context:Context?):File{
+        val f = File(context?.cacheDir,Uri.parse(draft.value!!.imageUri).lastPathSegment!!)
         f.createNewFile()
         val bitmapOption = BitmapFactory.Options()
         bitmapOption.inJustDecodeBounds = false
         val bitmap = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeFile(currentImgUri!!, bitmapOption), 400, 300, true)
+            BitmapFactory.decodeFile(draft.value!!.imageUri!!, bitmapOption), 400, 300, true)
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, byteArrayOutputStream)
         val bitmapData = byteArrayOutputStream.toByteArray()
