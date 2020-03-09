@@ -12,6 +12,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -29,7 +30,6 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
-import com.sktbd.driboard.data.model.Draft
 import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import com.sktbd.driboard.utils.Constants
 import com.squareup.picasso.Picasso
@@ -38,8 +38,6 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.logging.Logger
-
 
 class ShotEditFragment : Fragment() {
 
@@ -62,32 +60,27 @@ class ShotEditFragment : Fragment() {
         return inflater.inflate(R.layout.shot_edit_fragment, container, false)
     }
 
-    @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)
-        if(viewModel.isNew){
-            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""),imageUri = "")
-        }
-        else{
-            viewModel.getShot()
-        }
+        viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)//
+        viewModel.getShot()
         viewModel.draft.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
                 title_edit?.text = Editable.Factory.getInstance().newEditable(it.title)
-                if (it.description != null) {
+                if (it.description != null && it.description != "") {
                     description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!.substring(3,it.description!!.length-4))
                 }
-                if (it.tags != null){
+                if (it.tags != null && it.tags!!.isNotEmpty()){
                     val tagList = it.tags!!
                     for (tag in tagList){
                         addChip(tag,false)
                     }
                 }
-                if (it.images?.normal!="")
+                if (it.images?.normal!=""){
                     currentImgPath = it.images?.normal
                     Picasso.get().load(it.images?.normal ).into(ivPreview)
+                }
             }
         )
 
@@ -96,15 +89,9 @@ class ShotEditFragment : Fragment() {
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
                 if (it == true) {
-//                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
-//                    params.height = ViewGroup.LayoutParams.WRAP_CONTENT
-//                    progressBar?.layoutParams = params
                     progressBar?.visibility = View.VISIBLE
                 }
                 else {
-//                    val params: ViewGroup.LayoutParams = progressBar!!.layoutParams
-//                    params.height = 0
-//                    progressBar?.layoutParams = params
                     progressBar?.visibility = View.GONE
                 }
             }
@@ -175,7 +162,7 @@ class ShotEditFragment : Fragment() {
                 tags_input?.error = null
             }
         })
-        if(!viewModel.isNew){
+        if(viewModel.state == Constants.UPDATE_SHOT_STATE || viewModel.state == Constants.UPDATE_DRAFT_STATE){
             btPublish!!.text = "Update"
         }
         btPublish?.setOnClickListener{
@@ -191,11 +178,11 @@ class ShotEditFragment : Fragment() {
                     message(R.string.title_is_required)
                 }
             }
-            else if (viewModel.isNew){
+            else if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.NEW_DRAFT_STATE){
                 viewModel.publish(context)
 
             }
-            else if (!viewModel.isNew){
+            else if (viewModel.state == Constants.UPDATE_SHOT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){
                 viewModel.update()
             }
 
@@ -240,7 +227,7 @@ class ShotEditFragment : Fragment() {
             )
 
         } else {
-            if (viewModel.isNew)
+            if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.NEW_DRAFT_STATE)
                 ivPreview?.isEnabled = true
         }
     }
@@ -251,7 +238,7 @@ class ShotEditFragment : Fragment() {
     ) {
         if(requestCode == Constants.REUQEST_PUBLISH_PERMISSION){
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                if (viewModel.isNew)
+                if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.NEW_DRAFT_STATE)
                     ivPreview?.isEnabled = true
             }
         }
@@ -287,7 +274,9 @@ class ShotEditFragment : Fragment() {
                 }
                 Constants.REQUEST_CAMERA_PHOTO -> {
                     Glide.with(this).load(mImageFileLocation).into(ivPreview!!)
+                    title_edit?.text = Editable.Factory.getInstance().newEditable(File(mImageFileLocation!!).name)
                     currentImgPath = mImageFileLocation
+
                 }
             }
         }
@@ -296,34 +285,24 @@ class ShotEditFragment : Fragment() {
 
     private fun takePhoto()
     {
-        //use this if Lollipop_Mr1 (API 22) or above
-        val callCameraApplicationIntent = Intent()
-        callCameraApplicationIntent.action = MediaStore.ACTION_IMAGE_CAPTURE
+        val imageCaptureIntent = Intent()
+        imageCaptureIntent.action = MediaStore.ACTION_IMAGE_CAPTURE
+        imageCaptureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
 
-        // We give some instruction to the intent to save the image
-        var photoFile: File? = null
+        var image: File? = null
         try {
-            // If the createImageFile will be successful, the photo file will have the address of the file
-            photoFile = createImageFile()
-            // Here we call the function that will try to catch the exception made by the throw function
+            image = createImageFile()
         } catch (e: IOException) {
-            Logger.getAnonymousLogger()
-                .info("Exception error in generating the file")
+            Log.i("ShotEditFragment_takePhotoFailed","Exception error in generating the file")
             e.printStackTrace()
         }
-        // Here we add an extra file to the intent to put the address on to. For this purpose we use the FileProvider, declared in the AndroidManifest.
-        val outputUri: Uri = FileProvider.getUriForFile(
-            context!!, BuildConfig.APPLICATION_ID + ".provider", photoFile!!
+        val imageUri: Uri = FileProvider.getUriForFile(
+            context!!, BuildConfig.APPLICATION_ID + ".provider", image!!
         )
-        callCameraApplicationIntent.putExtra(MediaStore.EXTRA_OUTPUT, outputUri)
+        imageCaptureIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
 
-        // The following is a new line with a trying attempt
-        callCameraApplicationIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        Logger.getAnonymousLogger().info("Calling the camera App by intent")
-
-        // The following strings calls the camera app and wait for his file in return.
         startActivityForResult(
-            callCameraApplicationIntent,
+            imageCaptureIntent,
             Constants.REQUEST_CAMERA_PHOTO
         )
 
@@ -334,29 +313,13 @@ class ShotEditFragment : Fragment() {
     @SuppressLint("SimpleDateFormat")
     @Throws(IOException::class)
     fun createImageFile(): File? {
-        Logger.getAnonymousLogger().info("Generating the image - method started")
-
-        // Here we create a "non-collision file name", alternatively said, "an unique filename" using the "timeStamp" functionality
-        val timeStamp =
-            SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
-        val imageFileName = "IMAGE_$timeStamp"
-        // Here we specify the environment location and the exact path where we want to save the so-created file
-        val storageDirectory =
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
+        val imageName = "IMAGE_$timeStamp"
+        val imageDirectory =
             activity?.getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/photo_saving_app")
-        Logger.getAnonymousLogger().info("Storage directory set")
-
-        // Then we create the storage directory if does not exists
-        if (!storageDirectory?.exists()!!) storageDirectory.mkdir()
-
-        // Here we create the file using a prefix, a suffix and a directory
-        val image = File(storageDirectory, "$imageFileName.jpg")
-        // File image = File.createTempFile(imageFileName, ".jpg", storageDirectory);
-
-        // Here the location is saved into the string mImageFileLocation
-        Logger.getAnonymousLogger().info("File name and path set")
+        if (!imageDirectory?.exists()!!) imageDirectory.mkdir()
+        val image = File(imageDirectory, "$imageName.jpg")
         mImageFileLocation = image.absolutePath
-        // fileUri = Uri.parse(mImageFileLocation);
-        // The file is returned to the previous intent across the camera application
         return image
     }
 

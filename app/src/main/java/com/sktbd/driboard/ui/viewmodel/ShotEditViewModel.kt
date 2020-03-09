@@ -17,13 +17,14 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.sktbd.driboard.data.model.Draft
 import com.sktbd.driboard.data.network.RetrofitAPIManager
+import com.sktbd.driboard.utils.Constants
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
 
 
 class ShotEditViewModel : ViewModel() {
     val draft = MutableLiveData<Draft>()
-    var isNew = false
+    var state = Constants.NEW_SHOT_STATE
     var isPending = MutableLiveData<Boolean>()
     var id = "10657904"
     private val retrofitAPIManager = RetrofitAPIManager(null)
@@ -35,16 +36,30 @@ class ShotEditViewModel : ViewModel() {
 //    val tags = MutableLiveData<ArrayList<String>>()
 
     fun getShot(){
-        driboardService.getShot(id).enqueue(object : Callback<Draft> {
-            override fun onResponse(call: Call<Draft>, response: Response<Draft>){
-                Log.i("ShotEditViewModel getShotSuccess", response.body().toString())
-                draft.value = (response.body() as Draft)
+        when (state){
+            Constants.NEW_SHOT_STATE -> {
+                draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""),imageUri = "")
             }
-            override fun onFailure(call: Call<Draft>, t: Throwable){
-                Log.e("ShotEditViewModel getShotFail",t.toString())
+            Constants.UPDATE_SHOT_STATE -> {
+                driboardService.getShot(id).enqueue(object : Callback<Draft> {
+                    override fun onResponse(call: Call<Draft>, response: Response<Draft>){
+                        Log.i("ShotEditViewModel getShotSuccess", response.body().toString())
+                        draft.value = (response.body() as Draft)
+                    }
+                    override fun onFailure(call: Call<Draft>, t: Throwable){
+                        Log.e("ShotEditViewModel getShotFail",t.toString())
+
+                    }
+                })
+            }
+            Constants.NEW_DRAFT_STATE -> {
 
             }
-        })
+            Constants.UPDATE_DRAFT_STATE -> {
+
+            }
+        }
+
     }
 
     fun onTitleChanged(newTitle:String){
@@ -110,6 +125,7 @@ class ShotEditViewModel : ViewModel() {
         )
 
     }
+
     fun update(){
         isPending.value = true
 
@@ -142,17 +158,17 @@ class ShotEditViewModel : ViewModel() {
     private fun resizeImage(context:Context?, currentImgUri: String?):File{
         val f = File(context?.cacheDir,Uri.parse(currentImgUri).lastPathSegment!!)
         f.createNewFile()
-        val bmOptions = BitmapFactory.Options()
-        bmOptions.inJustDecodeBounds = false
+        val bitmapOption = BitmapFactory.Options()
+        bitmapOption.inJustDecodeBounds = false
         val bitmap = Bitmap.createScaledBitmap(
-            BitmapFactory.decodeFile(currentImgUri!!, bmOptions), 400, 300, true)
-        val bos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, bos)
-        val bitmapdata = bos.toByteArray()
-        val fos =  FileOutputStream(f)
-        fos.write(bitmapdata)
-        fos.flush()
-        fos.close()
+            BitmapFactory.decodeFile(currentImgUri!!, bitmapOption), 400, 300, true)
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100 /*ignored for PNG*/, byteArrayOutputStream)
+        val bitmapData = byteArrayOutputStream.toByteArray()
+        val fileOutputStream =  FileOutputStream(f)
+        fileOutputStream.write(bitmapData)
+        fileOutputStream.flush()
+        fileOutputStream.close()
         bitmap.recycle()
         return f
     }

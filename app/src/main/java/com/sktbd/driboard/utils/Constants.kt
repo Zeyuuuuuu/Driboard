@@ -9,4 +9,9 @@ object Constants {
     const val REQUEST_GALLERY_PHOTO = 1
     const val REUQEST_PUBLISH_PERMISSION = 0
     const val IMAGE_DIRECTORY = "Image Upload"
+    const val NEW_SHOT_STATE = 0
+    const val UPDATE_SHOT_STATE = 1
+    const val NEW_DRAFT_STATE = 2
+    const val UPDATE_DRAFT_STATE = 3
+
 }
