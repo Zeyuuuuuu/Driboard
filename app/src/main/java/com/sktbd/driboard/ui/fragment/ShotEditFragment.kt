@@ -22,6 +22,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.afollestad.materialdialogs.MaterialDialog
@@ -30,6 +31,8 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
+import com.sktbd.driboard.ui.factory.DraftListViewModelFactory
+import com.sktbd.driboard.ui.factory.ShotEditViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import com.sktbd.driboard.utils.Constants
 import com.squareup.picasso.Picasso
@@ -50,6 +53,8 @@ class ShotEditFragment : Fragment() {
     }
 
     private lateinit var viewModel: ShotEditViewModel
+    private lateinit var viewModelFactory: ShotEditViewModelFactory
+
     private var imgPath:String? = null
     private var currentImgPath:String? = null
 
@@ -62,7 +67,9 @@ class ShotEditFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)//
+        var args = ShotEditFragmentArgs.fromBundle(arguments!!)
+        viewModelFactory = ShotEditViewModelFactory(args.shotId,args.state,args.accessToken)
+        viewModel = ViewModelProvider(this,viewModelFactory).get(ShotEditViewModel::class.java)//
         viewModel.getShot()
         viewModel.draft.observe(
             viewLifecycleOwner,
@@ -80,6 +87,11 @@ class ShotEditFragment : Fragment() {
                 if (it.images?.normal!=""){
                     currentImgPath = it.images?.normal
                     Picasso.get().load(it.images?.normal ).into(ivPreview)
+                }
+                if(it.imageUri != "") {
+                    currentImgPath = it.imageUri
+                    ivPreview.setImageURI(it.imageUri!!.toUri())
+
                 }
             }
         )
@@ -180,7 +192,7 @@ class ShotEditFragment : Fragment() {
                 }
             }
             else if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.NEW_DRAFT_STATE){
-                viewModel.publish(context)
+                viewModel.publish(context!!)
 
             }
             else if (viewModel.state == Constants.UPDATE_SHOT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){

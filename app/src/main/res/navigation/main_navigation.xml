@@ -68,6 +68,9 @@
             android:name="shotId"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="accessToken"
+            app:argType="string" />
     </fragment>
 
     <fragment
