@@ -87,7 +87,8 @@ class ShotDetailFragment : Fragment() {
             Glide.with(activity!!)
                 .load(newShotInfo.images.normal)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(shot_detail_image);
+                .into(shot_detail_image)
+            DetailChipGroup?.removeAllViews()
             newShotInfo.tags.forEach {
                 val chip = Chip(context)
                 chip.text = it
@@ -96,10 +97,6 @@ class ShotDetailFragment : Fragment() {
         })
     }
 
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-//    }
 
     private fun loadData(): String {
         val sharedPref = activity?.getSharedPreferences("auth", Context.MODE_PRIVATE)
