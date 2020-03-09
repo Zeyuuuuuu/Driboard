@@ -2,10 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/userFragment"
+        android:id="@+id/profile"
         android:title="My Profile" />
     <item
         android:id="@+id/shotBoardFragment"
         android:title="My Shots" />
-    <item android:title="Log out" />
+    <item
+        android:id="@+id/delete"
+        android:title="Log out" />
 </menu>
