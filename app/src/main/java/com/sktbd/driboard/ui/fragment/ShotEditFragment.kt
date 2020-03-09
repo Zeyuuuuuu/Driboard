@@ -26,9 +26,6 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
-import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
 import com.sktbd.driboard.data.model.Draft
@@ -36,19 +33,17 @@ import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import com.sktbd.driboard.utils.Constants
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.shot_edit_fragment.*
-import kotlinx.android.synthetic.main.user_fragment.*
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.logging.Logger
-import kotlin.collections.ArrayList
 
 
 class ShotEditFragment : Fragment() {
 
     private var mImageFileLocation = ""
-    var progressBar:ProgressBar? = null
+    private var progressBar:ProgressBar? = null
 
 
     companion object {
@@ -66,11 +61,12 @@ class ShotEditFragment : Fragment() {
         return inflater.inflate(R.layout.shot_edit_fragment, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)
         if(viewModel.isNew){
-            viewModel.draft.value = Draft(id="",title = "",description = "",tags = java.util.ArrayList(),images = Draft.ImageUrl(""))
+            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""))
         }
         else{
             viewModel.getShot()
@@ -83,7 +79,7 @@ class ShotEditFragment : Fragment() {
                     description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!.substring(3,it.description!!.length-4))
                 }
                 if (it.tags != null){
-                    var tagList = it.tags!!
+                    val tagList = it.tags!!
                     for (tag in tagList){
                         addChip(tag,false)
                     }
@@ -136,19 +132,21 @@ class ShotEditFragment : Fragment() {
                 if(actionId == EditorInfo.IME_ACTION_DONE) {
                     val tagText = tags_edit!!.editableText.toString()
 
-                    if (chipGroup?.childCount == 12){
-                        tags_input?.error = "Limited to a maximum of 12 tags."
-                    }
-                    else if(viewModel.hasTag(tagText)!!){
-                        tags_input?.error = "Tag exists."
+                    when {
+                        chipGroup?.childCount == 12 -> {
+                            tags_input?.error = "Limited to a maximum of 12 tags."
+                        }
+                        viewModel.hasTag(tagText)!! -> {
+                            tags_input?.error = "Tag exists."
 
-                    }
-                    else if (tagText == ""){
-                        tags_input?.error = "Tag cannot be empty."
-                    }
-                    else{
-                        addChip(tagText,true)
-                        tags_edit!!.text = null
+                        }
+                        tagText == "" -> {
+                            tags_input?.error = "Tag cannot be empty."
+                        }
+                        else -> {
+                            addChip(tagText,true)
+                            tags_edit!!.text = null
+                        }
                     }
 
                     return true
@@ -260,18 +258,18 @@ class ShotEditFragment : Fragment() {
                 Constants.REQUEST_GALLERY_PHOTO -> {
                     if (data != null){
                         val uploadUri = data.data
-                        val imgDatas = arrayOf(MediaStore.Images.Media.DATA)
-                        var cursor = activity?.contentResolver?.query(uploadUri!!, imgDatas, null, null, null)
+                        val imgData = arrayOf(MediaStore.Images.Media.DATA)
+                        val cursor = activity?.contentResolver?.query(uploadUri!!, imgData, null, null, null)
                         if (cursor != null) {
-                            cursor!!.moveToFirst()
-                            val columnIndex = cursor.getColumnIndexOrThrow(imgDatas[0])
+                            cursor.moveToFirst()
+                            val columnIndex = cursor.getColumnIndexOrThrow(imgData[0])
 //                            imgUri = Uri.withAppendedPath(uriExternal, "" + cursor.getString(columnIndexID))
 //                            MediaStore.Image.Media.DATA is deprecated because it was unsafe
 //                            ivPreview.setImageURI(imgUri)
 //                            currentImgUri = imgUri
                             imgPath = cursor.getString(columnIndex)
-                            title_edit?.text = Editable.Factory.getInstance().newEditable(File(imgPath).name)
-                            ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath));
+                            title_edit?.text = Editable.Factory.getInstance().newEditable(File(imgPath!!).name)
+                            ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath))
                             currentImgPath = imgPath
                             cursor.close()
 
@@ -354,16 +352,6 @@ class ShotEditFragment : Fragment() {
     }
 
 
-    fun showProgressBar(){
-        if(progressBar?.visibility != View.VISIBLE){
-            progressBar?.visibility = View.VISIBLE
-        }
-    }
-    fun hideProgressBar(){
-        if(progressBar?.visibility == View.VISIBLE){
-            progressBar?.visibility = View.GONE
-        }
-    }
     fun addChip(tagText:String?,triggerChange:Boolean){
         val chip = Chip(context)
         chip.text = tagText

@@ -2,17 +2,14 @@ package com.sktbd.driboard.data.network
 
 import android.util.Log
 import com.sktbd.driboard.utils.Constants
-import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 
 
 class RetrofitAPIManager(accessToken:String?) {
-    var token = Constants.ACCESS_TOKEN
+    private var token = Constants.ACCESS_TOKEN
     init{
         Log.i("RetrofitAPIManager", accessToken)
         if (accessToken!=null)
@@ -36,7 +33,8 @@ class RetrofitAPIManager(accessToken:String?) {
         return retrofit.create(AuthService::class.java)
     }
 
-    private fun genericClient(): OkHttpClient? {
+    private fun genericClient(): OkHttpClient {
+        Log.i("token",token)
         return OkHttpClient.Builder()
             .addInterceptor{chain ->
                     val request: Request = chain.request()

@@ -1,6 +1,5 @@
 package com.sktbd.driboard.data.model
 
-import android.provider.MediaStore
 import java.util.ArrayList
 import androidx.room.PrimaryKey
 import java.io.Serializable

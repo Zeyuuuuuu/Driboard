@@ -25,11 +25,11 @@ class ShotDetailViewModel(shotId: Int, accessToken: String): ViewModel() {
     private val _shotInfo = MutableLiveData<Shot>()
     val shotInfo: LiveData<Shot>
         get() = _shotInfo
-//    private val _imageUrl = MutableLiveData<String>()
-//    val imageUrl: LiveData<String>
-//        get() = _imageUrl
     private val retrofitAPIManager = RetrofitAPIManager(accessToken)
     private val driboardService  = retrofitAPIManager.getDriboardService()
+    init {
+        Log.i("ShotDetailViewModel", shotId.toString())
+    }
 
     fun getShotDetail() {
         var call: Call<Shot> = driboardService.getShotById(id);

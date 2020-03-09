@@ -2,9 +2,7 @@ package com.sktbd.driboard.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -40,9 +38,20 @@ class ShotDetailFragment : Fragment() {
             false
         )
         val accessToken = loadData()
-        viewModelFactory = ShotDetailViewModelFactory(accessToken, 1000000)
+        val args = ShotDetailFragmentArgs.fromBundle(arguments!!)
+        viewModelFactory = ShotDetailViewModelFactory(accessToken, args.shotId)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ShotDetailViewModel::class.java)
+        setHasOptionsMenu(true)
         return binding.root
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater?.inflate(R.menu.shot_detail_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
