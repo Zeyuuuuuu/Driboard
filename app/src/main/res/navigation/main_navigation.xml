@@ -18,7 +18,7 @@
         <action
             android:id="@+id/action_mainFragment_to_userFragment"
             app:destination="@id/userFragment"
-            app:popUpTo="@id/mainFragment"
+            app:popUpTo="@id/userFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -29,7 +29,7 @@
         <action
             android:id="@+id/action_loginFragment_to_userFragment"
             app:destination="@id/userFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/userFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment
@@ -68,6 +68,9 @@
             android:name="shotId"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="accessToken"
+            app:argType="string" />
     </fragment>
 
     <fragment

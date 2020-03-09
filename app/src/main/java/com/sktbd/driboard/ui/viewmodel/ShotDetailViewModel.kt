@@ -44,10 +44,16 @@ class ShotDetailViewModel(shotId: Int, accessToken: String): ViewModel() {
         })
     }
 
+    fun deleteShot() {
+        var call: Call<Shot> = driboardService.deleteShotById(id);
+        call.enqueue(object: Callback<Shot> {
+            override fun onFailure(call: Call<Shot>, t: Throwable) {
+                Log.e("ShotsDetailViewModelGetUser",t.toString())
+            }
 
-
-//    @BindingAdapter("bind:imageUrl")
-//    fun loadImage(view: ImageView, imageUrl: String?) {
-//        Picasso.get().load(imageUrl).into(view)
-//    }
+            override fun onResponse(call: Call<Shot>, response: Response<Shot>) {
+                Log.e("ShotsDetailViewModelGetUser", "shot deleted")
+            }
+        })
+    }
 }

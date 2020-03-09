@@ -24,12 +24,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
+import com.sktbd.driboard.data.model.Draft
+import com.sktbd.driboard.ui.factory.ShotEditViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import com.sktbd.driboard.utils.Constants
 import com.squareup.picasso.Picasso
@@ -42,7 +45,7 @@ import java.util.*
 class ShotEditFragment : Fragment() {
 
     private var mImageFileLocation = ""
-    private var progressBar:ProgressBar? = null
+//    private var progressBar:ProgressBar? = null
 
 
     companion object {
@@ -50,6 +53,7 @@ class ShotEditFragment : Fragment() {
     }
 
     private lateinit var viewModel: ShotEditViewModel
+    private lateinit var viewModelFactory: ShotEditViewModelFactory
     private var imgPath:String? = null
     private var currentImgPath:String? = null
 
@@ -62,8 +66,20 @@ class ShotEditFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)//
-        viewModel.getShot()
+
+        var args =  ShotEditFragmentArgs.fromBundle(arguments!!)
+        val accessToken = args.accessToken
+        val isNew = args.isNew
+        val shotId = args.shotId
+        viewModelFactory = ShotEditViewModelFactory(accessToken, isNew, shotId)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ShotEditViewModel::class.java)
+        if(viewModel.isNew){
+            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""))
+        }
+        else{
+            Log.i("ShotEditFragment", "getting shots")
+            viewModel.getShot()
+        }
         viewModel.draft.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
