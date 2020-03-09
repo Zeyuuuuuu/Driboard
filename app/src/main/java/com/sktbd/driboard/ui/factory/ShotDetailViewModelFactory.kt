@@ -3,7 +3,6 @@ package com.sktbd.driboard.ui.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.sktbd.driboard.ui.viewmodel.ShotDetailViewModel
-import com.sktbd.driboard.ui.viewmodel.Shot_RV_ViewModel
 import java.lang.IllegalArgumentException
 
 class ShotDetailViewModelFactory(private val accessToken: String, private val shotId: Int) : ViewModelProvider.Factory {

@@ -1,37 +1,26 @@
 package com.sktbd.driboard.ui.fragment
 
-import android.annotation.SuppressLint
 import android.content.Context
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.sktbd.driboard.R
 import com.sktbd.driboard.databinding.ShotBoardFragmentBinding
 import com.sktbd.driboard.ui.adapter.OnItemClickListener
-import com.sktbd.driboard.ui.adapter.RcAdapter
+import com.sktbd.driboard.ui.adapter.ShotBoard_RVAdapter
 import com.sktbd.driboard.ui.factory.ShotRVViewModelFactory
-import com.sktbd.driboard.ui.factory.UserViewModelFactory
-import com.sktbd.driboard.ui.viewmodel.Shot_RV_ViewModel
-import com.sktbd.driboard.ui.viewmodel.Shot_SR_ViewModel
-import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.coroutines.delay
-import java.lang.Thread.sleep
+import com.sktbd.driboard.ui.viewmodel.ShotBoardViewModel
 
 class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
     private lateinit var binding: ShotBoardFragmentBinding
-    private lateinit var rvAdapter: RcAdapter
-    private lateinit var rcViewModel: Shot_RV_ViewModel
-    private lateinit var srViewModel: Shot_SR_ViewModel
+    private lateinit var rvAdapter: ShotBoard_RVAdapter
+    private lateinit var rcViewModelBoard: ShotBoardViewModel
     private lateinit var shotRVViewModelFactory: ShotRVViewModelFactory
     companion object {
         fun newInstance() = ShotBoardFragment()
@@ -44,14 +33,13 @@ class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
 //
         val accessToken = loadData()
         shotRVViewModelFactory = ShotRVViewModelFactory(accessToken)
-        rcViewModel= ViewModelProvider(this, shotRVViewModelFactory).get(Shot_RV_ViewModel::class.java)
-        srViewModel= ViewModelProvider(this).get(Shot_SR_ViewModel::class.java)
+        rcViewModelBoard= ViewModelProvider(this, shotRVViewModelFactory).get(ShotBoardViewModel::class.java)
         binding = ShotBoardFragmentBinding.inflate(inflater,container,false)
-        rcViewModel.apply {
+        rcViewModelBoard.apply {
             getApiData()
             alMutableLiveData.observe(viewLifecycleOwner,androidx.lifecycle.Observer { list ->
                 if(list!==null){
-                    rvAdapter= RcAdapter(list, rcViewModel)
+                    rvAdapter= ShotBoard_RVAdapter(list, rcViewModelBoard)
                     rvAdapter.setOnItemClickListener(object : OnItemClickListener {
                         override fun onclick(v: View, position: Int) {
                             Log.i("CLICK", list[position].id.toString())
@@ -64,7 +52,7 @@ class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
             })
         }
 
-        binding.swipeContainer.setOnRefreshListener(this)
+        binding.swipeContainerShotBoard.setOnRefreshListener(this)
 
 
 
@@ -72,9 +60,9 @@ class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
     }
 
     override fun onRefresh() {
-        rcViewModel.clear()
-        rcViewModel.getApiData()
-        binding.swipeContainer.isRefreshing = false
+        rcViewModelBoard.clear()
+        rcViewModelBoard.getApiData()
+        binding.swipeContainerShotBoard.isRefreshing = false
     }
 
     private fun loadData(): String {
