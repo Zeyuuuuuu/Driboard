@@ -85,6 +85,7 @@ class ShotEditFragment : Fragment() {
         )
 
         progressBar = activity?.findViewById(R.id.progressbar)
+        progressBar?.bringToFront()
         viewModel.isPending.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {

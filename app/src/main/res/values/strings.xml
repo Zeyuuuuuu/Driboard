@@ -17,7 +17,21 @@
 
 
     <!-- shot edit -->
-    <string name="select_ur_image">Select ur image</string>
+    <string name="image">Image</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="tags">Tags</string>
+    <string name="publish">Publish</string>
+    <string name="save">Save</string>
+
+
+
+    <string name="title_input_hint">Add a title</string>
+    <string name="description_input_hint">Add a description</string>
+    <string name="tags_input_hint">Add a tag</string>
+    <string name="img_upload_hint">Upload your image</string>
+
+    <string name="select_ur_image">Select your image</string>
 
     <string name="image_is_required">Image is required</string>
     <string name="title_is_required">Title is required</string>
