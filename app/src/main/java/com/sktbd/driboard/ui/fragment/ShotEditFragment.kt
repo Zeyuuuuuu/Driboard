@@ -25,6 +25,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.bumptech.glide.Glide
@@ -32,6 +33,7 @@ import com.google.android.material.chip.Chip
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
 import com.sktbd.driboard.ui.factory.DraftListViewModelFactory
+import com.sktbd.driboard.data.model.Draft
 import com.sktbd.driboard.ui.factory.ShotEditViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import com.sktbd.driboard.utils.Constants
@@ -54,7 +56,6 @@ class ShotEditFragment : Fragment() {
 
     private lateinit var viewModel: ShotEditViewModel
     private lateinit var viewModelFactory: ShotEditViewModelFactory
-
     private var imgPath:String? = null
     private var currentImgPath:String? = null
 

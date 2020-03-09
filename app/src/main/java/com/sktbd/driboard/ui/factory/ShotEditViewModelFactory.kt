@@ -14,6 +14,7 @@ class ShotEditViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ShotEditViewModel::class.java)) {
             return ShotEditViewModel(draftId,state,token) as T
+
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

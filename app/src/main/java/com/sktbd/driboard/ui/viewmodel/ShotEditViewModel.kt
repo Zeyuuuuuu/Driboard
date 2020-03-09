@@ -44,6 +44,7 @@ class ShotEditViewModel(_draftId:String?,_state:Int,accessToken: String) : ViewM
 //    val tags = MutableLiveData<ArrayList<String>>()
 
     fun getShot(){
+
         when (state){
             Constants.NEW_SHOT_STATE -> {
                 draft.value = Draft(
@@ -56,7 +57,7 @@ class ShotEditViewModel(_draftId:String?,_state:Int,accessToken: String) : ViewM
                 )
             }
             Constants.UPDATE_SHOT_STATE -> {
-                driboardService.getShot(id).enqueue(object : Callback<Draft> {
+                driboardService.getShot(id!!).enqueue(object : Callback<Draft> {
                     override fun onResponse(call: Call<Draft>, response: Response<Draft>){
                         Log.i("ShotEditViewModel getShotSuccess", response.body().toString())
                         draft.value = (response.body() as Draft)

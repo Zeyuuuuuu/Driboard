@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name='Driboard'
+rootProject.name='nav_header'
