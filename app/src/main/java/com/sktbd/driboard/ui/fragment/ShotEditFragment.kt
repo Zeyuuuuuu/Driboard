@@ -22,6 +22,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -31,6 +32,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.chip.Chip
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
+import com.sktbd.driboard.ui.factory.DraftListViewModelFactory
 import com.sktbd.driboard.data.model.Draft
 import com.sktbd.driboard.ui.factory.ShotEditViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
@@ -45,7 +47,7 @@ import java.util.*
 class ShotEditFragment : Fragment() {
 
     private var mImageFileLocation = ""
-//    private var progressBar:ProgressBar? = null
+    private var progressBar:ProgressBar? = null
 
 
     companion object {
@@ -66,19 +68,15 @@ class ShotEditFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
         var args =  ShotEditFragmentArgs.fromBundle(arguments!!)
         val accessToken = args.accessToken
         val state = args.state
-        val shotId = args.shotId
-        viewModelFactory = ShotEditViewModelFactory(accessToken, state, shotId)
+        val id = args.shotId
+        viewModelFactory = ShotEditViewModelFactory(accessToken, state, id)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ShotEditViewModel::class.java)
-        if(viewModel.state == Constants.NEW_SHOT_STATE){
-            viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""), imageUri = "")
-        }
-        else{
-            Log.i("ShotEditFragment", "getting shots")
-            viewModel.getShot()
-        }
+        viewModel.getShot()
+        viewModel.initDB(context!!)
         viewModel.draft.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
@@ -95,6 +93,11 @@ class ShotEditFragment : Fragment() {
                 if (it.images?.normal!=""){
                     currentImgPath = it.images?.normal
                     Picasso.get().load(it.images?.normal ).into(ivPreview)
+                }
+                else if(it.imageUri != "") {
+                    currentImgPath = it.imageUri
+                    ivPreview.setImageURI(it.imageUri!!.toUri())
+
                 }
             }
         )
@@ -195,7 +198,7 @@ class ShotEditFragment : Fragment() {
                 }
             }
             else if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.NEW_DRAFT_STATE){
-                viewModel.publish(context)
+                viewModel.publish(context!!)
 
             }
             else if (viewModel.state == Constants.UPDATE_SHOT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){

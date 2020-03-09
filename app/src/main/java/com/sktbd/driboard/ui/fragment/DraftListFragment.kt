@@ -35,9 +35,11 @@ class DraftListFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
 
 
         draftListViewModelFactory = DraftListViewModelFactory(activity!!.applicationContext)
+        draftListViewModelFactory = DraftListViewModelFactory(context!!)
+
         draftListViewModel = ViewModelProvider(this, draftListViewModelFactory).get(DraftListViewModel::class.java)
         binding = DraftListFragmentBinding.inflate(inflater,container,false)
-        draftListViewModel.addData(DraftEntity(4,"DFSD","dasfadsfas","asdfa","asdfasdfas","asdfasf"))
+//        draftListViewModel.addData(DraftEntity(4,true,"DFSD","dasfadsfas","asdfa","asdfasdfas","asdfasf"))
 
 
         draftListViewModel.apply {

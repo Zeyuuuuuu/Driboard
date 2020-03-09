@@ -10,11 +10,12 @@ import java.io.Serializable
 
 @Entity(tableName = "drafts")
 data class DraftEntity (
-    @PrimaryKey var draftID: Long = 0,
-    var id:String,
-    var title:String,
-    var description:String,
-    var tags: String,
-    var imageUri:String)
+    @PrimaryKey var draftID: String = "",
+    var isNew:Boolean,
+    var id:String?,
+    var title:String?,
+    var description:String?,
+    var tags: String?,
+    var imageUri:String?)
 
 
