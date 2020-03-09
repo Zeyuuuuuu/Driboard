@@ -11,7 +11,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 class RetrofitAPIManager(accessToken:String?) {
     private var token = Constants.ACCESS_TOKEN
     init{
-        Log.i("RetrofitAPIManager", accessToken)
         if (accessToken!=null)
             token = accessToken
     }
