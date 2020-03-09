@@ -79,4 +79,8 @@
             android:id="@+id/action_shotBoardFragment_to_shotDetailFragment"
             app:destination="@id/shotDetailFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/draftListFragment2"
+        android:name="com.sktbd.driboard.ui.fragment.DraftListFragment"
+        android:label="DraftListFragment" />
 </navigation>

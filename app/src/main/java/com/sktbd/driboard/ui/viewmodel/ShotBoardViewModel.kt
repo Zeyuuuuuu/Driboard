@@ -19,9 +19,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.lang.Thread.sleep
 
 
-class Shot_RV_ViewModel(accessToken: String) : ViewModel() {
+class ShotBoardViewModel(accessToken: String) : ViewModel() {
 
-    var BASE_URL = "https://api.dribbble.com/v2/"
     var alMutableLiveData = MutableLiveData<List<Shot>>()
     private val retrofitAPIManager = RetrofitAPIManager(accessToken)
     private val driboardService = retrofitAPIManager.getDriboardService()
