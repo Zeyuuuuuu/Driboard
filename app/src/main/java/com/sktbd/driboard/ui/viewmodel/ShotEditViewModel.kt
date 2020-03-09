@@ -12,7 +12,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.util.ArrayList
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.room.Room
@@ -23,15 +22,17 @@ import com.sktbd.driboard.data.network.RetrofitAPIManager
 import com.sktbd.driboard.utils.Constants
 import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
+import java.text.SimpleDateFormat
+import java.util.*
 
 
-class ShotEditViewModel(_draftId:String?,_state:Int,accessToken: String) : ViewModel() {
+class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewModel() {
     val draft = MutableLiveData<Draft>()
-    var state = Constants.NEW_SHOT_STATE
+    var state = _state
     var isPending = MutableLiveData<Boolean>()
-    var id = "10657904"
+    var id = _id
     val draftId = ""
-    val db: AppDatabase? = null
+    var db: AppDatabase? = null
     private val retrofitAPIManager = RetrofitAPIManager(accessToken)
     private val driboardService  = retrofitAPIManager.getDriboardService()
 
@@ -39,13 +40,9 @@ class ShotEditViewModel(_draftId:String?,_state:Int,accessToken: String) : ViewM
         db = Room.databaseBuilder(context, AppDatabase::class.java, "drafts").allowMainThreadQueries().build()
     }
 
-//    val title = MutableLiveData<String>()
-//    val description = MutableLiveData<String>()
-//    val tags = MutableLiveData<ArrayList<String>>()
-
     fun getShot(){
 
-        when (state){
+        when (state) {
             Constants.NEW_SHOT_STATE -> {
                 draft.value = Draft(
                     id = "",
@@ -69,17 +66,17 @@ class ShotEditViewModel(_draftId:String?,_state:Int,accessToken: String) : ViewM
                 })
             }
             Constants.NEW_DRAFT_STATE,Constants.UPDATE_DRAFT_STATE -> {
-                val data = db.draftDao().getById(draftId)
+                val data = db?.draftDao()?.getById(draftId)
                 draft.value = Draft(
-                    id = data.id ?:"",
-                    title = data.title ?:"",
-                    description = data.description ?:"",
+                    id = data?.id ?:"",
+                    title = data?.title ?:"",
+                    description = data?.description ?:"",
                     tags = ArrayList(),
                     images = Draft.ImageUrl(""),
-                    imageUri = data.imageUri ?:""
+                    imageUri = data?.imageUri ?:""
                 )
-                if (data.tags !=""){
-                    draft.value?.tags = ArrayList(data.tags!!.split(","))
+                if (data?.tags !=""){
+                    draft.value?.tags = ArrayList(data?.tags!!.split(","))
                 }
 
             }
@@ -180,7 +177,7 @@ class ShotEditViewModel(_draftId:String?,_state:Int,accessToken: String) : ViewM
     fun save(){
 //        println(draft.value!!.tags)
         val data = DraftEntity(
-            draft.value!!.draftID,
+            "",
             true,
             draft.value!!.id,
             draft.value!!.title,
@@ -191,10 +188,12 @@ class ShotEditViewModel(_draftId:String?,_state:Int,accessToken: String) : ViewM
             data.isNew = false
         if(draft.value!!.tags!!.size != 0)
             data.tags = draft.value.toString().substring(1,draft.value!!.tags!!.size-1)
-        db.draftDao().insert(data)
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
+        data.draftID = timeStamp
+        db?.draftDao()?.insert(data)
     }
     private fun resizeImage(context: Context):File{
-        val f = File(context?.cacheDir,Uri.parse(draft.value!!.imageUri).lastPathSegment!!)
+        val f = File(context.cacheDir,Uri.parse(draft.value!!.imageUri).lastPathSegment!!)
         f.createNewFile()
         val bitmapOption = BitmapFactory.Options()
         bitmapOption.inJustDecodeBounds = false
