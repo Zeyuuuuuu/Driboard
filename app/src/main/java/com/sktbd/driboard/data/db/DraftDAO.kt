@@ -12,6 +12,9 @@ interface DraftDao {
     @Query("SELECT * FROM drafts")
     fun getAll(): List<DraftEntity>
 
+    @Query("SELECT * FROM drafts where draftID = :id")
+    fun getById(id:String): DraftEntity
+
     @Insert
     fun insert(draft: DraftEntity)
 

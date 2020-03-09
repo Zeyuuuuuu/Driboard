@@ -37,8 +37,11 @@ interface DriboardService {
     ): Call<Response<Void>>
 
     @GET ("shots/{id}")
-    fun getShotById(@Path("id") id: Int): Call<Shot>
+    fun getShotById(@Path(value = "id", encoded = true) id: Int): Call<Shot>
 
     @GET ("user/shots")
     fun getShots(): Call<List<Shot>>
+
+    @DELETE("shots/{id}")
+    fun deleteShotById(@Path(value = "id", encoded = true) id: Int): Call<Shot>
 }

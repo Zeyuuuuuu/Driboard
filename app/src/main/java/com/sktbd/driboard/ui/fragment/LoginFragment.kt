@@ -60,11 +60,7 @@ class LoginFragment : Fragment() {
         if (accessToken != "") {
             println("Already logged in")
             println(accessToken)
-            //TODO: Navigate to userFragment
             this.findNavController().navigate(R.id.action_loginFragment_to_userFragment)
-//            val intent = Intent(this, UserActivity::class.java)
-//            Log.i("LoginActivity", "to user page")
-//            startActivity(intent)
         } else {
             viewModel.accessToken.observe(viewLifecycleOwner, Observer {token ->
                 val sharedPref: SharedPreferences.Editor = activity?.getSharedPreferences("auth", Context.MODE_PRIVATE)!!.edit()
@@ -72,11 +68,7 @@ class LoginFragment : Fragment() {
                     sharedPref.putString("accessToken", token)
                     Log.i("LoginActivity", "token changed $token")
                     sharedPref.apply()
-                    // TODO: navigate to userFragment
                     this.findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToUserFragment(token))
-//                    val intent = Intent(this, UserActivity::class.java)
-//                    Log.i("LoginActivity", "to user page")
-//                    startActivity(intent)
                 }
             })
         }

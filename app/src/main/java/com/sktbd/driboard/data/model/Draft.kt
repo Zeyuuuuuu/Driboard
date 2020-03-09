@@ -9,7 +9,7 @@ import androidx.room.PrimaryKey
 import java.io.Serializable
 
 data class Draft (
-    var draftID: Long = 0,
+    var draftID: String = "",
     var id:String,
     var title:String,
     var description:String?,
