@@ -12,6 +12,7 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
 import com.bumptech.glide.Glide
@@ -29,6 +31,7 @@ import com.google.android.material.chip.Chip
 import com.sktbd.driboard.BuildConfig
 import com.sktbd.driboard.R
 import com.sktbd.driboard.data.model.Draft
+import com.sktbd.driboard.ui.factory.ShotEditViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotEditViewModel
 import com.sktbd.driboard.utils.Constants
 import com.squareup.picasso.Picasso
@@ -43,7 +46,7 @@ import java.util.logging.Logger
 class ShotEditFragment : Fragment() {
 
     private var mImageFileLocation = ""
-    private var progressBar:ProgressBar? = null
+//    private var progressBar:ProgressBar? = null
 
 
     companion object {
@@ -51,6 +54,7 @@ class ShotEditFragment : Fragment() {
     }
 
     private lateinit var viewModel: ShotEditViewModel
+    private lateinit var viewModelFactory: ShotEditViewModelFactory
     private var imgPath:String? = null
     private var currentImgPath:String? = null
 
@@ -64,11 +68,18 @@ class ShotEditFragment : Fragment() {
     @SuppressLint("SetTextI18n")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(ShotEditViewModel::class.java)
+
+        var args =  ShotEditFragmentArgs.fromBundle(arguments!!)
+        val accessToken = args.accessToken
+        val isNew = args.isNew
+        val shotId = args.shotId
+        viewModelFactory = ShotEditViewModelFactory(accessToken, isNew, shotId)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(ShotEditViewModel::class.java)
         if(viewModel.isNew){
             viewModel.draft.value = Draft(id="",title = "",description = "",tags = ArrayList(),images = Draft.ImageUrl(""))
         }
         else{
+            Log.i("ShotEditFragment", "getting shots")
             viewModel.getShot()
         }
         viewModel.draft.observe(
@@ -76,7 +87,8 @@ class ShotEditFragment : Fragment() {
             androidx.lifecycle.Observer {
                 title_edit?.text = Editable.Factory.getInstance().newEditable(it.title)
                 if (it.description != null) {
-                    description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!.substring(3,it.description!!.length-4))
+                    description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!)
+//                        .substring(3,it.description!!.length-4)
                 }
                 if (it.tags != null){
                     val tagList = it.tags!!
@@ -90,17 +102,17 @@ class ShotEditFragment : Fragment() {
             }
         )
 
-        progressBar = activity?.findViewById(R.id.progressbar)
-        viewModel.isPending.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer {
-                if (it == true)
-                    progressBar?.visibility = View.VISIBLE
-                else
-                    progressBar?.visibility = View.GONE
-
-            }
-        )
+//        progressBar = activity?.findViewById(R.id.progressbar)
+//        viewModel.isPending.observe(
+//            viewLifecycleOwner,
+//            androidx.lifecycle.Observer {
+//                if (it == true)
+//                    progressBar?.visibility = View.VISIBLE
+//                else
+//                    progressBar?.visibility = View.GONE
+//
+//            }
+//        )
 
 
         title_edit?.addTextChangedListener(object : TextWatcher {
