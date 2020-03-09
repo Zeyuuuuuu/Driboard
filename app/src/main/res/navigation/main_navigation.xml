@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/draftListFragment2">
+    app:startDestination="@id/shotEditFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.sktbd.driboard.ui.fragment.MainFragment"
@@ -62,8 +62,8 @@
         android:label="shot_edit_fragment"
         tools:layout="@layout/shot_edit_fragment" >
         <argument
-            android:name="isNew"
-            app:argType="boolean" />
+            android:name="state"
+            app:argType="integer" />
         <argument
             android:name="shotId"
             app:argType="string"

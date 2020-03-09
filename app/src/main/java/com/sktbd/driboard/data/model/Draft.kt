@@ -14,8 +14,10 @@ data class Draft (
     var title:String,
     var description:String?,
     var tags: ArrayList<String>?,
-    var images:ImageUrl?) : Serializable {
-        data class ImageUrl(val normal:String)
-    }
-
-
+    var images:ImageUrl?,
+    var imageUri:String?)
+    : Serializable {
+    data class ImageUrl(
+        var normal:String
+    )
+}

@@ -14,16 +14,15 @@
         android:layout_below="@+id/framelauout"
         android:backgroundTint="@android:color/white"
         android:indeterminate="true"
-        android:indeterminateTint="#BB86FC"
+        android:indeterminateTint="@color/colorPrimary"
         android:max="100"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <fragment
         android:id="@+id/main_navigation"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
         app:defaultNavHost="true"
         app:navGraph="@navigation/main_navigation" />
 </merge>
