@@ -91,6 +91,7 @@ class ShotDetailFragment : Fragment() {
             DetailChipGroup?.removeAllViews()
             newShotInfo.tags.forEach {
                 val chip = Chip(context)
+                chip.textAlignment = View.TEXT_ALIGNMENT_CENTER
                 chip.text = it
                 DetailChipGroup?.addView(chip as View)
             }
