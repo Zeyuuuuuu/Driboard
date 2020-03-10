@@ -24,7 +24,7 @@ import com.sktbd.driboard.ui.viewmodel.LoginViewModel
 
 class LoginFragment : Fragment() {
 
-    private val CLIENT_ID: String = "332c4e1351a08f89683bffedcb5242571e807fcdc2030f4ae93d5d08e4955a8e"
+    private val CLIENT_ID: String = "776e7c6224c49228e619abeaba2c967e84f3d0360865de17d61b1e653759fd1f"
     private val REDIRECT_URI: String = "driboard://callback"
     private var CODE: String = ""
     private var accessToken: String = ""

@@ -214,7 +214,7 @@ class ShotEditFragment : Fragment() {
             }
             else if (viewModel.state == Constants.UPDATE_SHOT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){
                 viewModel.update()
-                this.findNavController().navigate(ShotEditFragmentDirections.actionShotEditFragmentToShotDetailFragment(id!!.toInt()))
+                this.findNavController().navigate(R.id.action_shotEditFragment_to_shotBoardFragment)
             }
 
         }
