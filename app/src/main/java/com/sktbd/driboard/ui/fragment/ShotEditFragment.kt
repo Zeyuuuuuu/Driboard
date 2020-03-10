@@ -112,19 +112,19 @@ class ShotEditFragment : Fragment() {
             }
         )
 
-//        progressBar = activity?.findViewById(R.id.progressbar)
-//        progressBar?.bringToFront()
-//        viewModel.isPending.observe(
-//            viewLifecycleOwner,
-//            androidx.lifecycle.Observer {
-//                if (it == true) {
-//                    progressBar?.visibility = View.VISIBLE
-//                }
-//                else {
-//                    progressBar?.visibility = View.GONE
-//                }
-//            }
-//        )
+        progressBar = activity?.findViewById(R.id.progressbar)
+        progressBar?.bringToFront()
+        viewModel.isPending.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it == true) {
+                    progressBar?.visibility = View.VISIBLE
+                }
+                else {
+                    progressBar?.visibility = View.GONE
+                }
+            }
+        )
 
 
         title_edit?.addTextChangedListener(object : TextWatcher {
@@ -360,6 +360,7 @@ class ShotEditFragment : Fragment() {
     fun addChip(tagText:String?,triggerChange:Boolean){
         val chip = Chip(context)
         chip.text = tagText
+        chip.textAlignment = View.TEXT_ALIGNMENT_CENTER
         if(triggerChange)
             viewModel.onTagsChanged(tagText)
         chipGroup?.addView(chip as View)

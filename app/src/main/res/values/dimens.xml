@@ -3,6 +3,7 @@
     <dimen name="avatar_size">92dp</dimen>
     <dimen name="padding_16">16dp</dimen>
     <dimen name="padding_8">8dp</dimen>
+    <dimen name="margin_16">16dp</dimen>
     <dimen name="margin_8">8dp</dimen>
     <dimen name="margin_4">4dp</dimen>
     <dimen name="input_text_size">16sp</dimen>
@@ -12,10 +13,6 @@
 
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-
-
-
-
 
 
 </resources>

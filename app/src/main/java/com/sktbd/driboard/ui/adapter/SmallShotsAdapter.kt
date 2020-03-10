@@ -5,12 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
+<<<<<<< HEAD
+=======
+import androidx.navigation.Navigation
+>>>>>>> 4874ad523755ad3c9e224b5f9d98789eab2d4654
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.sktbd.driboard.R
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.user_fragment.*
 
+<<<<<<< HEAD
 class SmallShotsAdapter(private val linksList: List<String>, val parentFragment: Fragment) : RecyclerView.Adapter<SmallShotsAdapter.ViewHolder>() {
+=======
+class SmallShotsAdapter(private val linksList: List<String>,val parentFragment: Fragment) : RecyclerView.Adapter<SmallShotsAdapter.ViewHolder>() {
+>>>>>>> 4874ad523755ad3c9e224b5f9d98789eab2d4654
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ivSmallShot = itemView.findViewById<ImageView>(R.id.ivSmallShot)
