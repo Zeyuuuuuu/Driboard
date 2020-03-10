@@ -306,7 +306,9 @@ class ShotEditFragment : Fragment() {
                             imgPath = cursor.getString(columnIndex)
                             viewModel.onPicUpload(imgPath!!)
                             title_edit?.text = Editable.Factory.getInstance().newEditable(File(imgPath!!).name)
-                            ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath))
+                            Glide.with(this).load(imgPath).into(ivPreview!!)
+
+//                            ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath))
                             currentImgPath = imgPath
                             cursor.close()
 

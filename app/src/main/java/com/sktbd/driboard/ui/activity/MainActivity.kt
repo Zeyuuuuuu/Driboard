@@ -1,22 +1,28 @@
 package com.sktbd.driboard.ui.activity
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import com.sktbd.driboard.R
+import com.sktbd.driboard.broadcastreceiver.NetworkChangeReceiver
 import com.sktbd.driboard.databinding.ActivityMainBinding
 import com.sktbd.driboard.services.ReminderService
+import com.sktbd.driboard.utils.Constants
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     private var ivPreview:ImageView? = null
@@ -44,6 +50,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Intent(this, ReminderService::class.java).also { intent ->
             startService(intent)
         }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        val networkChangeReceiver = NetworkChangeReceiver();
+        registerReceiver(networkChangeReceiver,intentFilter);
 
     }
 
