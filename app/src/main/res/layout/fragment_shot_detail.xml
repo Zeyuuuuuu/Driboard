@@ -22,7 +22,6 @@
                 android:id="@+id/collapsing_toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
-                app:title="Title"
                 app:contentScrim="@color/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
                 <ImageView
@@ -59,8 +58,7 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/padding_16"
                     android:paddingStart="@dimen/padding_16"
-                    android:paddingEnd="@dimen/padding_16"
-                    android:text="This is the description of the shot">
+                    android:paddingEnd="@dimen/padding_16" >
                 </TextView>
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/DetailChipGroup"

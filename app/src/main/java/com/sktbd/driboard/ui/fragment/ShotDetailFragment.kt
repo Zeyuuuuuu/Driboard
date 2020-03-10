@@ -81,7 +81,7 @@ class ShotDetailFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel.getShotDetail()
         viewModel.shotInfo.observe(viewLifecycleOwner, Observer { newShotInfo ->
-            binding.shotDescription.text = newShotInfo.description
+            binding.shotDescription.text = newShotInfo.description.substring(3,newShotInfo.description.length-4)
             binding.collapsingToolbarLayout.title = newShotInfo.title
             shotId = newShotInfo.id.toString()
 
@@ -99,8 +99,6 @@ class ShotDetailFragment : Fragment() {
 
             if(networkInfo == Constants.WIFI && newShotInfo.images.hidpi != null)
                 imgResource = newShotInfo.images.hidpi
-
-
 
             Glide.with(activity!!)
                 .load(imgResource)
