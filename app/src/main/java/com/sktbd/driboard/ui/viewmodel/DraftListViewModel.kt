@@ -3,11 +3,14 @@ package com.sktbd.driboard.ui.viewmodel
 import android.app.Application
 import android.content.Context
 import android.util.Log
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.room.Room
+import com.bumptech.glide.Glide
 import com.sktbd.driboard.data.db.AppDatabase
 import com.sktbd.driboard.data.model.DraftEntity
 import com.sktbd.driboard.ui.fragment.DraftListFragment
@@ -35,12 +38,12 @@ class DraftListViewModel(context: Context) : ViewModel() {
         db.draftDao().delete(alMutableLiveData.value!![pos])
     }
 
-//    companion object {
-//        @BindingAdapter("app:imageUrl")
-//        @JvmStatic
-//        fun loadImage(view: ImageView, url: String) = Glide.with(view.context)
-//            .load(url)
-//            .centerCrop()
-//            .into(view)
-//    }
+    companion object {
+        @BindingAdapter("app:imageUri")
+        @JvmStatic
+        fun loadImage(view: ImageView, url: String) = Glide.with(view.context)
+            .load(url)
+            .centerCrop()
+            .into(view)
+    }
 }
