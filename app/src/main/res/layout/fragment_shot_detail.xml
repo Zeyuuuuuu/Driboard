@@ -58,7 +58,8 @@
                     android:layout_height="wrap_content"
                     android:paddingTop="@dimen/padding_16"
                     android:paddingStart="@dimen/padding_16"
-                    android:paddingEnd="@dimen/padding_16" >
+                    android:paddingEnd="@dimen/padding_16"
+                    android:textSize="20dp">
                 </TextView>
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/DetailChipGroup"

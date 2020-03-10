@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -30,6 +31,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: LoginFragmentBinding
     private lateinit var viewModel: LoginViewModel
+    private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,6 +46,7 @@ class LoginFragment : Fragment() {
         )
 
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        drawerLayout = activity!!.findViewById(R.id.drawerLayout)
 
         Log.i("LoginViewModel", "Called ViewModelProvider")
         return binding.root
@@ -76,6 +79,9 @@ class LoginFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        val toolbar = activity!!.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.visibility = View.GONE
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         val data: Uri? = activity?.intent?.data
         println(accessToken)
         if (accessToken == "" && !TextUtils.isEmpty(data?.scheme)) {
@@ -87,6 +93,13 @@ class LoginFragment : Fragment() {
                 viewModel.getAccessToken(CODE)
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        val toolbar = activity!!.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.visibility = View.VISIBLE
     }
 //
     private fun loadData(): String {
