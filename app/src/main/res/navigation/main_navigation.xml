@@ -81,6 +81,9 @@
         <action
             android:id="@+id/action_shotBoardFragment_to_shotDetailFragment"
             app:destination="@id/shotDetailFragment" />
+        <action
+            android:id="@+id/action_shotBoardFragment_to_shotEditFragment"
+            app:destination="@id/shotEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/draftListFragment"

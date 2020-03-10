@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import android.view.*
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -105,15 +106,17 @@ class ShotDetailFragment : Fragment() {
         return token
     }
 
-//    override fun onResume() {
-//        super.onResume()
-//        (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-//    }
-//
-//    override fun onStop() {
-//        super.onStop()
-//        (activity as AppCompatActivity?)!!.supportActionBar!!.show()
-//    }
+    override fun onResume() {
+        super.onResume()
+        val toolbar = activity!!.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.visibility = View.GONE
+    }
+
+    override fun onStop() {
+        super.onStop()
+        val toolbar = activity!!.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.visibility = View.VISIBLE
+    }
 
     private fun deleteDialog(): AlertDialog {
         val myDialog = AlertDialog.Builder(context)

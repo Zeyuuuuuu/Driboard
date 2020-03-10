@@ -1,21 +1,27 @@
 package com.sktbd.driboard.ui.fragment
 
+import android.R
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.sktbd.driboard.R
 import com.sktbd.driboard.databinding.ShotBoardFragmentBinding
 import com.sktbd.driboard.ui.adapter.OnItemClickListener
 import com.sktbd.driboard.ui.adapter.ShotBoard_RVAdapter
 import com.sktbd.driboard.ui.factory.ShotRVViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotBoardViewModel
+import com.sktbd.driboard.utils.Constants
+import kotlinx.android.synthetic.main.shot_board_fragment.view.*
+
 
 class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
     private lateinit var binding: ShotBoardFragmentBinding
@@ -30,7 +36,7 @@ class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
         savedInstanceState: Bundle?
     ): View {
 //        var args = ShotBoardFragmentArgs.fromBundle(arguments!!)
-//
+
         val accessToken = loadData()
         shotRVViewModelFactory = ShotRVViewModelFactory(accessToken)
         rcViewModelBoard= ViewModelProvider(this, shotRVViewModelFactory).get(ShotBoardViewModel::class.java)
@@ -52,9 +58,13 @@ class ShotBoardFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
             })
         }
 
+        activity!!.findViewById<Toolbar>(R.id.toolbar).title = "My Shots"
+
         binding.swipeContainerShotBoard.setOnRefreshListener(this)
-
-
+        binding.fab.setOnClickListener {
+            this@ShotBoardFragment.findNavController().navigate(ShotBoardFragmentDirections.actionShotBoardFragmentToShotEditFragment(
+                Constants.NEW_SHOT_STATE, "", accessToken))
+        }
 
         return binding.root
     }

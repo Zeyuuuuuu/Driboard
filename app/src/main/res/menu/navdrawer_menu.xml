@@ -8,6 +8,6 @@
         android:id="@+id/shotBoardFragment"
         android:title="My Shots" />
     <item
-        android:id="@+id/delete"
+        android:id="@+id/log_out"
         android:title="Log out" />
 </menu>
