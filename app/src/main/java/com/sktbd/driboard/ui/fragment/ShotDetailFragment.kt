@@ -57,6 +57,8 @@ class ShotDetailFragment : Fragment() {
         mActivity = activity as MainActivity
     }
 
+
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.shot_detail_menu, menu)
         super.onCreateOptionsMenu(menu, inflater)
@@ -120,8 +122,8 @@ class ShotDetailFragment : Fragment() {
         toolbar.visibility = View.GONE
     }
 
-    override fun onStop() {
-        super.onStop()
+    override fun onPause() {
+        super.onPause()
         val toolbar = activity!!.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
         toolbar.visibility = View.VISIBLE
     }
@@ -132,6 +134,7 @@ class ShotDetailFragment : Fragment() {
             .setMessage("Do you want to delete this shot?")
             .setPositiveButton("Delete") { dialog, which ->
                 viewModel.deleteShot()
+                findNavController().navigate(R.id.action_shotDetailFragment_to_shotBoardFragment)
                 dialog.dismiss();
              }
             .setNegativeButton("Cancel") { dialog, which ->

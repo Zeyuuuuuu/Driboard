@@ -76,6 +76,8 @@ class LoginFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        val toolbar = activity!!.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.visibility = View.GONE
         val data: Uri? = activity?.intent?.data
         println(accessToken)
         if (accessToken == "" && !TextUtils.isEmpty(data?.scheme)) {
@@ -87,6 +89,12 @@ class LoginFragment : Fragment() {
                 viewModel.getAccessToken(CODE)
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        val toolbar = activity!!.findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
+        toolbar.visibility = View.VISIBLE
     }
 //
     private fun loadData(): String {

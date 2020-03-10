@@ -41,8 +41,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Driboard"
-        toolbar.title = "Driboard"
 
         toolbar.setupWithNavController(navController, appBarConfiguration)
         navView.setNavigationItemSelectedListener(this)
@@ -68,19 +66,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.shotBoardFragment-> {
                 findNavController(R.id.main_navigation).navigate(R.id.shotBoardFragment)
+                drawerLayout.closeDrawers()
                 return true
             }
             R.id.log_out-> {
                 val dialog = logoutDialog()
                 dialog.show()
+                drawerLayout.closeDrawers()
                 return true
             }
             R.id.profile -> {
                 findNavController(R.id.main_navigation).navigate(R.id.userFragment)
+                drawerLayout.closeDrawers()
                 return true
             }
             R.id.draftListFragment -> {
                 findNavController(R.id.main_navigation).navigate(R.id.draftListFragment)
+                drawerLayout.closeDrawers()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

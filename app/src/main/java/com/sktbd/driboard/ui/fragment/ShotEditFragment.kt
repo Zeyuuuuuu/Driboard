@@ -248,7 +248,7 @@ class ShotEditFragment : Fragment() {
                         }
                         1 -> takePhoto()
                         2 -> {
-                            ivPreview.setImageResource(R.drawable.ic_launcher_background)
+                            ivPreview.setImageResource(R.drawable.image_placeholder)
                             currentImgPath = null
                         }
                     }

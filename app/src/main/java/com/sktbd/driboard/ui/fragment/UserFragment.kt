@@ -1,5 +1,6 @@
 package com.sktbd.driboard.ui.fragment
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -30,6 +31,7 @@ class UserFragment : Fragment() {
     private lateinit var binding: UserFragmentBinding
     private lateinit var viewModel: UserViewModel
     private lateinit var viewModelFactory: UserViewModelFactory
+    private lateinit var accessToken: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -48,15 +50,16 @@ class UserFragment : Fragment() {
         binding.rvShots.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_userFragment_to_shotBoardFragment)
         )
-        activity!!.findViewById<Toolbar>(R.id.toolbar).title = "My Profile"
+
 
         return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        var args = UserFragmentArgs.fromBundle(arguments!!)
-        viewModelFactory = UserViewModelFactory(args.accessToken)
+        activity!!.findViewById<Toolbar>(R.id.toolbar).title = "My Profile"
+        accessToken = loadData()
+        viewModelFactory = UserViewModelFactory(accessToken)
         viewModel = ViewModelProvider(this, viewModelFactory).get(UserViewModel::class.java)
 
         viewModel.getUser()
@@ -82,6 +85,12 @@ class UserFragment : Fragment() {
                 rvShots.adapter = SmallShotsAdapter(it,this)
             })
         
+    }
+
+    private fun loadData(): String {
+        val sharedPref = activity?.getSharedPreferences("auth", Context.MODE_PRIVATE)
+        val token: String =  sharedPref!!.getString("accessToken", "")!!
+        return token
     }
 
 
