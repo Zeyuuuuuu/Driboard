@@ -1,6 +1,9 @@
 package com.sktbd.driboard.ui.viewmodel
 
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sktbd.driboard.data.model.Shot
@@ -52,6 +55,8 @@ class UserViewModel(accessToken: String) : ViewModel() {
 
         })
     }
+
+
 }
 
 

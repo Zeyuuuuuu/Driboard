@@ -200,7 +200,10 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingStart="@dimen/padding_16" />
+                            android:paddingStart="@dimen/padding_16"
+                            android:ellipsize="end"
+                            android:maxEms="12"
+                            android:singleLine="true"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -225,7 +228,10 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingStart="@dimen/padding_16" />
+                            android:paddingStart="@dimen/padding_16"
+                            android:ellipsize="end"
+                            android:maxEms="12"
+                            android:singleLine="true"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -252,7 +258,9 @@
                             android:gravity="center_vertical"
                             android:paddingStart="@dimen/padding_16"
                             android:paddingEnd="@dimen/padding_16"
-                            android:text="" />
+                            android:ellipsize="end"
+                            android:maxEms="12"
+                            android:singleLine="true"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -284,10 +292,7 @@
                             android:paddingStart="@dimen/padding_16"
                             android:paddingEnd="@dimen/padding_16"
                             android:paddingTop="@dimen/padding_8"
-                            android:paddingBottom="@dimen/padding_8"
-
-
-                            android:text="qwertyuiopoipoiuytuiopoiuyhgfhjkljhgfghjkljhghjkjhgfhjkhgasdasdasdasdqwertyuiopoipoiuytuaopoiuyhgfhjkljhgfghjkljhghjkjhgfhjkhgasdasdasdasdqwertyuiopoipoiuytuiop"/>
+                            android:paddingBottom="@dimen/padding_8" />
                     </LinearLayout>
 
 

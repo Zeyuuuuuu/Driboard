@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.sktbd.driboard.data.model.AuthToken
 import com.sktbd.driboard.data.network.AuthService
+import com.sktbd.driboard.data.network.RetrofitAPIManager
+import com.sktbd.driboard.utils.Constants
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,19 +21,15 @@ class LoginViewModel: ViewModel() {
     private val CLIENT_SECRET: String = "ec8ea1868ccebd63dd334bf5985f432ce7ce6e8ed5e0537c242ea0f28f5cc03b"
     private val REDIRECT_URI: String = "driboard://callback"
 
-    private val retrofit: Retrofit
     private val authService: AuthService
     val accessToken: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     init {
-        retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        authService = retrofit.create(AuthService::class.java)
-        accessToken.value = ""
+        val apiManager = RetrofitAPIManager("")
+
+        authService = apiManager.getAuthService()
 
         Log.i("LoginViewModel", "LoginViewModel Created")
     }
@@ -43,7 +41,7 @@ class LoginViewModel: ViewModel() {
 
 
     fun getAccessToken(code: String) {
-        var call = authService.getAccessToken(CLIENT_ID, CLIENT_SECRET, code, REDIRECT_URI)
+        var call = authService.getAccessToken(Constants.CLIENT_ID, Constants.CLIENT_SECRET, code, Constants.REDIRECT_URI)
         call.enqueue(object : Callback<AuthToken> {
             override fun onFailure(call: Call<AuthToken>, t: Throwable) {
                 Log.e("getAccessToken", "Error in getAccessToken")

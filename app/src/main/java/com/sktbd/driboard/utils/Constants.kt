@@ -22,5 +22,8 @@ object Constants {
     const val CELLULAR = "CELLULAR"
     const val ERROR = "ERROR"
 
+    const val CLIENT_ID = "776e7c6224c49228e619abeaba2c967e84f3d0360865de17d61b1e653759fd1f"
+    const val CLIENT_SECRET = "ec8ea1868ccebd63dd334bf5985f432ce7ce6e8ed5e0537c242ea0f28f5cc03b"
+    const val REDIRECT_URI = "driboard://callback"
 
 }

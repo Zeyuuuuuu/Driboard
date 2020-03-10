@@ -92,7 +92,8 @@ class ShotEditFragment : Fragment() {
             androidx.lifecycle.Observer {
                 title_edit?.text = Editable.Factory.getInstance().newEditable(it.title)
                 if (it.description != null && it.description != "") {
-                    description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!.substring(3,it.description!!.length-4))
+                    if (it.description!!.contains("<p>"))
+                        description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!.substring(3,it.description!!.length-4))
                 }
                 if (it.tags != null && it.tags!!.isNotEmpty()){
                     val tagList = it.tags!!

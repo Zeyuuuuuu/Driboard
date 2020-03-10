@@ -134,13 +134,14 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
 
                     Log.i("CODE", response.code().toString())
                     isPending.value = false
-                    db!!.draftDao().deleteById(id!!)
+
 
                 }
 
                 override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
                     Log.i("Throwable", t.toString())
                     isPending.value = false
+                    db!!.draftDao().deleteById(id!!)
 
                 }
             }
@@ -161,12 +162,13 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
                 ) {
                     Log.i("CODE", response.toString())
                     isPending.value = false
-                    db!!.draftDao().deleteById(id!!)
                 }
 
                 override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
                     Log.i("Throwable", t.toString())
                     isPending.value = false
+                    db!!.draftDao().deleteById(id!!)
+
 
                 }
             }
@@ -186,7 +188,7 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
             "",
             draft.value!!.imageUri)
 
-        if(draft.value!!.tags!!.size != 0)
+        if(draft.value!!.tags!!.size > 1)
             data.tags = draft.value.toString().substring(1,draft.value!!.tags!!.size-1)
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
 
