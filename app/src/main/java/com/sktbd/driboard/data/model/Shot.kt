@@ -53,7 +53,7 @@ data class Shot(
 
     data class Images(
         @SerializedName("hidpi")
-        val hidpi: Any, // null
+        val hidpi: String?, // null
         @SerializedName("normal")
         val normal: String, // https://d13yacurqjgara.cloudfront.net/users/1/screenshots/471756/sasquatch.png
         @SerializedName("teaser")

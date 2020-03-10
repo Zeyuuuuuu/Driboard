@@ -14,4 +14,9 @@ object Constants {
     const val NEW_DRAFT_STATE = 2
     const val UPDATE_DRAFT_STATE = 3
 
+    const val WIFI = "WIFI"
+    const val CELLULAR = "CELLULAR"
+    const val ERROR = "ERROR"
+
+
 }

@@ -85,10 +85,7 @@ class ShotDetailFragment : Fragment() {
             binding.collapsingToolbarLayout.title = newShotInfo.title
             shotId = newShotInfo.id.toString()
 
-            Glide.with(activity!!)
-                .load(newShotInfo.images.normal)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(shot_detail_image)
+
             DetailChipGroup?.removeAllViews()
             newShotInfo.tags.forEach {
                 val chip = Chip(context)
@@ -96,6 +93,19 @@ class ShotDetailFragment : Fragment() {
                 chip.text = it
                 DetailChipGroup?.addView(chip as View)
             }
+            val sharedPref = activity?.getSharedPreferences("networkInfo", Context.MODE_PRIVATE)
+            val networkInfo: String =  sharedPref!!.getString("networkInfo", "")!!
+            var imgResource = newShotInfo.images.normal
+
+            if(networkInfo == Constants.WIFI && newShotInfo.images.hidpi != null)
+                imgResource = newShotInfo.images.hidpi
+
+
+
+            Glide.with(activity!!)
+                .load(imgResource)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(shot_detail_image)
         })
     }
 
