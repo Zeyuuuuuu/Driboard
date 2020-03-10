@@ -8,6 +8,9 @@
         android:id="@+id/shotBoardFragment"
         android:title="My Shots" />
     <item
+        android:id="@+id/draftListFragment"
+        android:title="My Drafts" />
+    <item
         android:id="@+id/log_out"
         android:title="Log out" />
 </menu>

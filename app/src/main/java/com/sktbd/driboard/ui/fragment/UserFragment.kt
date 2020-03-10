@@ -81,7 +81,7 @@ class UserFragment : Fragment() {
         viewModel.shotLinks.observe(
             viewLifecycleOwner,
             Observer {
-                recyclerView.adapter = SmallShotsAdapter(it)
+                recyclerView.adapter = SmallShotsAdapter(it, this)
             })
         
     }

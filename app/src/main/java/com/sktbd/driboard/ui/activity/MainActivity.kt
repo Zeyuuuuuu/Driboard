@@ -72,6 +72,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 findNavController(R.id.main_navigation).navigate(R.id.shotBoardFragment)
                 return true
             }
+            R.id.draftListFragment -> {
+                findNavController(R.id.main_navigation).navigate(R.id.draftListFragment)
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }

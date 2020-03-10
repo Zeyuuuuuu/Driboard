@@ -26,6 +26,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
@@ -208,15 +209,18 @@ class ShotEditFragment : Fragment() {
             }
             else if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.NEW_DRAFT_STATE){
                 viewModel.publish(context!!)
+                this.findNavController().navigate(R.id.action_shotEditFragment_to_shotBoardFragment)
 
             }
             else if (viewModel.state == Constants.UPDATE_SHOT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){
                 viewModel.update()
+                this.findNavController().navigate(ShotEditFragmentDirections.actionShotEditFragmentToShotDetailFragment(id!!.toInt()))
             }
 
         }
         btSave?.setOnClickListener{
             viewModel.save()
+            this.findNavController().navigate(R.id.action_shotEditFragment_to_draftListFragment)
         }
         ivPreview?.setOnClickListener{
             MaterialDialog(context!!).show{
