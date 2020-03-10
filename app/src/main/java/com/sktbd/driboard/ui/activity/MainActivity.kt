@@ -97,6 +97,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val sharedPref: SharedPreferences.Editor = getSharedPreferences("auth", Context.MODE_PRIVATE)!!.edit()
                 sharedPref.remove("accessToken")
                 sharedPref.apply()
+                intent?.data = null
                 findNavController(R.id.main_navigation).navigate(R.id.mainFragment)
             }
             .setNegativeButton("Cancel") { dialog, which ->
