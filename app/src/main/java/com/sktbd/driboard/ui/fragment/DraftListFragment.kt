@@ -43,7 +43,6 @@ class DraftListFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
 
         draftListViewModel = ViewModelProvider(this, draftListViewModelFactory).get(DraftListViewModel::class.java)
         binding = DraftListFragmentBinding.inflate(inflater,container,false)
-        draftListViewModel.addData(DraftEntity("asdfsadfadsfasd",2,"DFSD","dasfadsfas","asdfa","asdfasdfas","asdfasf"))
 
 
         draftListViewModel.apply {
@@ -68,6 +67,7 @@ class DraftListFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
                     })
                     binding.rvDraftList.layoutManager= LinearLayoutManager(activity)
                     binding.rvDraftList.adapter = rvAdapter
+
                 }
             })
         }

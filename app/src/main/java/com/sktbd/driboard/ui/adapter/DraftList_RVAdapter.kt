@@ -11,6 +11,8 @@ import com.sktbd.driboard.databinding.DraftItemBinding
 import com.sktbd.driboard.databinding.ShotItemBinding
 import com.sktbd.driboard.ui.viewmodel.DraftListViewModel
 import kotlinx.android.synthetic.main.draft_item.view.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class DraftList_RVAdapter(var draftList:List<DraftEntity>, var viewModel: DraftListViewModel) : RecyclerView.Adapter<DraftList_RVAdapter.VHolder>() {
@@ -37,12 +39,20 @@ class DraftList_RVAdapter(var draftList:List<DraftEntity>, var viewModel: DraftL
     override fun onBindViewHolder(holder: VHolder, position: Int) {
         val draft: DraftEntity =draftList[position]
         holder.bindView(draft)
+        holder.itemView.DeleteBtn.bringToFront()
         if (onDeleteClickListener != null) {
             holder.itemView.DeleteBtn.setOnClickListener { onDeleteClickListener?.onclick(holder.itemView.DeleteBtn, position) }
         }
         if (onItemClickListener != null) {
             holder.itemView.textViewTitle.setOnClickListener { onItemClickListener?.onclick(holder.itemView.textViewTitle, position) }
         }
+        //yyyyMMdd_HHmmSS
+        val timeFormatForId = SimpleDateFormat("yyyyMMdd_HHmmSS")
+        val timeStamp = timeFormatForId.parse(draft.draftID)
+        val timeFormartForDisplay = SimpleDateFormat("MM/dd/yyyy HH:mm")
+        var time = "Edited on " +timeFormartForDisplay.format(timeStamp)
+
+        holder.itemView.textViewDescript.text = time
     }
 
     inner class VHolder(itemView:View,var viewModelBoard:DraftListViewModel):RecyclerView.ViewHolder(itemView) {

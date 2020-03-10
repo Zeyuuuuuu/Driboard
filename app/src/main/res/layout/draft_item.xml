@@ -25,30 +25,32 @@
             android:stateListAnimator="@drawable/lift_on_touch"
             app:cardElevation="20dp"
             >
+
             <LinearLayout
-                android:orientation="vertical"
+                android:id="@+id/fragment_item_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    <!--            <RelativeLayout-->
-    <!--                android:layout_width="match_parent"-->
-    <!--                android:layout_height="195dp">-->
+                <!--            <RelativeLayout-->
+                <!--                android:layout_width="match_parent"-->
+                <!--                android:layout_height="195dp">-->
 
-    <!--                <ImageView-->
-    <!--                    android:id="@+id/imageView"-->
-    <!--                    android:layout_width="match_parent"-->
-    <!--                    android:layout_height="match_parent"-->
-    <!--                    android:background="#FFFFFF"-->
-    <!--                    android:scaleType="matrix"-->
-    <!--                    app:imageUrl="@{draft.images}"-->
-    <!--                    tools:srcCompat="@tools:sample/backgrounds/scenic" />-->
-    <!--            </RelativeLayout>-->
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/imageView"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="match_parent"-->
+                <!--                    android:background="#FFFFFF"-->
+                <!--                    android:scaleType="matrix"-->
+                <!--                    app:imageUrl="@{draft.images}"-->
+                <!--                    tools:srcCompat="@tools:sample/backgrounds/scenic" />-->
+                <!--            </RelativeLayout>-->
 
 
                 <RelativeLayout
-                    android:padding="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
 
                     <TextView
                         android:id="@+id/textViewTitle"
@@ -62,9 +64,9 @@
                 </RelativeLayout>
 
                 <LinearLayout
-                    android:padding="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -76,7 +78,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="bottom|center"
-                            android:text="@{draft.draftID.substring(3)}"
+                            android:text=""
                             android:textColor="#1A1A1A"
                             android:textSize="18sp"
                             tools:text="@tools:sample/cities" />
@@ -85,7 +87,8 @@
                     <LinearLayout
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="right" >
+                        android:gravity="right">
+
                         <Button
                             android:id="@+id/DeleteBtn"
                             android:layout_width="wrap_content"
