@@ -85,8 +85,8 @@ class ShotEditFragment : Fragment() {
         val id = args.shotId
         viewModelFactory = ShotEditViewModelFactory(accessToken, state, id)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ShotEditViewModel::class.java)
-        viewModel.getShot()
         viewModel.initDB(context!!)
+        viewModel.getShot()
         viewModel.draft.observe(
             viewLifecycleOwner,
             androidx.lifecycle.Observer {
