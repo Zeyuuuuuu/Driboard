@@ -20,4 +20,7 @@ interface DraftDao {
 
     @Delete
     fun delete(darft: DraftEntity)
+
+    @Query("DELETE FROM drafts where draftID = :id")
+    fun deleteById(id:String)
 }
