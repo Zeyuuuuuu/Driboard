@@ -15,9 +15,12 @@ interface DraftDao {
     @Insert
     fun insert(draft: DraftEntity)
 
-    @Delete
-    fun delete(darft: DraftEntity)
-
     @Update
-    fun update(data: DraftEntity)
+    fun update(draft: DraftEntity)
+
+    @Delete
+    fun delete(draft: DraftEntity)
+
+    @Query("DELETE FROM drafts where draftID = :id")
+    fun deleteById(id:String)
 }

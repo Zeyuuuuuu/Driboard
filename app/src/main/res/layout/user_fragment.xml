@@ -42,7 +42,8 @@
                         android:fontFamily="monospace"
                         android:text="None"
                         android:textAlignment="center"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:layout_marginBottom="@dimen/margin_4"/>
 
                     <TextView
                         android:id="@+id/tvAddress"
@@ -50,7 +51,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="monospace"
                         android:textAlignment="center"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_marginBottom="@dimen/margin_4"/>
 
                     <TextView
                         android:id="@+id/tvFollowers"
