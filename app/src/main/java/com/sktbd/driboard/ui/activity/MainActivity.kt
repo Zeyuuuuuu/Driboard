@@ -2,6 +2,7 @@ package com.sktbd.driboard.ui.activity
 
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.preference.PreferenceManager.getDefaultSharedPreferences
@@ -18,6 +19,7 @@ import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import com.sktbd.driboard.R
 import com.sktbd.driboard.databinding.ActivityMainBinding
+import com.sktbd.driboard.services.ReminderService
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     private var ivPreview:ImageView? = null
@@ -43,6 +45,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        Intent(this, ReminderService::class.java).also { intent ->
+            startService(intent)
+        }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {
