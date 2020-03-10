@@ -36,7 +36,7 @@
                 android:layout_marginStart="@dimen/margin_8"
                 android:layout_marginEnd="@dimen/margin_8"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_launcher_background"
+                android:src="@drawable/image_placeholder"
                 android:contentDescription="@string/img_upload_hint" />
 
             <TextView
@@ -110,7 +110,7 @@
                     android:gravity="center"
                     android:imeOptions="actionDone"
                     app:counterEnabled="true"
-                    app:counterMaxLength="140">
+                    app:counterMaxLength="160">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/description_edit"
