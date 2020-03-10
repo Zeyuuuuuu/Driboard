@@ -65,7 +65,7 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
                 })
             }
             Constants.NEW_DRAFT_STATE,Constants.UPDATE_DRAFT_STATE -> {
-                val data = db?.draftDao()?.getById(draftId)
+                val data = db?.draftDao()?.getById(id!!)
                 draft.value = Draft(
                     id = data?.id ?:"",
                     title = data?.title ?:"",
