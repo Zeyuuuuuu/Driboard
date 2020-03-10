@@ -23,7 +23,10 @@ class UserViewModel(accessToken: String) : ViewModel() {
         driboardService.getUser().enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>,response: Response<User>){
                 Log.i("UserViewModel", response.body().toString())
-                userInfo.value = (response.body() as User)
+                if (response.body() == null)
+                    Log.e("UserViewModel", "accessToken invalid, maybe account has been suspended")
+                else
+                    userInfo.value = (response.body() as User)
             }
             override fun onFailure(call: Call<User>,t: Throwable){
                 Log.e("UserViewModelGetUser",t.toString())

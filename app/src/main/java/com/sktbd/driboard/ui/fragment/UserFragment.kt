@@ -50,8 +50,6 @@ class UserFragment : Fragment() {
         binding.rvShots.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_userFragment_to_shotBoardFragment)
         )
-
-
         return binding.root
     }
 
@@ -75,7 +73,6 @@ class UserFragment : Fragment() {
                 tvFollowers.text = it.followersCount.toString() + " Followers"
                 Picasso.get().load(it.avatarUrl ).into(ivAvatar)
             })
-
 
         rvShots.layoutManager = LinearLayoutManager(view!!.context, RecyclerView.HORIZONTAL, false)
 
