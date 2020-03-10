@@ -221,12 +221,12 @@ class ShotEditFragment : Fragment() {
         btSave?.setOnClickListener{
             // create draft
             if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.UPDATE_SHOT_STATE){
-                viewModel.save(true)
+                viewModel.save()
 
             }
             // load draft
             else if (viewModel.state == Constants.NEW_DRAFT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){
-                viewModel.save(false)
+                viewModel.save()
             }
             this.findNavController().navigate(R.id.action_shotEditFragment_to_draftListFragment)
 
