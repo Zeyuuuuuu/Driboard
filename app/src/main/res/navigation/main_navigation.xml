@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_navigation"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/draftListFragment">
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.sktbd.driboard.ui.fragment.MainFragment"
@@ -125,5 +125,9 @@
         android:id="@+id/draftListFragment"
         android:name="com.sktbd.driboard.ui.fragment.DraftListFragment"
         android:label="DraftListFragment"
-        tools:layout="@layout/draft_list_fragment"/>
+        tools:layout="@layout/draft_list_fragment">
+        <action
+            android:id="@+id/action_draftListFragment_to_shotEditFragment"
+            app:destination="@id/shotEditFragment" />
+    </fragment>
 </navigation>

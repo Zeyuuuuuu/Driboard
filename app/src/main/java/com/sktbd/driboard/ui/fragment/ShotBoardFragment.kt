@@ -58,7 +58,7 @@ class ShotBoardFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener  {
             })
         }
 
-        activity!!.findViewById<Toolbar>(R.id.toolbar).title = "My Shots"
+        activity!!.findViewById<Toolbar>(com.sktbd.driboard.R.id.toolbar).title = "My Shots"
 
         binding.swipeContainerShotBoard.setOnRefreshListener(this)
         binding.fab.setOnClickListener {
