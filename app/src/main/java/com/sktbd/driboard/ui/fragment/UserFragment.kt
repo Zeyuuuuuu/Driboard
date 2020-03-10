@@ -42,7 +42,6 @@ class UserFragment : Fragment() {
             false
         )
 
-//        binding.lyShots.bringToFront()
         binding.lyShots.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_userFragment_to_shotBoardFragment)
         )
@@ -75,13 +74,12 @@ class UserFragment : Fragment() {
             })
 
 
-        val recyclerView = view?.findViewById<RecyclerView>(R.id.rvShots)
-        recyclerView!!.layoutManager = LinearLayoutManager(view!!.context, RecyclerView.HORIZONTAL, false)
+        rvShots.layoutManager = LinearLayoutManager(view!!.context, RecyclerView.HORIZONTAL, false)
 
         viewModel.shotLinks.observe(
             viewLifecycleOwner,
             Observer {
-                recyclerView.adapter = SmallShotsAdapter(it)
+                rvShots.adapter = SmallShotsAdapter(it,this)
             })
         
     }

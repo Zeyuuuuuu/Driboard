@@ -86,7 +86,7 @@
             app:destination="@id/shotEditFragment" />
     </fragment>
     <fragment
-        android:id="@+id/draftListFragment2"
+        android:id="@+id/draftListFragment"
         android:name="com.sktbd.driboard.ui.fragment.DraftListFragment"
         android:label="DraftListFragment" />
 </navigation>
