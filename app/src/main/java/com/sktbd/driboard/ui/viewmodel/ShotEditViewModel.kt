@@ -134,13 +134,14 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
 
                     Log.i("CODE", response.code().toString())
                     isPending.value = false
-                    db!!.draftDao().deleteById(id!!)
+
 
                 }
 
                 override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
                     Log.i("Throwable", t.toString())
                     isPending.value = false
+                    db!!.draftDao().deleteById(id!!)
 
                 }
             }
@@ -161,12 +162,13 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
                 ) {
                     Log.i("CODE", response.toString())
                     isPending.value = false
-                    db!!.draftDao().deleteById(id!!)
                 }
 
                 override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
                     Log.i("Throwable", t.toString())
                     isPending.value = false
+                    db!!.draftDao().deleteById(id!!)
+
 
                 }
             }
