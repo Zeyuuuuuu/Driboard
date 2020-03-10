@@ -94,7 +94,11 @@ class ShotEditFragment : Fragment() {
                 if (it.description != null && it.description != "") {
                     if (it.description!!.contains("<p>"))
                         description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!.substring(3,it.description!!.length-4))
-                }
+                    else
+                        description_edit?.text = Editable.Factory.getInstance().newEditable(it.description!!)
+
+                    }
+
                 if (it.tags != null && it.tags!!.isNotEmpty()){
                     val tagList = it.tags!!
                     for (tag in tagList){
