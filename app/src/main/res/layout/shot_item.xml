@@ -25,6 +25,7 @@
         android:stateListAnimator="@drawable/lift_on_touch"
         app:cardElevation="20dp"
         >
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -45,20 +46,20 @@
             </RelativeLayout>
 
 
-<!--            <RelativeLayout-->
-<!--                android:padding="10dp"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+            <RelativeLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-<!--                <TextView-->
-<!--                    android:id="@+id/textViewTitle"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="@{shot.title}"-->
-<!--                    android:textColor="#1A1A1A"-->
-<!--                    android:textSize="18sp"-->
-<!--                    tools:text="@tools:sample/cities" />-->
-<!--            </RelativeLayout>-->
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{shot.title}"
+                    android:textColor="#1A1A1A"
+                    android:textSize="18sp"
+                    tools:text="@tools:sample/cities" />
+            </RelativeLayout>
 
         </LinearLayout>
 

@@ -68,7 +68,6 @@ class DraftListFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
                     })
                     binding.rvDraftList.layoutManager= LinearLayoutManager(activity)
                     binding.rvDraftList.adapter = rvAdapter
-
                 }
             })
         }
