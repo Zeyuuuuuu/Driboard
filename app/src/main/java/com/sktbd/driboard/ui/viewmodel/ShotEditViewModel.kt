@@ -174,7 +174,7 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
 
     }
 
-    fun save(){
+    fun save(isNew:Boolean){
 //        println(draft.value!!.tags)
 //        isPending.value = true
         val data = DraftEntity(
@@ -190,8 +190,16 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
         if(draft.value!!.tags!!.size != 0)
             data.tags = draft.value.toString().substring(1,draft.value!!.tags!!.size-1)
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
-        data.draftID = timeStamp
-        db?.draftDao()?.insert(data)
+
+        if(isNew){
+            data.draftID = timeStamp
+            db?.draftDao()?.insert(data)
+        }
+        else{
+            db?.draftDao()?.update(data)
+        }
+
+
 //        isPending.value = false
     }
     private fun resizeImage(context: Context):File{
