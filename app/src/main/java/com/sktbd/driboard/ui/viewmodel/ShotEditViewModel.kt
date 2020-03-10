@@ -77,6 +77,10 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
                 if (data?.tags !=""){
                     draft.value?.tags = ArrayList(data?.tags!!.split(","))
                 }
+                if (state == Constants.UPDATE_DRAFT_STATE){
+                    draft!!.value!!.imageUri = ""
+                    draft!!.value!!.images!!.normal = data!!.imageUri!!
+                }
 
             }
         }
@@ -192,10 +196,13 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
             data.tags = draft.value.toString().substring(1,draft.value!!.tags!!.size-1)
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
 
-        if (state == Constants.NEW_SHOT_STATE || state == Constants.NEW_DRAFT_STATE)
+        if (state == Constants.NEW_SHOT_STATE || state == Constants.NEW_DRAFT_STATE){
             data.state = Constants.NEW_DRAFT_STATE
-        else
+        }
+        else{
             data.state = Constants.UPDATE_DRAFT_STATE
+            data.imageUri = draft.value!!.images!!.normal
+        }
 
         // create a draft
         if (state == Constants.NEW_SHOT_STATE || state == Constants.UPDATE_SHOT_STATE){
