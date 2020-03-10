@@ -79,11 +79,7 @@ class UserFragment : Fragment() {
         viewModel.shotLinks.observe(
             viewLifecycleOwner,
             Observer {
-<<<<<<< HEAD
-                recyclerView.adapter = SmallShotsAdapter(it, this)
-=======
                 rvShots.adapter = SmallShotsAdapter(it,this)
->>>>>>> 4874ad523755ad3c9e224b5f9d98789eab2d4654
             })
         
     }

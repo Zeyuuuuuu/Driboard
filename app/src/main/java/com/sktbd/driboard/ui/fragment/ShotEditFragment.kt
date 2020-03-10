@@ -219,8 +219,17 @@ class ShotEditFragment : Fragment() {
 
         }
         btSave?.setOnClickListener{
-            viewModel.save()
+            // create draft
+            if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.UPDATE_SHOT_STATE){
+                viewModel.save(true)
+
+            }
+            // load draft
+            else if (viewModel.state == Constants.NEW_DRAFT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){
+                viewModel.save(false)
+            }
             this.findNavController().navigate(R.id.action_shotEditFragment_to_draftListFragment)
+
         }
         ivPreview?.setOnClickListener{
             MaterialDialog(context!!).show{

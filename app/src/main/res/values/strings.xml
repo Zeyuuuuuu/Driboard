@@ -47,4 +47,8 @@
 
     <string name="error_message">Error</string>
     <string name="update">Update</string>
+
+    <string name="channel_name">Reminder</string>
+    <string name="channel_description">Drafts reminder</string>
+
 </resources>
