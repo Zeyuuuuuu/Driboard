@@ -20,6 +20,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -63,6 +64,8 @@ class ShotEditFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+
         return inflater.inflate(R.layout.shot_edit_fragment, container, false)
     }
 
@@ -72,6 +75,12 @@ class ShotEditFragment : Fragment() {
         var args =  ShotEditFragmentArgs.fromBundle(arguments!!)
         val accessToken = args.accessToken
         val state = args.state
+        when (state) {
+            0 -> activity!!.findViewById<Toolbar>(R.id.toolbar).title = "New Shot"
+            1 -> activity!!.findViewById<Toolbar>(R.id.toolbar).title = "Edit Shot"
+            2 -> activity!!.findViewById<Toolbar>(R.id.toolbar).title = "New Shot"
+            3 -> activity!!.findViewById<Toolbar>(R.id.toolbar).title = "Edit Shot"
+        }
         val id = args.shotId
         viewModelFactory = ShotEditViewModelFactory(accessToken, state, id)
         viewModel = ViewModelProvider(this, viewModelFactory).get(ShotEditViewModel::class.java)
