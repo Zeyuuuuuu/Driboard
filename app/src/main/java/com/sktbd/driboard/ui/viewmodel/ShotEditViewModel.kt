@@ -196,10 +196,13 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
             "",
             draft.value!!.imageUri)
         val s = draft.value!!.tags.toString()
-        if(draft.value!!.tags!!.size > 1)
-            data.tags = s.substring(1,s.length-1)
-        else
-            data.tags = draft.value!!.tags.toString()
+        when(draft.value!!.tags!!.size){
+            0 -> data.tags = ""
+            1 -> data.tags = draft.value!!.tags.toString()
+            else -> data.tags = s.substring(1,s.length-1)
+
+        }
+
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
 
         if (state == Constants.NEW_SHOT_STATE || state == Constants.NEW_DRAFT_STATE){
