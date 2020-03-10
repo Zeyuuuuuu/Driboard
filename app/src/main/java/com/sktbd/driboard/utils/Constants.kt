@@ -9,9 +9,18 @@ object Constants {
     const val REQUEST_GALLERY_PHOTO = 1
     const val REUQEST_PUBLISH_PERMISSION = 0
     const val IMAGE_DIRECTORY = "Image Upload"
+    // create a shot and publish
     const val NEW_SHOT_STATE = 0
+    // edit a shot and update
     const val UPDATE_SHOT_STATE = 1
+    // load the draft which create a shot and publish
     const val NEW_DRAFT_STATE = 2
+    // load the draft which edit a shot and update
     const val UPDATE_DRAFT_STATE = 3
+
+    const val WIFI = "WIFI"
+    const val CELLULAR = "CELLULAR"
+    const val ERROR = "ERROR"
+
 
 }
