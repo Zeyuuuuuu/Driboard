@@ -2,7 +2,7 @@
 <resources>
     <string-array name="uploadImages">
         <item>Pick from gallery</item>
-        <item>Click from camera</item>
+        <item>Capture from camera</item>
         <item>Remove Image</item>
     </string-array>
 
