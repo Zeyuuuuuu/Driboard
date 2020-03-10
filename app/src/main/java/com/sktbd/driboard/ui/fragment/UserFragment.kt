@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -41,12 +42,14 @@ class UserFragment : Fragment() {
             false
         )
 
+//        binding.lyShots.bringToFront()
         binding.lyShots.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_userFragment_to_shotBoardFragment)
         )
         binding.rvShots.setOnClickListener(
             Navigation.createNavigateOnClickListener(R.id.action_userFragment_to_shotBoardFragment)
         )
+        activity!!.findViewById<Toolbar>(R.id.toolbar).title = "My Profile"
 
         return binding.root
     }
