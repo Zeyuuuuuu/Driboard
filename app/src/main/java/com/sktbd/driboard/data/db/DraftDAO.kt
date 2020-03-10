@@ -19,8 +19,6 @@ interface DraftDao {
     @Insert
     fun insert(draft: DraftEntity)
 
-    @Update
-    fun update(draft: DraftEntity)
 
     @Delete
     fun delete(draft: DraftEntity)
