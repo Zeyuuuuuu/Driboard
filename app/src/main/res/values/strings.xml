@@ -53,5 +53,6 @@
 
     <string name="channel_name">Reminder</string>
     <string name="channel_description">Drafts reminder</string>
+    <string name="biography">Biography</string>
 
 </resources>

@@ -110,7 +110,7 @@
                     android:gravity="center"
                     android:imeOptions="actionDone"
                     app:counterEnabled="true"
-                    app:counterMaxLength="140">
+                    app:counterMaxLength="160">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/description_edit"
