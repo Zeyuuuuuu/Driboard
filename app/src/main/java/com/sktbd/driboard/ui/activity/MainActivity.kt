@@ -3,7 +3,9 @@ package com.sktbd.driboard.ui.activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
@@ -15,6 +17,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import com.sktbd.driboard.R
+import com.sktbd.driboard.broadcastreceiver.NetworkChangeReceiver
 import com.sktbd.driboard.databinding.ActivityMainBinding
 import com.sktbd.driboard.services.ReminderService
 
@@ -52,10 +55,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.navdrawer_menu, menu);
-//        return super.onCreateOptionsMenu(menu)
-//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
@@ -68,8 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 dialog.show()
                 return true
             }
-            R.id.userFragment -> {
-                findNavController(R.id.main_navigation).navigate(R.id.shotBoardFragment)
+            R.id.profile -> {
+                findNavController(R.id.main_navigation).navigate(R.id.userFragment)
                 return true
             }
             R.id.draftListFragment -> {

@@ -49,7 +49,7 @@ import java.util.*
 class ShotEditFragment : Fragment() {
 
     private var mImageFileLocation = ""
-    private var progressBar:ProgressBar? = null
+//    private var progressBar:ProgressBar? = null
 
 
     companion object {
@@ -112,19 +112,19 @@ class ShotEditFragment : Fragment() {
             }
         )
 
-        progressBar = activity?.findViewById(R.id.progressbar)
-        progressBar?.bringToFront()
-        viewModel.isPending.observe(
-            viewLifecycleOwner,
-            androidx.lifecycle.Observer {
-                if (it == true) {
-                    progressBar?.visibility = View.VISIBLE
-                }
-                else {
-                    progressBar?.visibility = View.GONE
-                }
-            }
-        )
+//        progressBar = activity?.findViewById(R.id.progressbar)
+//        progressBar?.bringToFront()
+//        viewModel.isPending.observe(
+//            viewLifecycleOwner,
+//            androidx.lifecycle.Observer {
+//                if (it == true) {
+//                    progressBar?.visibility = View.VISIBLE
+//                }
+//                else {
+//                    progressBar?.visibility = View.GONE
+//                }
+//            }
+//        )
 
 
         title_edit?.addTextChangedListener(object : TextWatcher {
@@ -306,7 +306,9 @@ class ShotEditFragment : Fragment() {
                             imgPath = cursor.getString(columnIndex)
                             viewModel.onPicUpload(imgPath!!)
                             title_edit?.text = Editable.Factory.getInstance().newEditable(File(imgPath!!).name)
-                            ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath))
+                            Glide.with(this).load(imgPath).into(ivPreview!!)
+
+//                            ivPreview?.setImageBitmap(BitmapFactory.decodeFile(imgPath))
                             currentImgPath = imgPath
                             cursor.close()
 

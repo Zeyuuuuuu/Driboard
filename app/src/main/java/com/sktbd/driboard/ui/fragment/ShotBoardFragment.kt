@@ -1,7 +1,6 @@
 package com.sktbd.driboard.ui.fragment
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -13,14 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.sktbd.driboard.R
 import com.sktbd.driboard.databinding.ShotBoardFragmentBinding
 import com.sktbd.driboard.ui.adapter.OnItemClickListener
 import com.sktbd.driboard.ui.adapter.ShotBoard_RVAdapter
 import com.sktbd.driboard.ui.factory.ShotRVViewModelFactory
 import com.sktbd.driboard.ui.viewmodel.ShotBoardViewModel
 import com.sktbd.driboard.utils.Constants
-import kotlinx.android.synthetic.main.shot_board_fragment.view.*
 
 
 class ShotBoardFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener  {
@@ -74,6 +71,14 @@ class ShotBoardFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener  {
         rcViewModelBoard.getApiData()
         binding.swipeContainerShotBoard.isRefreshing = false
     }
+
+//    override fun onResume() {
+//        super.onResume()
+//
+//        rcViewModelBoard.clear()
+//        rcViewModelBoard.getApiData()
+//        binding.swipeContainerShotBoard.isRefreshing = false
+//    }
 
     private fun loadData(): String {
         val sharedPref = activity?.getSharedPreferences("auth", Context.MODE_PRIVATE)
