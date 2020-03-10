@@ -1,10 +1,7 @@
 package com.sktbd.driboard.data.db
 
 import androidx.lifecycle.MutableLiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.sktbd.driboard.data.model.DraftEntity
 
 @Dao
@@ -20,4 +17,7 @@ interface DraftDao {
 
     @Delete
     fun delete(darft: DraftEntity)
+
+    @Update
+    fun update(data: DraftEntity)
 }

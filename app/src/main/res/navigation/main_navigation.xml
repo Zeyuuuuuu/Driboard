@@ -30,7 +30,9 @@
             android:id="@+id/action_loginFragment_to_userFragment"
             app:destination="@id/userFragment"
             app:popUpTo="@id/userFragment"
-            app:popUpToInclusive="true" />
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
     </fragment>
     <fragment
         android:id="@+id/userFragment"
@@ -42,10 +44,14 @@
             app:argType="string" />
         <action
             android:id="@+id/action_userFragment_to_shotBoardFragment"
-            app:destination="@id/shotBoardFragment" />
+            app:destination="@id/shotBoardFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_userFragment_to_draftListFragment"
-            app:destination="@id/draftListFragment" />
+            app:destination="@id/draftListFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
     </fragment>
     <fragment
         android:id="@+id/shotDetailFragment"
@@ -54,7 +60,9 @@
         tools:layout="@layout/fragment_shot_detail" >
         <action
             android:id="@+id/action_shotDetailFragment_to_shotEditFragment"
-            app:destination="@id/shotEditFragment" />
+            app:destination="@id/shotEditFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
         <argument
             android:name="shotId"
             app:argType="integer" />
@@ -76,13 +84,25 @@
             app:argType="string" />
         <action
             android:id="@+id/action_shotEditFragment_to_shotBoardFragment"
-            app:destination="@id/shotBoardFragment" />
+            app:destination="@id/shotBoardFragment"
+            app:popUpTo="@id/shotEditFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_shotEditFragment_to_draftListFragment"
-            app:destination="@id/draftListFragment" />
+            app:destination="@id/draftListFragment"
+            app:popUpTo="@id/shotEditFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_shotEditFragment_to_shotDetailFragment"
-            app:destination="@id/shotDetailFragment" />
+            app:destination="@id/shotDetailFragment"
+            app:popUpTo="@id/shotEditFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
     </fragment>
 
     <fragment
@@ -92,10 +112,14 @@
         tools:layout="@layout/shot_board_fragment">
         <action
             android:id="@+id/action_shotBoardFragment_to_shotDetailFragment"
-            app:destination="@id/shotDetailFragment" />
+            app:destination="@id/shotDetailFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_open_exit" />
         <action
             android:id="@+id/action_shotBoardFragment_to_shotEditFragment"
-            app:destination="@id/shotEditFragment" />
+            app:destination="@id/shotEditFragment"
+            app:enterAnim="@anim/fragment_open_enter"
+            app:exitAnim="@anim/fragment_fade_exit" />
     </fragment>
     <fragment
         android:id="@+id/draftListFragment"

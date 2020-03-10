@@ -32,5 +32,4 @@ class SmallShotsAdapter(private val linksList: List<String>,val parentFragment: 
     override fun getItemCount(): Int {
         return linksList.size
     }
-
 }
