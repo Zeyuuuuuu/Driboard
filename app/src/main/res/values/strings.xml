@@ -19,6 +19,7 @@
     <!-- user profile -->
     <string name="shots">Shots</string>
     <string name="twitter">Twitter</string>
+    <string name="username">Name</string>
 
 
 
@@ -32,6 +33,8 @@
     <string name="website">Website</string>
     <string name="dribbble">Dribbble</string>
     <string name="bio">Bio</string>
+    <string name="address">Address</string>
+    <string name="followers">Followers</string>
 
 
 
@@ -50,5 +53,6 @@
 
     <string name="channel_name">Reminder</string>
     <string name="channel_description">Drafts reminder</string>
+    <string name="biography">Biography</string>
 
 </resources>

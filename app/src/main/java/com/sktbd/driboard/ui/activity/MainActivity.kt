@@ -1,22 +1,29 @@
 package com.sktbd.driboard.ui.activity
 
+import android.Manifest
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.findNavController
 import androidx.navigation.ui.*
 import com.google.android.material.navigation.NavigationView
 import com.sktbd.driboard.R
+import com.sktbd.driboard.broadcastreceiver.NetworkChangeReceiver
 import com.sktbd.driboard.databinding.ActivityMainBinding
 import com.sktbd.driboard.services.ReminderService
+import com.sktbd.driboard.utils.Constants
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener{
     private var ivPreview:ImageView? = null
@@ -34,8 +41,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
         toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Driboard"
-        toolbar.title = "Driboard"
 
         toolbar.setupWithNavController(navController, appBarConfiguration)
         navView.setNavigationItemSelectedListener(this)
@@ -44,6 +49,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Intent(this, ReminderService::class.java).also { intent ->
             startService(intent)
         }
+        val intentFilter = IntentFilter()
+        intentFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        val networkChangeReceiver = NetworkChangeReceiver();
+        registerReceiver(networkChangeReceiver,intentFilter);
 
     }
 
@@ -52,28 +61,28 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.navdrawer_menu, menu);
-//        return super.onCreateOptionsMenu(menu)
-//    }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.shotBoardFragment-> {
                 findNavController(R.id.main_navigation).navigate(R.id.shotBoardFragment)
+                drawerLayout.closeDrawers()
                 return true
             }
             R.id.log_out-> {
                 val dialog = logoutDialog()
                 dialog.show()
+                drawerLayout.closeDrawers()
                 return true
             }
-            R.id.userFragment -> {
-                findNavController(R.id.main_navigation).navigate(R.id.shotBoardFragment)
+            R.id.profile -> {
+                findNavController(R.id.main_navigation).navigate(R.id.userFragment)
+                drawerLayout.closeDrawers()
                 return true
             }
             R.id.draftListFragment -> {
                 findNavController(R.id.main_navigation).navigate(R.id.draftListFragment)
+                drawerLayout.closeDrawers()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)

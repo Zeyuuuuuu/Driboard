@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -43,7 +44,6 @@ class DraftListFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
 
         draftListViewModel = ViewModelProvider(this, draftListViewModelFactory).get(DraftListViewModel::class.java)
         binding = DraftListFragmentBinding.inflate(inflater,container,false)
-        draftListViewModel.addData(DraftEntity("asdfsadfadsfasd",2,"DFSD","dasfadsfas","asdfa","asdfasdfas","asdfasf"))
 
 
         draftListViewModel.apply {
@@ -68,6 +68,7 @@ class DraftListFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
                     })
                     binding.rvDraftList.layoutManager= LinearLayoutManager(activity)
                     binding.rvDraftList.adapter = rvAdapter
+
                 }
             })
         }
@@ -75,6 +76,11 @@ class DraftListFragment : Fragment (), SwipeRefreshLayout.OnRefreshListener  {
         binding.swipeContainerDraftList.setOnRefreshListener(this)
 
         return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        activity!!.findViewById<Toolbar>(com.sktbd.driboard.R.id.toolbar).title = "My Drafts"
     }
 
     override fun onRefresh() {
