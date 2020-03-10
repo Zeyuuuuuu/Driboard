@@ -12,11 +12,13 @@ interface DraftDao {
     @Query("SELECT * FROM drafts where draftID = :id")
     fun getById(id:String): DraftEntity
 
-    @Insert
-    fun insert(draft: DraftEntity)
 
     @Update
     fun update(draft: DraftEntity)
+
+    @Insert
+    fun insert(draft: DraftEntity)
+
 
     @Delete
     fun delete(draft: DraftEntity)

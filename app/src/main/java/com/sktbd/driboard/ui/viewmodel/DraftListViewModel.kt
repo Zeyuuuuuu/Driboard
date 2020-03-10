@@ -31,6 +31,10 @@ class DraftListViewModel(context: Context) : ViewModel() {
         Log.d("DATA","clear")
     }
 
+    fun delete(pos : Int){
+        db.draftDao().delete(alMutableLiveData.value!![pos])
+    }
+
 //    companion object {
 //        @BindingAdapter("app:imageUrl")
 //        @JvmStatic
