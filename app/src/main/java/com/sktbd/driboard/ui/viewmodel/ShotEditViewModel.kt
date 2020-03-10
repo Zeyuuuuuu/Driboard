@@ -31,7 +31,6 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
     var state = _state
     var isPending = MutableLiveData<Boolean>()
     var id = _id
-    val draftId = ""
     var db: AppDatabase? = null
     private val retrofitAPIManager = RetrofitAPIManager(accessToken)
     private val driboardService  = retrofitAPIManager.getDriboardService()
@@ -135,6 +134,7 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
 
                     Log.i("CODE", response.code().toString())
                     isPending.value = false
+                    db!!.draftDao().deleteById(id!!)
 
                 }
 
@@ -161,7 +161,7 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
                 ) {
                     Log.i("CODE", response.toString())
                     isPending.value = false
-
+                    db!!.draftDao().deleteById(id!!)
                 }
 
                 override fun onFailure(call: Call<Response<Void>>, t: Throwable) {
@@ -176,21 +176,38 @@ class ShotEditViewModel(accessToken: String, _state: Int, _id : String?) : ViewM
 
     fun save(){
 //        println(draft.value!!.tags)
+//        isPending.value = true
         val data = DraftEntity(
             "",
-            true,
+            0,
             draft.value!!.id,
             draft.value!!.title,
             draft.value!!.description,
             "",
             draft.value!!.imageUri)
-        if(state == Constants.UPDATE_DRAFT_STATE || state == Constants.UPDATE_SHOT_STATE)
-            data.isNew = false
+
         if(draft.value!!.tags!!.size != 0)
             data.tags = draft.value.toString().substring(1,draft.value!!.tags!!.size-1)
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmSS").format(Date())
-        data.draftID = timeStamp
-        db?.draftDao()?.insert(data)
+
+        if (state == Constants.NEW_SHOT_STATE || state == Constants.NEW_DRAFT_STATE)
+            data.state = Constants.NEW_DRAFT_STATE
+        else
+            data.state = Constants.UPDATE_DRAFT_STATE
+
+        // create a draft
+        if (state == Constants.NEW_SHOT_STATE || state == Constants.UPDATE_SHOT_STATE){
+            data.draftID = timeStamp
+            db?.draftDao()?.insert(data)
+        }
+        else{
+            data.draftID = id!!
+            db?.draftDao()?.update(data)
+
+        }
+
+
+//        isPending.value = false
     }
     private fun resizeImage(context: Context):File{
         val f = File(context.cacheDir,Uri.parse(draft.value!!.imageUri).lastPathSegment!!)

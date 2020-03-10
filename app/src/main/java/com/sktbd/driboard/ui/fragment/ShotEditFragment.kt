@@ -26,6 +26,7 @@ import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.list.listItems
@@ -111,19 +112,19 @@ class ShotEditFragment : Fragment() {
             }
         )
 
-//        progressBar = activity?.findViewById(R.id.progressbar)
-//        progressBar?.bringToFront()
-//        viewModel.isPending.observe(
-//            viewLifecycleOwner,
-//            androidx.lifecycle.Observer {
-//                if (it == true) {
-//                    progressBar?.visibility = View.VISIBLE
-//                }
-//                else {
-//                    progressBar?.visibility = View.GONE
-//                }
-//            }
-//        )
+        progressBar = activity?.findViewById(R.id.progressbar)
+        progressBar?.bringToFront()
+        viewModel.isPending.observe(
+            viewLifecycleOwner,
+            androidx.lifecycle.Observer {
+                if (it == true) {
+                    progressBar?.visibility = View.VISIBLE
+                }
+                else {
+                    progressBar?.visibility = View.GONE
+                }
+            }
+        )
 
 
         title_edit?.addTextChangedListener(object : TextWatcher {
@@ -208,15 +209,27 @@ class ShotEditFragment : Fragment() {
             }
             else if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.NEW_DRAFT_STATE){
                 viewModel.publish(context!!)
+                this.findNavController().navigate(R.id.action_shotEditFragment_to_shotBoardFragment)
 
             }
             else if (viewModel.state == Constants.UPDATE_SHOT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){
                 viewModel.update()
+                this.findNavController().navigate(ShotEditFragmentDirections.actionShotEditFragmentToShotDetailFragment(id!!.toInt()))
             }
 
         }
         btSave?.setOnClickListener{
-            viewModel.save()
+            // create draft
+            if (viewModel.state == Constants.NEW_SHOT_STATE || viewModel.state == Constants.UPDATE_SHOT_STATE){
+                viewModel.save(true)
+
+            }
+            // load draft
+            else if (viewModel.state == Constants.NEW_DRAFT_STATE ||viewModel.state == Constants.UPDATE_DRAFT_STATE){
+                viewModel.save(false)
+            }
+            this.findNavController().navigate(R.id.action_shotEditFragment_to_draftListFragment)
+
         }
         ivPreview?.setOnClickListener{
             MaterialDialog(context!!).show{
@@ -356,6 +369,7 @@ class ShotEditFragment : Fragment() {
     fun addChip(tagText:String?,triggerChange:Boolean){
         val chip = Chip(context)
         chip.text = tagText
+        chip.textAlignment = View.TEXT_ALIGNMENT_CENTER
         if(triggerChange)
             viewModel.onTagsChanged(tagText)
         chipGroup?.addView(chip as View)

@@ -43,6 +43,9 @@
         <action
             android:id="@+id/action_userFragment_to_shotBoardFragment"
             app:destination="@id/shotBoardFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_draftListFragment"
+            app:destination="@id/draftListFragment" />
     </fragment>
     <fragment
         android:id="@+id/shotDetailFragment"
@@ -71,6 +74,15 @@
         <argument
             android:name="accessToken"
             app:argType="string" />
+        <action
+            android:id="@+id/action_shotEditFragment_to_shotBoardFragment"
+            app:destination="@id/shotBoardFragment" />
+        <action
+            android:id="@+id/action_shotEditFragment_to_draftListFragment"
+            app:destination="@id/draftListFragment" />
+        <action
+            android:id="@+id/action_shotEditFragment_to_shotDetailFragment"
+            app:destination="@id/shotDetailFragment" />
     </fragment>
 
     <fragment
@@ -86,7 +98,8 @@
             app:destination="@id/shotEditFragment" />
     </fragment>
     <fragment
-        android:id="@+id/draftListFragment2"
+        android:id="@+id/draftListFragment"
         android:name="com.sktbd.driboard.ui.fragment.DraftListFragment"
-        android:label="DraftListFragment" />
+        android:label="DraftListFragment"
+        tools:layout="@layout/draft_list_fragment"/>
 </navigation>

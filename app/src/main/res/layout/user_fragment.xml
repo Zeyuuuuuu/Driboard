@@ -10,7 +10,8 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:background="@color/profileBackground">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +32,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@android:color/white">
 
                     <TextView
                         android:id="@+id/tvUsername"
@@ -40,7 +42,8 @@
                         android:fontFamily="monospace"
                         android:text="None"
                         android:textAlignment="center"
-                        android:textSize="24sp" />
+                        android:textSize="24sp"
+                        android:layout_marginBottom="@dimen/margin_4"/>
 
                     <TextView
                         android:id="@+id/tvAddress"
@@ -48,7 +51,8 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="monospace"
                         android:textAlignment="center"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:layout_marginBottom="@dimen/margin_4"/>
 
                     <TextView
                         android:id="@+id/tvFollowers"
@@ -72,7 +76,8 @@
                         android:id="@+id/lyShots"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@drawable/single_border">
 
                         <TextView
                             android:id="@+id/tvShotsLabel"
@@ -80,15 +85,15 @@
                             android:layout_height="60dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/padding_16"
-                            android:text="Shots" />
+                            android:paddingStart="@dimen/padding_16"
+                            android:text="@string/shots"/>
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rvShots"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:paddingLeft="@dimen/padding_16"
+                            android:paddingStart="@dimen/padding_16"
                             tools:itemCount="3"
                             tools:layoutManager="GridLayoutManager"
                             tools:listitem="@layout/recycler_view_item_small_shot"
@@ -100,7 +105,8 @@
                         android:id="@+id/lyTwitter"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@drawable/single_border">
 
                         <TextView
                             android:id="@+id/tvTwitterLabel"
@@ -108,8 +114,8 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/padding_16"
-                            android:text="Twitter" />
+                            android:paddingStart="@dimen/padding_16"
+                            android:text="@string/twitter" />
 
                         <TextView
                             android:id="@+id/tvTwitterLink"
@@ -117,14 +123,15 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/padding_16" />
+                            android:paddingStart="@dimen/padding_16" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/lyPersonalWeb"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@drawable/single_border">
 
                         <TextView
                             android:id="@+id/tvPersonalWebLabel"
@@ -132,8 +139,8 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/padding_16"
-                            android:text="Website" />
+                            android:paddingStart="@dimen/padding_16"
+                            android:text="@string/website" />
 
                         <TextView
                             android:id="@+id/tvWebsite"
@@ -141,14 +148,15 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/padding_16" />
+                            android:paddingStart="@dimen/padding_16" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/lyWebLink"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:background="@android:color/white">
 
                         <TextView
                             android:id="@+id/tvWebLabel"
@@ -156,8 +164,8 @@
                             android:layout_height="30dp"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/padding_16"
-                            android:text="Dribbble" />
+                            android:paddingStart="@dimen/padding_16"
+                            android:text="@string/dribbble"/>
 
                         <TextView
                             android:id="@+id/tvMydribbble"
@@ -165,7 +173,8 @@
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:gravity="center_vertical"
-                            android:paddingLeft="@dimen/padding_16"
+                            android:paddingStart="@dimen/padding_16"
+                            android:paddingEnd="@dimen/padding_16"
                             android:text="" />
                     </LinearLayout>
 
@@ -184,14 +193,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
                         android:gravity="center_vertical"
-                        android:paddingLeft="@dimen/padding_16"
-                        android:text="Bio" />
+                        android:paddingStart="@dimen/padding_16"
+                        android:text="@string/bio"
+                        android:background="@android:color/white"/>
 
                     <TextView
                         android:id="@+id/tvBio"
                         android:layout_width="match_parent"
                         android:layout_height="213dp"
-                        android:paddingLeft="@dimen/padding_16"
+                        android:paddingStart="@dimen/padding_16"
                         android:paddingTop="@dimen/padding_8"
                         android:text="" />
                 </LinearLayout>
